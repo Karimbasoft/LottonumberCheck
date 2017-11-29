@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestApp.Views.LottoZahlenView"
+             Title="LottoView">
+    <ContentPage.Content>
+      <StackLayout>
+            <Label x:Name="labHeader" HorizontalTextAlignment="Center">Lottozahlen</Label>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ListView x:Name="listCurrentLottoNumbers" 
+                          ItemsSource="{Binding CurrentLottoNumbers}" 
+                          CachingStrategy="RecycleElement" 
+                          VerticalOptions="FillAndExpand"
+                          Grid.Column="0"
+                          Grid.Row="0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Vertical">
+                                    <Label  Text="{Binding Number}"  TextColor="Black"  FontAttributes="Bold" FontSize="Large" WidthRequest="50"></Label>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <Button x:Name="btnCheckLottosheet" 
+                    Text="Lottoschein Auswerten 2"
+                    Margin="0,30,0,0"
+                    Command="{Binding ShowEvaluation}"/>
+            <Grid x:Name="GridInformations" 
+              IsVisible="{Binding Path=ShowInfoTable}"
+              Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label x:Name="labSuperzahltxt" 
+                       Text="Superzahl:" 
+                       HorizontalTextAlignment="End"
+                       FontSize="16"
+                       Grid.Row="0"
+                       Grid.Column="0"/>
+                <Label x:Name="CheckSuperzahlIsSame" 
+                       BackgroundColor="{Binding SuperNumberColor}"
+		               HorizontalTextAlignment="Center"
+                       WidthRequest="20"
+                       Grid.Row="0" 
+                       Grid.Column="1" />
+                <Label x:Name="labTreffertxt" 
+                       Text="Höchster Treffer:" 
+                       HorizontalTextAlignment="End"
+                       Grid.Row="1" 
+                       Grid.Column="0"
+                       FontSize="16"/>
+                <Label x:Name="CountHitsNumbers" 
+                       Text="{Binding CountHits}" 
+                       HorizontalTextAlignment="Center" 
+                       Grid.Row="1"
+                       Grid.Column="1"/>
+                <Label x:Name="labGewinntxt" 
+                       Text="Gewinn:" 
+                       Grid.Column="0" 
+                       HorizontalTextAlignment="End" 
+                       Grid.Row="3" 
+                       FontSize="16" />
+                <Label x:Name="labGewinnQuote" 
+                       Text="{Binding Path=MoneyQuote}" 
+                       Grid.Column="1" 
+                       HorizontalTextAlignment="Center"  
+                       Grid.Row="3" 
+                       FontSize="16" />
+                <Button x:Name="btnMoreInformations" 
+                    Text="Mehr Informationen" 
+                    Grid.Column="0" 
+                    Grid.Row="4"
+                    Grid.ColumnSpan="1"
+                    Command="{Binding CmdShowMoreInformations}"/>
+            </Grid>
+        </StackLayout>
+  </ContentPage.Content>
+</ContentPage>
