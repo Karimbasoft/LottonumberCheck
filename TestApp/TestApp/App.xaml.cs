@@ -11,7 +11,7 @@ namespace TestApp
         public App()
 		{
 			InitializeComponent();
-			SetMainPage();
+            SetMainPage();
 		}
 
         public static void SetMainPage() => Current.MainPage = new TabbedPage
@@ -20,8 +20,13 @@ namespace TestApp
                 {
                     new NavigationPage(new LottoHomePage())
                     {
-                        Title = "Browse",
+                        Title = "Auswerter",
                         Icon = Device.OnPlatform("tab_feed.png",null,null)
+                    },
+                    new NavigationPage(new LottoUserView())
+                    {
+                        Title = "User",
+                        Icon = Device.OnPlatform("tab_about.png",null,null)
                     },
                     new NavigationPage(new AboutPage())
                     {

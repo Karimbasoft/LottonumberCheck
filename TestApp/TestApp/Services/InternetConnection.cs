@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace TestApp.Services
@@ -57,27 +58,30 @@ namespace TestApp.Services
             {
                 try
                 {
-                    //Anfrage an die Übergebene URL starten
-                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(Url);
+                    string url = Url;
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                    request.Method = "GET";
+                    request.ContentType = "text/html";
+                    HttpWebResponse myResp = (HttpWebResponse)request.GetResponse();
 
-                    //Antwort-Objekt erstellen
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                    //Antwort Stream an Streamreader übergeben
-                    StreamReader sr = new StreamReader(response.GetResponseStream());
-
-                    //Antwort (HTML Code) auslesen
-                    html = sr.ReadToEnd();
-
-                    //Streamreader und Webanfrage schließen
-                    sr.Close();
-                    response.Close();
+                    using (var response = request.GetResponse())
+                    {
+                        using (var reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            html = reader.ReadToEnd();
+                        }
+                    }
                 }
-                catch (Exception)
+
+                catch (WebException exception)
                 {
-                    ShowInformationMassageAsync("No connection", "Es ist nicht möglich eine Verbindung zum Internet herzustellen !");
+                    string responseText;
+                    using (var reader = new StreamReader(exception.Response.GetResponseStream()))
+                    {
+                        responseText = reader.ReadToEnd();
+                        Console.WriteLine(responseText);
+                    }
                 }
-                
             }
             else
             {

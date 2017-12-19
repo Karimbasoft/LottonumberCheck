@@ -9,14 +9,16 @@ namespace TestApp.Services
 {
     public class WebsideDataConverter
     {
+        #region Fields
         private InternetConnection _connection;
-        
         private ObservableCollection<int> _winningNumbers;
         private string _superSechsNumbersAsString;
         private string _spielSiebenundsiebzigAsString;
         private string _htmlSourceCode;
         private string _lottoWebsideURL = "http://www.lotto24.de/webshop/product/lottonormal/result";
 
+        #endregion
+        
         public WebsideDataConverter()
         {
             WebsideContent = new InternetConnection(_lottoWebsideURL);
@@ -24,13 +26,8 @@ namespace TestApp.Services
 
             if (!string.IsNullOrEmpty(HtmlSourceCode))
             {
-                WinningNumbers = new ObservableCollection<int>();
                 ClassNameBeginn = "class=\"row winning-numbers\"";
                 ClassNameEnds = "class=\"col-xs-12 col-sm-6 align-right hidden-xs\"";
-                WinningNumbers = GetWinningNumbers(HtmlSourceCode, ClassNameBeginn, ClassNameEnds);
-                SuperNumber = GetSuperNumber(HtmlSourceCode, "class=\"winning-numbers__number winning-numbers__number--superzahl\"");
-                WinningQuotesLotto = GetQuotes(HtmlSourceCode, "class=\"inner-table-header align-middle hidden-xs", "class=\"inner-table-header align-middle visible-xs-block", 1);
-                WinningQuotesSpielSiebenundsiebzig = GetQuotes(HtmlSourceCode, "class=\"inner-table-header align-middle hidden-xs", "class=\"inner-table-header align-middle hidden-xs", 2);
                 _spielSiebenundsiebzigAsString = GetSpiel77Numbers(HtmlSourceCode, "class=\"product-logo--tiny", "class=\"inner-table-header align-middle visible-xs-block");
                 _superSechsNumbersAsString = GetSuperSechsNumbers(HtmlSourceCode, "class=\"product-logo--tiny", "class=\"inner-table-header align-middle visible-xs-block");
             }
@@ -197,6 +194,17 @@ namespace TestApp.Services
                 .ToArray());
         }
 
+        public ObservableCollection<Business.LottoNumber> ConvertObservableIntCollectionToLottonumberCollection(ObservableCollection<int> tmpNumberCollection)
+        {
+            ObservableCollection<Business.LottoNumber> tmpLottoCollection = new ObservableCollection<Business.LottoNumber>();
+
+            foreach (int item in tmpNumberCollection)
+            {
+                tmpLottoCollection.Add(new Business.LottoNumber(item));
+            }
+            return tmpLottoCollection;
+        }
+
 
         public string GetSuperSechsNumbers(String htmlSource, String className, String classNameEnd)
         {
@@ -293,7 +301,6 @@ namespace TestApp.Services
             await App.Current.MainPage.DisplayAlert(titel, text, "OK");
         }
 
-
         #region Propertys
 
         public string HtmlSourceCode
@@ -309,20 +316,27 @@ namespace TestApp.Services
             }
         }
 
-        public string[] WinningQuotesLotto { get; set; }
-
-        public string[] WinningQuotesSpielSiebenundsiebzig { get; set; }
-
-        public ObservableCollection<int> WinningNumbers
+        public string[] WinningQuotesLotto
         {
             get
             {
-                return _winningNumbers;
+                return GetQuotes(HtmlSourceCode, "class=\"inner-table-header align-middle hidden-xs", "class=\"inner-table-header align-middle visible-xs-block", 1);
             }
+        }
 
-            set
+        public string[] WinningQuotesSpielSiebenundsiebzig
+        {
+            get
             {
-                _winningNumbers = value;
+                return GetQuotes(HtmlSourceCode, "class=\"inner-table-header align-middle hidden-xs", "class=\"inner-table-header align-middle hidden-xs", 2);
+            }
+        }
+
+        public ObservableCollection<Business.LottoNumber> WinningNumbers
+        {
+            get
+            {
+                return ConvertObservableIntCollectionToLottonumberCollection(GetWinningNumbers(HtmlSourceCode, ClassNameBeginn, ClassNameEnds));
             }
         }
 
@@ -343,7 +357,13 @@ namespace TestApp.Services
 
         private string ClassNameEnds { get; set; }
 
-        public int SuperNumber { get; set; }
+        public int SuperNumber
+        {
+            get
+            {
+                return GetSuperNumber(HtmlSourceCode, "class=\"winning-numbers__number winning-numbers__number--superzahl\"");
+            }
+        }
 
         public ObservableCollection<string> SuperSechsNumbers
         {

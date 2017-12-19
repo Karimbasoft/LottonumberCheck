@@ -25,11 +25,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Business\LottoNumber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Business\SparkleBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Business\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseDataObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\InternetConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\InternetDataInformationConvert.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LottoHomePageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LottoUserViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LottoZahlenViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
@@ -52,6 +54,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\LottoHomePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\LottoUserView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\LottoZahlenView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -66,6 +71,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LottoZahlenView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LottoUserView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

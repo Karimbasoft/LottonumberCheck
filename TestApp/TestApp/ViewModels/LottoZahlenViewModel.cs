@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace TestApp.ViewModels
 {
@@ -22,6 +24,7 @@ namespace TestApp.ViewModels
 
         #region Public Propertys
         public ObservableCollection<Business.LottoNumber> CurrentLottoNumbers { get; set; }
+        public Business.User AppUser { get; set; }
         public int SuperNumber { get; set; }
         public int CountHits { get; set; }
         public string SuperNumberColor
@@ -51,28 +54,29 @@ namespace TestApp.ViewModels
         #endregion
 
         #region Commands
+        public ICommand ShowEvaluation
+        {
+            get
+            {
+                return new Command(() =>
+                {
+                    ShowInfoTable = "True";
+                });
 
+            }
+        }
         #endregion
 
 
-        public LottoZahlenViewModel(Services.WebsideDataConverter websideDataConverter)
+        public LottoZahlenViewModel(Services.WebsideDataConverter websideDataConverter, Business.User user)
         {
             WebsideDataConverter = websideDataConverter;
-            SuperNumber = websideDataConverter.SuperNumber;
+            SuperNumber = WebsideDataConverter.SuperNumber;
             SuperNumberColor = "Red";
             CountHits = 2;
-            ShowInfoTable = "Visible";
-
-            CurrentLottoNumbers = new ObservableCollection<Business.LottoNumber>()
-            {
-                new Business.LottoNumber(),
-                new Business.LottoNumber(),
-                new Business.LottoNumber(),
-                new Business.LottoNumber(),
-                new Business.LottoNumber(),
-                new Business.LottoNumber()
-            };
-
+            ShowInfoTable = "False";
+            CurrentLottoNumbers = WebsideDataConverter.WinningNumbers;
+            AppUser = user;
         }
 
         public LottoZahlenViewModel()

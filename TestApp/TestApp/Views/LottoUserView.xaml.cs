@@ -11,19 +11,19 @@ using Xamarin.Forms.Xaml;
 namespace TestApp.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class LottoZahlenView : ContentPage
+	public partial class LottoUserView : ContentPage
 	{
-        LottoZahlenViewModel viewModel;
+        LottoUserViewModel viewModel;
 
-        public LottoZahlenView (WebsideDataConverter websideDataConverter, Business.User user)
+        public LottoUserView (WebsideDataConverter websideDataConverter, Business.User user)
 		{
 			InitializeComponent ();
-            BindingContext = viewModel = new LottoZahlenViewModel(websideDataConverter, user);
+            BindingContext = viewModel = new LottoUserViewModel(websideDataConverter, user);
         }
 
-        public LottoZahlenView()
+        public LottoUserView()
         {
             InitializeComponent();
         }
-    }
+	}
 }

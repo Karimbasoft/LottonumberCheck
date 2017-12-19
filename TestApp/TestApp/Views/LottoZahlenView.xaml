@@ -4,39 +4,64 @@
              x:Class="TestApp.Views.LottoZahlenView"
              Title="LottoView">
     <ContentPage.Content>
-      <StackLayout>
-            <Label x:Name="labHeader" HorizontalTextAlignment="Center">Lottozahlen</Label>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+        <StackLayout>
+            <Grid x:Name="GridAuswerter" 
+                  Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="210"/>
+                    <RowDefinition Height="70"/>
+                </Grid.RowDefinitions>
+                <Label x:Name="labHeader" 
+                       HorizontalTextAlignment="Center" 
+                       Grid.Column="0" 
+                       Grid.Row="0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="Lottozahlen" ForegroundColor="{StaticResource LightTextColor}"/>
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
                 <ListView x:Name="listCurrentLottoNumbers" 
                           ItemsSource="{Binding CurrentLottoNumbers}" 
-                          CachingStrategy="RecycleElement" 
-                          VerticalOptions="FillAndExpand"
-                          Grid.Column="0"
-                          Grid.Row="0">
+                          VerticalOptions="Fill"
+                          HorizontalOptions="CenterAndExpand"
+                          Rotation="270"
+                          WidthRequest="50"
+                          Grid.Column="0" 
+                          Grid.Row="1"
+                          CachingStrategy="RecycleElement">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Vertical">
-                                    <Label  Text="{Binding Number}"  TextColor="Black"  FontAttributes="Bold" FontSize="Large" WidthRequest="50"></Label>
+                                <StackLayout Orientation="Horizontal" 
+                                             VerticalOptions="Fill" 
+                                             HorizontalOptions="Fill">
+                                    <Label Text="{Binding Number}" 
+                                           FontAttributes="Bold" 
+                                           FontSize="Large"/>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <Button x:Name="btnCheckLottosheet" 
+                        Text="Lottoschein Auswerten"
+                        Margin="0,30,0,0"
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="Wheat"
+                        Command="{Binding ShowEvaluation}"/>
             </Grid>
-            <Button x:Name="btnCheckLottosheet" 
-                    Text="Lottoschein Auswerten 2"
-                    Margin="0,30,0,0"
-                    Command="{Binding ShowEvaluation}"/>
             <Grid x:Name="GridInformations" 
-              IsVisible="{Binding Path=ShowInfoTable}"
-              Margin="0,10,0,0">
+                  IsVisible="{Binding ShowInfoTable}"
+                  Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -50,18 +75,20 @@
                 </Grid.RowDefinitions>
                 <Label x:Name="labSuperzahltxt" 
                        Text="Superzahl:" 
+
                        HorizontalTextAlignment="End"
                        FontSize="16"
                        Grid.Row="0"
                        Grid.Column="0"/>
                 <Label x:Name="CheckSuperzahlIsSame" 
                        BackgroundColor="{Binding SuperNumberColor}"
-		               HorizontalTextAlignment="Center"
+                       HorizontalOptions="Center"
                        WidthRequest="20"
                        Grid.Row="0" 
                        Grid.Column="1" />
                 <Label x:Name="labTreffertxt" 
                        Text="Höchster Treffer:" 
+
                        HorizontalTextAlignment="End"
                        Grid.Row="1" 
                        Grid.Column="0"
@@ -69,16 +96,19 @@
                 <Label x:Name="CountHitsNumbers" 
                        Text="{Binding CountHits}" 
                        HorizontalTextAlignment="Center" 
+
                        Grid.Row="1"
                        Grid.Column="1"/>
                 <Label x:Name="labGewinntxt" 
                        Text="Gewinn:" 
                        Grid.Column="0" 
                        HorizontalTextAlignment="End" 
+
                        Grid.Row="3" 
                        FontSize="16" />
                 <Label x:Name="labGewinnQuote" 
-                       Text="{Binding Path=MoneyQuote}" 
+                       Text="{Binding Path=MoneyQuote}"
+
                        Grid.Column="1" 
                        HorizontalTextAlignment="Center"  
                        Grid.Row="3" 
@@ -88,6 +118,8 @@
                     Grid.Column="0" 
                     Grid.Row="4"
                     Grid.ColumnSpan="1"
+                    TextColor="Wheat"
+                    BackgroundColor="{StaticResource Primary}"
                     Command="{Binding CmdShowMoreInformations}"/>
             </Grid>
         </StackLayout>

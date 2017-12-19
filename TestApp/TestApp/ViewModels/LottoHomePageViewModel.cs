@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Input;
+using TestApp.Business;
 using TestApp.Helpers;
 using TestApp.Views;
 using Xamarin.Forms;
@@ -19,7 +20,7 @@ namespace TestApp.ViewModels
             {
                 return new Command(async () =>
                 {
-                    await _navigation.PushAsync(new LottoZahlenView(WebsideDataConverter));
+                    await _navigation.PushAsync(new LottoZahlenView(WebsideDataConverter, AppUser));
                 });
 
             }
@@ -30,6 +31,8 @@ namespace TestApp.ViewModels
 
         #region Propertys
         public Services.WebsideDataConverter WebsideDataConverter { get; set; }
+
+        public User AppUser { get; set; }
         #endregion
 
         public LottoHomePageViewModel(INavigation navigation)
