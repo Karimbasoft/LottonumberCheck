@@ -5,10 +5,9 @@ using System.Text;
 
 namespace TestApp.Business
 {
-    public class User
+    public class User : SparkleBoxMocker
     {
         #region Propertys
-        public ObservableCollection<SparkleBox> UserNumbers { get; set; }
         public ObservableCollection<LottoNumber> LottoTicketNumber { get; set; }
 
         public string PathToSpecialFolder { get; set; }
@@ -24,7 +23,7 @@ namespace TestApp.Business
 
         public User()
         {
-
+            UserNumbers = new ObservableCollection<SparkleBox>();
         }
     }
 }

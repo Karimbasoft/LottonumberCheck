@@ -1,4 +1,7 @@
-﻿using TestApp.Helpers;
+﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using TestApp.Helpers;
 using TestApp.Models;
 using TestApp.Services;
 
@@ -6,15 +9,13 @@ using Xamarin.Forms;
 
 namespace TestApp.ViewModels
 {
-	public class BaseViewModel : ObservableObject
-	{
-		/// <summary>
-		/// Get the azure service instance
-		/// </summary>
-		public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
-
+	public class BaseViewModel : ObservableObject, INotifyPropertyChanged
+    {
 		bool isBusy = false;
-		public bool IsBusy
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        public bool IsBusy
 		{
 			get { return isBusy; }
 			set { SetProperty(ref isBusy, value); }
@@ -31,6 +32,11 @@ namespace TestApp.ViewModels
 			get { return title; }
 			set { SetProperty(ref title, value); }
 		}
-	}
+
+        protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
 }
 

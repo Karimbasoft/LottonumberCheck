@@ -11,7 +11,7 @@ namespace TestApp.Services
     {
         #region Fields
         private InternetConnection _connection;
-        private ObservableCollection<int> _winningNumbers;
+        //private ObservableCollection<int> _winningNumbers;
         private string _superSechsNumbersAsString;
         private string _spielSiebenundsiebzigAsString;
         private string _htmlSourceCode;
@@ -365,29 +365,29 @@ namespace TestApp.Services
             }
         }
 
-        public ObservableCollection<string> SuperSechsNumbers
+        public ObservableCollection<Business.LottoNumber> SuperSechsNumbers
         {
             get
             {
-                ObservableCollection<string> tempNumbers = new ObservableCollection<string>();
+                ObservableCollection<Business.LottoNumber> tempNumbers = new ObservableCollection<Business.LottoNumber>();
 
                 foreach (char item in _superSechsNumbersAsString)
                 {
-                    tempNumbers.Add(item.ToString());
+                    tempNumbers.Add(new Business.LottoNumber(item.ToString()));
                 }
                 return tempNumbers;
             }
         }
 
-        public ObservableCollection<string> SpielSiebenundsiebzigNumbers
+        public ObservableCollection<Business.LottoNumber> SpielSiebenundsiebzigNumbers
         {
             get
             {
-                ObservableCollection<string> tempNumbers = new ObservableCollection<string>();
+                ObservableCollection<Business.LottoNumber> tempNumbers = new ObservableCollection<Business.LottoNumber>();
 
                 foreach (char item in _spielSiebenundsiebzigAsString)
                 {
-                    tempNumbers.Add(item.ToString());
+                    tempNumbers.Add(new Business.LottoNumber(item.ToString()));
                 }
                 return tempNumbers;
             }

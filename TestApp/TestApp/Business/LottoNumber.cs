@@ -16,6 +16,11 @@ namespace TestApp.Business
             Number = number;
         }
 
+        public LottoNumber(string number)
+        {
+            Number =  Int32.TryParse(number, out int tmpNumber) ? tmpNumber : 0;
+        }
+
         #region Propertys
         public int Number { get; set; }
         #endregion

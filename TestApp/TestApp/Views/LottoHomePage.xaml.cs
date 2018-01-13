@@ -12,13 +12,19 @@ namespace TestApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LottoHomePage : ContentPage
 	{
-        LottoHomePageViewModel viewModel;
+        private LottoHomePageViewModel viewModel;
 
 
-        public LottoHomePage ()
+        public LottoHomePage()
 		{
 			InitializeComponent ();
             BindingContext = viewModel = new LottoHomePageViewModel(this.Navigation);
+        }
+
+        public LottoHomePage(Services.WebsideDataConverter websideDataConverter, Business.User user)
+        {
+            InitializeComponent();
+            BindingContext = viewModel = new LottoHomePageViewModel(this.Navigation, websideDataConverter, user);
         }
 
         //async void Lottozahlen_Clicked(object sender, EventArgs e)

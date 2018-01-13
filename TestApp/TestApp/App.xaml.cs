@@ -11,19 +11,28 @@ namespace TestApp
         public App()
 		{
 			InitializeComponent();
+            dataConverter = new Services.WebsideDataConverter();
+            user = new Business.User();
             SetMainPage();
 		}
+
+        #region Fields
+        public static Services.WebsideDataConverter dataConverter;
+        public static Business.User user;
+        #endregion
+
+        
 
         public static void SetMainPage() => Current.MainPage = new TabbedPage
         {
             Children =
                 {
-                    new NavigationPage(new LottoHomePage())
+                    new NavigationPage(new LottoHomePage(dataConverter, user))
                     {
                         Title = "Auswerter",
                         Icon = Device.OnPlatform("tab_feed.png",null,null)
                     },
-                    new NavigationPage(new LottoUserView())
+                    new NavigationPage(new LottoUserView(dataConverter, user))
                     {
                         Title = "User",
                         Icon = Device.OnPlatform("tab_about.png",null,null)

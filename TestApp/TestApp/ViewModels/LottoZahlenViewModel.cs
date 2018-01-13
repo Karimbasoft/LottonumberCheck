@@ -11,7 +11,7 @@ namespace TestApp.ViewModels
 {
     public class LottoZahlenViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        #region Fiels
+        #region Fields
         private string superNumberColor;
         private string _showInfoTable;
 

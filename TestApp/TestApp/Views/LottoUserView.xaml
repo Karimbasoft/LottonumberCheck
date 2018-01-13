@@ -2,13 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TestApp.Views.LottoUserView"
+             x:Name="lottoUserView"
              Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
             <Grid x:Name="gridLayoutDesign">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="70"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -19,9 +19,61 @@
                         BackgroundColor="{StaticResource Primary}"
                         HorizontalOptions="Center"
                         Text="+"
+                        Margin="10,10"
+                        HeightRequest="40"
+                        WidthRequest="50"
                         TextColor="Wheat"
                         Grid.Row="0"
                         Grid.Column="0"/>
+                <!--<ListView x:Name="listCurrentLottoNumbers" 
+                          ItemsSource="{Binding UserLottoNumbers}" 
+                          HorizontalOptions="CenterAndExpand"
+                          Grid.Column="0" 
+                          Grid.Row="1"
+                          CachingStrategy="RecycleElement">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label Text="{Binding SparkleBoxNumbers}" 
+                                           FontAttributes="Bold" 
+                                           FontSize="Large"/>
+                                <Button x:Name="btnDelSparkleBox"
+                                        Text="DEL"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        TextColor="Wheat"
+                                        HorizontalOptions="Center"
+                                        Command="{Binding DeleteSparkleBox}"
+                                        CommandParameter="{Binding Source=, Path=SelectedItem}"/>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>-->
+                <ListView x:Name="listCurrentLottoNumbers" 
+                          VerticalOptions="FillAndExpand"
+                          ItemsSource="{Binding UserLottoNumbers}"
+                           Grid.Column="0" 
+                          Grid.Row="1"
+                          CachingStrategy="RecycleElement">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding SparkleBoxNumbers}" HorizontalOptions="StartAndExpand" FontSize="Large"/>
+                                        <Button x:Name="btnDelSparkleBox"
+                                            Text="DEL"
+                                            BackgroundColor="{StaticResource Primary}"
+                                            TextColor="Wheat"
+                                            HorizontalOptions="Center"
+                                            Command="{Binding Path=BindingContext.DeleteSparkleBox, Source={x:Reference lottoUserView}"
+                                            CommandParameter="{Binding}"/>
+                                        <!--CommandParameter="{x:Reference btnDelSparkleBox}"-->
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

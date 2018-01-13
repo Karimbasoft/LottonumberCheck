@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestApp.AdditionalLottoGameView">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid x:Name="GridAuswerter" 
+                  Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="150"/>
+                </Grid.RowDefinitions>
+                <Label x:Name="labHeader" 
+                       HorizontalTextAlignment="Center" 
+                       Grid.Column="0" 
+                       Grid.Row="0">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="Spiel 77 und Super 6" ForegroundColor="{StaticResource LightTextColor}"/>
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <ListView x:Name="listCurrentSuperSechs" 
+                          ItemsSource="{Binding UserSuperSechsNumbers}" 
+                          VerticalOptions="Fill"
+                          HorizontalOptions="CenterAndExpand"
+                          Rotation="270"
+                          WidthRequest="50"
+                          Grid.Column="0" 
+                          Grid.Row="1"
+                          CachingStrategy="RecycleElement">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal" 
+                                             VerticalOptions="Fill" 
+                                             HorizontalOptions="Fill">
+                                    <Label Text="{Binding Number}" 
+                                           FontAttributes="Bold" 
+                                           FontSize="Large"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <ListView x:Name="listCurrentSpielSiebenundsiebzig" 
+                          ItemsSource="{Binding UserSpielSiebenundsiebzigNumbers}" 
+                          VerticalOptions="Fill"
+                          HorizontalOptions="CenterAndExpand"
+                          Rotation="270"
+                          WidthRequest="50"
+                          Grid.Column="0" 
+                          Grid.Row="2"
+                          CachingStrategy="RecycleElement">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal" 
+                                             VerticalOptions="Fill" 
+                                             HorizontalOptions="Fill">
+                                    <Label Text="{Binding Number}" 
+                                           FontAttributes="Bold" 
+                                           FontSize="Large"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

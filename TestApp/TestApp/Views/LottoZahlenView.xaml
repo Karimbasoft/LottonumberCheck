@@ -12,7 +12,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
-                    <RowDefinition Height="210"/>
+                    <RowDefinition Height="200"/>
                     <RowDefinition Height="70"/>
                 </Grid.RowDefinitions>
                 <Label x:Name="labHeader" 

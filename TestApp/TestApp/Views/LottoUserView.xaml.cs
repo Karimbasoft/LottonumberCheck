@@ -17,7 +17,7 @@ namespace TestApp.Views
 
         public LottoUserView (WebsideDataConverter websideDataConverter, Business.User user)
 		{
-			InitializeComponent ();
+			InitializeComponent();
             BindingContext = viewModel = new LottoUserViewModel(websideDataConverter, user);
         }
 

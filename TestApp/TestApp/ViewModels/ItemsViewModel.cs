@@ -19,7 +19,7 @@ namespace TestApp.ViewModels
 		{
 			Title = "Browse";
 			Items = new ObservableRangeCollection<Item>();
-			LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+			//LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
 			//MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
 			//{
@@ -29,33 +29,33 @@ namespace TestApp.ViewModels
 			//});
 		}
 
-		async Task ExecuteLoadItemsCommand()
-		{
-			if (IsBusy)
-				return;
+		//async Task ExecuteLoadItemsCommand()
+		//{
+		//	if (IsBusy)
+		//		return;
 
-			IsBusy = true;
+		//	IsBusy = true;
 
-			try
-			{
-				Items.Clear();
-				var items = await DataStore.GetItemsAsync(true);
-				Items.ReplaceRange(items);
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex);
-				MessagingCenter.Send(new MessagingCenterAlert
-				{
-					Title = "Error",
-					Message = "Unable to load items.",
-					Cancel = "OK"
-				}, "message");
-			}
-			finally
-			{
-				IsBusy = false;
-			}
-		}
+		//	try
+		//	{
+		//		Items.Clear();
+		//		var items = await DataStore.GetItemsAsync(true);
+		//		Items.ReplaceRange(items);
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Debug.WriteLine(ex);
+		//		MessagingCenter.Send(new MessagingCenterAlert
+		//		{
+		//			Title = "Error",
+		//			Message = "Unable to load items.",
+		//			Cancel = "OK"
+		//		}, "message");
+		//	}
+		//	finally
+		//	{
+		//		IsBusy = false;
+		//	}
+		//}
 	}
 }

@@ -26,7 +26,16 @@ namespace TestApp.ViewModels
             }
         }
 
-        public ICommand LoadSpielAndSuperCommand { get; }
+        public ICommand LoadSpielAndSuperCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await _navigation.PushAsync(new AdditionalLottoGameView(WebsideDataConverter, AppUser));
+                });
+            }
+        }
         #endregion
 
         #region Propertys
@@ -35,10 +44,16 @@ namespace TestApp.ViewModels
         public User AppUser { get; set; }
         #endregion
 
+        public LottoHomePageViewModel(INavigation navigation, Services.WebsideDataConverter websideDataConverter, User user)
+        {
+            _navigation = navigation;
+            WebsideDataConverter = websideDataConverter;
+            AppUser = user;
+        }
+
         public LottoHomePageViewModel(INavigation navigation)
         {
             _navigation = navigation;
-            WebsideDataConverter = new Services.WebsideDataConverter();
         }
     }
  
