@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TestApp.Business
 {
-    public class SparkleBoxMocker
+    public class SparkleBoxMocker : SerializeObject
     {
         #region Propertys
         public ObservableCollection<SparkleBox> UserNumbers { get; set; }
@@ -19,6 +19,7 @@ namespace TestApp.Business
             if (UserNumbers.Contains(sparkle))
             {
                 UserNumbers.Remove(sparkle);
+                SerializeSparkleBox(UserNumbers);
             }
         }
 
@@ -27,6 +28,7 @@ namespace TestApp.Business
             if (id <= UserNumbers.Count)
             {
                 UserNumbers.RemoveAt(id);
+                SerializeSparkleBox(UserNumbers);
             }
         }
 
@@ -35,6 +37,7 @@ namespace TestApp.Business
             if (UserNumbers.Count < 12)
             {
                 UserNumbers.Add(new SparkleBox(numbers.Split(' ').Select(n => Convert.ToInt32(n)).ToArray()));
+                SerializeSparkleBox(UserNumbers);
             }
         }
 
@@ -43,6 +46,7 @@ namespace TestApp.Business
             if (UserNumbers.Count < 12)
             {
                 UserNumbers.Add(sparkleBox);
+                SerializeSparkleBox(UserNumbers);
             }
         }
     }

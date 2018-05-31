@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Util;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace TestApp.Services
 
             if (!string.IsNullOrEmpty(HtmlSourceCode))
             {
+                Log.Info("LottoscheinAuswerter", "Internetverbindung erfolgreich");
                 ClassNameBeginn = "class=\"row winning-numbers\"";
                 ClassNameEnds = "class=\"col-xs-12 col-sm-6 align-right hidden-xs\"";
                 _spielSiebenundsiebzigAsString = GetSpiel77Numbers(HtmlSourceCode, "class=\"product-logo--tiny", "class=\"inner-table-header align-middle visible-xs-block");
@@ -33,6 +35,7 @@ namespace TestApp.Services
             }
             else
             {
+                Log.Error("LottoscheinAuswerter", "Es war nicht möglich eine Verbindung zum Internet herzustellen");
                 ShowInformationMassageAsync("Verbindung fehlgeschlagen", "Es war nicht möglich eine Verbindung zum Internet herzustellen");
             }
         }

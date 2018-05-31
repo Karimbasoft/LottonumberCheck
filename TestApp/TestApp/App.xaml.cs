@@ -1,4 +1,5 @@
-﻿using TestApp.Views;
+﻿using DLToolkit.Forms.Controls;
+using TestApp.Views;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,8 +12,10 @@ namespace TestApp
         public App()
 		{
 			InitializeComponent();
+            FlowListView.Init();
             dataConverter = new Services.WebsideDataConverter();
             user = new Business.User();
+            user.UserNumbers = new System.Collections.ObjectModel.ObservableCollection<Business.SparkleBox>(user.DeserializeSparkleBoxList());
             SetMainPage();
 		}
 

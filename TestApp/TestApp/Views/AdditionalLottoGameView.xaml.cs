@@ -7,7 +7,7 @@ using TestApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TestApp
+namespace TestApp.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AdditionalLottoGameView : ContentPage
@@ -20,11 +20,11 @@ namespace TestApp
         public AdditionalLottoGameView(Services.WebsideDataConverter websideDataConverter, Business.User user)
         {
             InitializeComponent();
-            BindingContext = viewModel = new AdditionalLottoGameViewModel(websideDataConverter, user);
+            BindingContext = ViewModel = new AdditionalLottoGameViewModel(websideDataConverter, user);
         }
 
         #region Propertys
-        public AdditionalLottoGameViewModel viewModel { get; }
+        public AdditionalLottoGameViewModel ViewModel { get; }
         #endregion
         
     }

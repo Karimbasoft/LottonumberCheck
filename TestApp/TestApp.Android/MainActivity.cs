@@ -1,7 +1,11 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Rg.Plugins.Popup;
+using System;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using Rg.Plugins.Popup.Droid;
 
 namespace TestApp.Droid
 {
@@ -17,8 +21,6 @@ namespace TestApp.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
-
-
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             LoadApplication(new App());

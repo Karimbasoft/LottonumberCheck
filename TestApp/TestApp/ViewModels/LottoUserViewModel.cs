@@ -15,7 +15,7 @@ namespace TestApp.ViewModels
     public class LottoUserViewModel : BaseViewModel
     {
         #region Fields
-        private WebsideDataConverter websideDataConverter;
+
         #endregion 
 
         #region Propertys
@@ -60,9 +60,9 @@ namespace TestApp.ViewModels
         {
             WebsideDataConverter = websideDataConverter;
             AppUser = user;
-            AppUser.UserNumbers.Add(new SparkleBox(1, 13, 23, 33, 45, 46));
+            //AppUser.UserNumbers.Add(new SparkleBox(1, 13, 23, 33, 45, 46));
             UserLottoNumbers = AppUser.UserNumbers;
-            UserLottoNumbers.Add(new SparkleBox(1, 12, 22, 33, 44, 45));
+            //UserLottoNumbers.Add(new SparkleBox(1, 12, 22, 33, 44, 45));
         }
 
         #region Methods

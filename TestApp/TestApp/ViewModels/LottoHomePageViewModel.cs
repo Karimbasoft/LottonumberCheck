@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows.Input;
 using TestApp.Business;
@@ -12,18 +11,31 @@ namespace TestApp.ViewModels
     public class LottoHomePageViewModel : BaseViewModel
     {
         private INavigation _navigation;
+        private RelayCommand _loadLottoViewCommand;
+        private RelayCommand _loadSpielAndSuperCommand;
 
         #region ICommand
         public ICommand LoadLottoViewCommand
         {
             get
             {
-                return new Command(async () =>
+                if (_loadLottoViewCommand == null)
                 {
-                    await _navigation.PushAsync(new LottoZahlenView(WebsideDataConverter, AppUser));
-                });
-
+                    _loadLottoViewCommand = new RelayCommand(async p => await _navigation.PushAsync(new LottoZahlenView(WebsideDataConverter, AppUser)), p => true);
+                    //}
+                    //    return new Command(async () =>
+                    //{
+                    //    await _navigation.PushAsync(new LottoZahlenView(WebsideDataConverter, AppUser));
+                    //});
+                    
+                }
+                return _loadLottoViewCommand;
             }
+        }
+
+            private void test()
+        {
+
         }
 
         public ICommand LoadSpielAndSuperCommand
