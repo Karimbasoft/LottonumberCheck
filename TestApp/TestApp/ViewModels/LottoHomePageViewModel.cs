@@ -22,20 +22,10 @@ namespace TestApp.ViewModels
                 if (_loadLottoViewCommand == null)
                 {
                     _loadLottoViewCommand = new RelayCommand(async p => await _navigation.PushAsync(new LottoZahlenView(WebsideDataConverter, AppUser)), p => true);
-                    //}
-                    //    return new Command(async () =>
-                    //{
-                    //    await _navigation.PushAsync(new LottoZahlenView(WebsideDataConverter, AppUser));
-                    //});
                     
                 }
                 return _loadLottoViewCommand;
             }
-        }
-
-            private void test()
-        {
-
         }
 
         public ICommand LoadSpielAndSuperCommand

@@ -1,127 +1,159 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TestApp.Views.LottoZahlenView"
-             Title="LottoView">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="TestApp.Views.LottoZahlenView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+    xmlns:xfShapeView="clr-namespace:XFShapeView;assembly=XFShapeView"
+    Title="LottoView">
     <ContentPage.Content>
         <StackLayout>
-            <Grid x:Name="GridAuswerter" 
-                  Margin="0,10,0,0">
+            <Grid x:Name="GridAuswerter" Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="200"/>
-                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="70" />
                 </Grid.RowDefinitions>
-                <Label x:Name="labHeader" 
-                       HorizontalTextAlignment="Center" 
-                       Grid.Column="0" 
-                       Grid.Row="0">
+                <Label
+                    x:Name="labHeader"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalTextAlignment="Center">
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span Text="Lottozahlen" ForegroundColor="{StaticResource LightTextColor}"/>
+                                <Span ForegroundColor="{StaticResource LightTextColor}" Text="Lottozahlen" />
                             </FormattedString.Spans>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <ListView x:Name="listCurrentLottoNumbers" 
-                          ItemsSource="{Binding CurrentLottoNumbers}" 
-                          VerticalOptions="Fill"
-                          HorizontalOptions="CenterAndExpand"
-                          Rotation="270"
-                          WidthRequest="50"
-                          Grid.Column="0" 
-                          Grid.Row="1"
-                          CachingStrategy="RecycleElement">
-                    <ListView.ItemTemplate>
+                <!--  From https://github.com/daniel-luberda/DLToolkit.Forms.Controls/tree/master/FlowListView  -->
+                <flv:FlowListView
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FlowColumnCount="6"
+                    FlowItemsSource="{Binding CurrentLottoNumbers}"
+                    HasUnevenRows="false"
+                    HorizontalOptions="Center"
+                    SeparatorVisibility="None"
+                    VerticalOptions="Center">
+                    <flv:FlowListView.FlowColumnTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Orientation="Horizontal" 
-                                             VerticalOptions="Fill" 
-                                             HorizontalOptions="Fill">
-                                    <Label Text="{Binding Number}" 
-                                           FontAttributes="Bold" 
-                                           FontSize="Large"/>
-                                </StackLayout>
-                            </ViewCell>
+                            <Label
+                                HorizontalOptions="Fill"
+                                Text="{Binding Number}"
+                                VerticalOptions="Fill"
+                                XAlign="Center"
+                                YAlign="Center" />
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Button x:Name="btnCheckLottosheet" 
-                        Text="Lottoschein Auswerten"
-                        Margin="0,30,0,0"
-                        Grid.Column="0"
-                        Grid.Row="2"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="Wheat"
-                        Command="{Binding ShowEvaluation}"/>
+                    </flv:FlowListView.FlowColumnTemplate>
+                </flv:FlowListView>
+                <xfShapeView:ShapeView
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    BorderColor="Green"
+                    BorderWidth="2"
+                    IsVisible="True"
+                    Opacity="1"
+                    Progress="50"
+                    ShapeType="Circle"
+                    Color="Green">
+                    <Label
+                        x:Name="labSuperNumber"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding SuperNumber}"
+                        VerticalTextAlignment="Center" />
+                </xfShapeView:ShapeView>
+                <Button
+                    x:Name="btnCheckLottosheet"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="0,30,0,0"
+                    BackgroundColor="{StaticResource Primary}"
+                    Command="{Binding ShowEvaluation}"
+                    Text="Lottoschein Auswerten"
+                    TextColor="Wheat" />
             </Grid>
-            <Grid x:Name="GridInformations" 
-                  IsVisible="{Binding ShowInfoTable}"
-                  Margin="0,10,0,0">
+            <Grid
+                x:Name="GridInformations"
+                Margin="0,10,0,0"
+                IsVisible="{Binding ShowInfoTable}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label x:Name="labSuperzahltxt" 
-                       Text="Superzahl:" 
-
-                       HorizontalTextAlignment="End"
-                       FontSize="16"
-                       Grid.Row="0"
-                       Grid.Column="0"/>
-                <Label x:Name="CheckSuperzahlIsSame" 
+                <Label
+                    x:Name="labSuperzahltxt"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    FontSize="16"
+                    HorizontalTextAlignment="End"
+                    Text="Superzahl:" />
+                <xfShapeView:ShapeView
+                    x:Name="CheckSuperzahlIsSame"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    BorderColor="{Binding SuperNumberColor}"
+                    BorderWidth="2"
+                    IsVisible="True"
+                    Opacity="1"
+                    Progress="50"
+                    ShapeType="Circle"
+                    Color="{Binding SuperNumberColor}" />
+                <!--<Label x:Name="CheckSuperzahlIsSame"
                        BackgroundColor="{Binding SuperNumberColor}"
                        HorizontalOptions="Center"
                        WidthRequest="20"
-                       Grid.Row="0" 
-                       Grid.Column="1" />
-                <Label x:Name="labTreffertxt" 
-                       Text="Höchster Treffer:" 
-
-                       HorizontalTextAlignment="End"
-                       Grid.Row="1" 
-                       Grid.Column="0"
-                       FontSize="16"/>
-                <Label x:Name="CountHitsNumbers" 
-                       Text="{Binding CountHits}" 
-                       HorizontalTextAlignment="Center" 
-
-                       Grid.Row="1"
-                       Grid.Column="1"/>
-                <Label x:Name="labGewinntxt" 
-                       Text="Gewinn:" 
-                       Grid.Column="0" 
-                       HorizontalTextAlignment="End" 
-
-                       Grid.Row="3" 
-                       FontSize="16" />
-                <Label x:Name="labGewinnQuote" 
-                       Text="{Binding Path=MoneyQuote}"
-
-                       Grid.Column="1" 
-                       HorizontalTextAlignment="Center"  
-                       Grid.Row="3" 
-                       FontSize="16" />
-                <Button x:Name="btnMoreInformations" 
-                    Text="Mehr Informationen" 
-                    Grid.Column="0" 
+                       Grid.Row="0"
+                       Grid.Column="1" />-->
+                <Label
+                    x:Name="labTreffertxt"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FontSize="16"
+                    HorizontalTextAlignment="End"
+                    Text="Höchster Treffer:" />
+                <Label
+                    x:Name="CountHitsNumbers"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding CountHits}" />
+                <Label
+                    x:Name="labGewinntxt"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    FontSize="16"
+                    HorizontalTextAlignment="End"
+                    Text="Gewinn:" />
+                <Label
+                    x:Name="labGewinnQuote"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    FontSize="16"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding Path=MoneyQuote}" />
+                <Button
+                    x:Name="btnMoreInformations"
                     Grid.Row="4"
+                    Grid.Column="0"
                     Grid.ColumnSpan="1"
-                    TextColor="Wheat"
                     BackgroundColor="{StaticResource Primary}"
-                    Command="{Binding CmdShowMoreInformations}"/>
+                    Command="{Binding CmdShowMoreInformations}"
+                    Text="Mehr Informationen"
+                    TextColor="Wheat" />
             </Grid>
         </StackLayout>
-  </ContentPage.Content>
+    </ContentPage.Content>
 </ContentPage>

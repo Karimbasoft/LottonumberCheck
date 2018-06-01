@@ -22,6 +22,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Business\RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Business\SparkleAnalysis.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Business\TicketAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\SparkleBoxConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\AdditionalLottoGameView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -48,7 +51,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemsViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ObservableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ObservableRangeCollection.cs" />
@@ -87,5 +89,8 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AdditionalLottoGameView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Views\Splash.xml" />
   </ItemGroup>
 </Project>
