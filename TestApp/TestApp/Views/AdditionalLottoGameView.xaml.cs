@@ -1,13 +1,13 @@
-﻿using System;
+﻿using App.UI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TestApp.Views
+namespace App.UI.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AdditionalLottoGameView : ContentPage
@@ -17,7 +17,7 @@ namespace TestApp.Views
 			InitializeComponent();
 		}
 
-        public AdditionalLottoGameView(Services.WebsideDataConverter websideDataConverter, Business.User user)
+        public AdditionalLottoGameView(TestApp.Services.WebsideDataConverter websideDataConverter, TestApp.Business.User user)
         {
             InitializeComponent();
             BindingContext = ViewModel = new AdditionalLottoGameViewModel(websideDataConverter, user);

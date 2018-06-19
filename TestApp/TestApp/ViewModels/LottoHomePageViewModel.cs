@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.UI.Views;
+using System;
 using System.Diagnostics;
 using System.Windows.Input;
 using TestApp.Business;
@@ -6,13 +7,12 @@ using TestApp.Helpers;
 using TestApp.Views;
 using Xamarin.Forms;
 
-namespace TestApp.ViewModels
+namespace App.UI.ViewModels
 {
     public class LottoHomePageViewModel : BaseViewModel
     {
         private INavigation _navigation;
         private RelayCommand _loadLottoViewCommand;
-        private RelayCommand _loadSpielAndSuperCommand;
 
         #region ICommand
         public ICommand LoadLottoViewCommand
@@ -41,12 +41,12 @@ namespace TestApp.ViewModels
         #endregion
 
         #region Propertys
-        public Services.WebsideDataConverter WebsideDataConverter { get; set; }
+        public TestApp.Services.WebsideDataConverter WebsideDataConverter { get; set; }
 
         public User AppUser { get; set; }
         #endregion
 
-        public LottoHomePageViewModel(INavigation navigation, Services.WebsideDataConverter websideDataConverter, User user)
+        public LottoHomePageViewModel(INavigation navigation, TestApp.Services.WebsideDataConverter websideDataConverter, User user)
         {
             _navigation = navigation;
             WebsideDataConverter = websideDataConverter;

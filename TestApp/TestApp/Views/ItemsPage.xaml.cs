@@ -1,33 +1,18 @@
 ﻿using System;
 
-using TestApp.Models;
-using TestApp.ViewModels;
-
 using Xamarin.Forms;
 
 namespace TestApp.Views
 {
 	public partial class ItemsPage : ContentPage
 	{
-		ItemsViewModel viewModel;
+		//ItemsViewModel viewModel;
 
 		public ItemsPage()
 		{
 			InitializeComponent();
 
-			BindingContext = viewModel = new ItemsViewModel();
-		}
-
-		async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
-		{
-			var item = args.SelectedItem as Item;
-			if (item == null)
-				return;
-
-			await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
-
-			// Manually deselect item
-			ItemsListView.SelectedItem = null;
+			//BindingContext = viewModel = new ItemsViewModel();
 		}
 
 		//async void AddItem_Clicked(object sender, EventArgs e)
@@ -39,8 +24,8 @@ namespace TestApp.Views
 		{
 			base.OnAppearing();
 
-			if (viewModel.Items.Count == 0)
-				viewModel.LoadItemsCommand.Execute(null);
+			//if (viewModel.Items.Count == 0)
+			//	viewModel.LoadItemsCommand.Execute(null);
 		}
 	}
 }

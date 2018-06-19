@@ -7,7 +7,7 @@ using System.Text;
 using TestApp.Business;
 using TestApp.Services;
 
-namespace TestApp.ViewModels
+namespace App.UI.ViewModels
 {
     public class AdditionalLottoGameViewModel : BaseViewModel
     {

@@ -1,4 +1,5 @@
-﻿using DLToolkit.Forms.Controls;
+﻿using App.UI.Views;
+using DLToolkit.Forms.Controls;
 using TestApp.Views;
 
 using Xamarin.Forms;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestApp.Helpers
+namespace App.UI.Helpers
 {
 	public class MessagingCenterAlert
 	{

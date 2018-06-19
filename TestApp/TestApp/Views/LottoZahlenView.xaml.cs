@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestApp.Services;
-using TestApp.ViewModels;
+using App.UI.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TestApp.Views
+namespace App.UI.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LottoZahlenView : ContentPage
 	{
         LottoZahlenViewModel viewModel;
 
-        public LottoZahlenView (WebsideDataConverter websideDataConverter, Business.User user)
+        public LottoZahlenView (WebsideDataConverter websideDataConverter, TestApp.Business.User user)
 		{
-			InitializeComponent ();
+			InitializeComponent();
             BindingContext = viewModel = new LottoZahlenViewModel(websideDataConverter, user);
         }
 

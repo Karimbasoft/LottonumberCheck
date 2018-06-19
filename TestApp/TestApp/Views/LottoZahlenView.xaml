@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage
-    x:Class="TestApp.Views.LottoZahlenView"
+    x:Class="App.UI.Views.LottoZahlenView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
@@ -43,12 +43,27 @@
                     VerticalOptions="Center">
                     <flv:FlowListView.FlowColumnTemplate>
                         <DataTemplate>
-                            <Label
+                            <!--<Label
                                 HorizontalOptions="Fill"
                                 Text="{Binding Number}"
                                 VerticalOptions="Fill"
                                 XAlign="Center"
-                                YAlign="Center" />
+                                YAlign="Center" />-->
+                            <xfShapeView:ShapeView
+                                BorderColor="Gray"
+                                BorderWidth="2"
+                                IsVisible="True"
+                                Opacity="1"
+                                Progress="50"
+                                ShapeType="Circle"
+                                Color="Gray">
+                                <Label
+                                    x:Name="labNumber"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Number}"
+                                    XAlign="Center"
+                                    YAlign="Center" />
+                            </xfShapeView:ShapeView>
                         </DataTemplate>
                     </flv:FlowListView.FlowColumnTemplate>
                 </flv:FlowListView>

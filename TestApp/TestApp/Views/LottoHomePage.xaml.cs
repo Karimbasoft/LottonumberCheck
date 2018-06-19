@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestApp.ViewModels;
+using App.UI.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TestApp.Views
+namespace App.UI.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LottoHomePage : ContentPage
@@ -21,7 +21,7 @@ namespace TestApp.Views
             BindingContext = viewModel = new LottoHomePageViewModel(this.Navigation);
         }
 
-        public LottoHomePage(Services.WebsideDataConverter websideDataConverter, Business.User user)
+        public LottoHomePage(TestApp.Services.WebsideDataConverter websideDataConverter, TestApp.Business.User user)
         {
             InitializeComponent();
             BindingContext = viewModel = new LottoHomePageViewModel(this.Navigation, websideDataConverter, user);

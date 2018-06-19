@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
 using TestApp.Helpers;
-using TestApp.Models;
 using TestApp.Views;
 
 using Xamarin.Forms;
 
-namespace TestApp.ViewModels
+namespace App.UI.ViewModels
 {
 	public class ItemsViewModel : BaseViewModel
 	{
-		public ObservableRangeCollection<Item> Items { get; set; }
+		//public ObservableRangeCollection<Item> Items { get; set; }
 		public Command LoadItemsCommand { get; set; }
 
 		public ItemsViewModel()
 		{
 			Title = "Browse";
-			Items = new ObservableRangeCollection<Item>();
+			//Items = new ObservableRangeCollection<Item>();
 			//LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
 			//MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>

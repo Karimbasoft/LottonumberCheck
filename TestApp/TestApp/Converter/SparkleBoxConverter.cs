@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using TestApp.Business;
 
-namespace TestApp.Converter
+namespace App.UI.Converter
 {
     public class SparkleBoxConverter
     {

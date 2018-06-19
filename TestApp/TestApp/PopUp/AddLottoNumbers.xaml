@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="TestApp.Views.AddLottoNumbers"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="False"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <StackLayout
+        Padding="20,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="Center">
+        <Frame
+            Padding="0"
+            BackgroundColor="#d3ebed"
+            CornerRadius="10">
+            <StackLayout Padding="10">
+                <Label
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Text="Lottozahlen hinzufügen:"
+                    TextColor="Black" />
+                <ScrollView>
+                    <StackLayout>
+                        <Label Text="Klicke auf deine Zahlen um sie hinzuzufügen" TextColor="Black" />
+                        <StackLayout Orientation="Horizontal">
+                            <Button
+                                Command="{Binding CloseWindow}"
+                                Text="Close"
+                                TextColor="Black" />
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

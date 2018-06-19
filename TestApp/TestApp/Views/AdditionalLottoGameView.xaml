@@ -1,77 +1,155 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TestApp.Views.AdditionalLottoGameView">
+<ContentPage
+    x:Class="App.UI.Views.AdditionalLottoGameView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+    xmlns:xfShapeView="clr-namespace:XFShapeView;assembly=XFShapeView">
     <ContentPage.Content>
         <StackLayout>
-            <Grid x:Name="GridAuswerter" 
-                  Margin="0,10,0,0">
+            <Grid x:Name="GridAuswerter" Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="150"/>
-                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
-                <Label x:Name="labHeader" 
-                       HorizontalTextAlignment="Center" 
-                       Grid.Column="0" 
-                       Grid.Row="0">
+                <Label
+                    x:Name="labHeader1"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalTextAlignment="Center">
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span Text="Spiel 77 und Super 6" ForegroundColor="{StaticResource LightTextColor}"/>
+                                <Span ForegroundColor="{StaticResource LightTextColor}" Text="Super 6" />
                             </FormattedString.Spans>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <ListView x:Name="listCurrentSuperSechs" 
-                          ItemsSource="{Binding UserSuperSechsNumbers}" 
+                <!--<ListView x:Name="listCurrentSuperSechs"
+                          ItemsSource="{Binding UserSuperSechsNumbers}"
                           VerticalOptions="Fill"
                           HorizontalOptions="CenterAndExpand"
                           Rotation="270"
                           WidthRequest="50"
-                          Grid.Column="0" 
+                          Grid.Column="0"
                           Grid.Row="1"
                           CachingStrategy="RecycleElement">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Horizontal" 
-                                             VerticalOptions="Fill" 
+                                <StackLayout Orientation="Horizontal"
+                                             VerticalOptions="Fill"
                                              HorizontalOptions="Fill">
-                                    <Label Text="{Binding Number}" 
-                                           FontAttributes="Bold" 
+                                    <Label Text="{Binding Number}"
+                                           FontAttributes="Bold"
                                            FontSize="Large"/>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
-                <ListView x:Name="listCurrentSpielSiebenundsiebzig" 
-                          ItemsSource="{Binding UserSpielSiebenundsiebzigNumbers}" 
-                          VerticalOptions="Fill"
-                          HorizontalOptions="CenterAndExpand"
-                          Rotation="270"
-                          WidthRequest="50"
-                          Grid.Column="0" 
-                          Grid.Row="2"
-                          CachingStrategy="RecycleElement">
+                </ListView>-->
+                <flv:FlowListView
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FlowColumnCount="6"
+                    FlowItemsSource="{Binding UserSuperSechsNumbers}"
+                    HasUnevenRows="false"
+                    HorizontalOptions="Center"
+                    SeparatorVisibility="None"
+                    VerticalOptions="Center">
+                    <flv:FlowListView.FlowColumnTemplate>
+                        <DataTemplate>
+                            <xfShapeView:ShapeView
+                                BorderColor="Gray"
+                                BorderWidth="2"
+                                IsVisible="True"
+                                Opacity="1"
+                                Progress="50"
+                                ShapeType="Circle"
+                                Color="Gray">
+                                <Label
+                                    x:Name="labNumber"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Number}"
+                                    XAlign="Center"
+                                    YAlign="Center" />
+                            </xfShapeView:ShapeView>
+                        </DataTemplate>
+                    </flv:FlowListView.FlowColumnTemplate>
+                </flv:FlowListView>
+                <!--<ListView
+                    x:Name="listCurrentSpielSiebenundsiebzig"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    CachingStrategy="RecycleElement"
+                    HorizontalOptions="CenterAndExpand"
+                    ItemsSource="{Binding UserSpielSiebenundsiebzigNumbers}"
+                    Rotation="270"
+                    VerticalOptions="Fill"
+                    WidthRequest="50">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Horizontal" 
-                                             VerticalOptions="Fill" 
-                                             HorizontalOptions="Fill">
-                                    <Label Text="{Binding Number}" 
-                                           FontAttributes="Bold" 
-                                           FontSize="Large"/>
+                                <StackLayout
+                                    HorizontalOptions="Fill"
+                                    Orientation="Horizontal"
+                                    VerticalOptions="Fill">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Large"
+                                        Text="{Binding Number}" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
+                </ListView>-->
+                <Label
+                    x:Name="labHeader2"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    HorizontalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span ForegroundColor="{StaticResource LightTextColor}" Text="Spiel 77" />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <flv:FlowListView
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    FlowColumnCount="7"
+                    FlowItemsSource="{Binding UserSpielSiebenundsiebzigNumbers}"
+                    HasUnevenRows="false"
+                    HorizontalOptions="Center"
+                    SeparatorVisibility="None"
+                    VerticalOptions="Center">
+                    <flv:FlowListView.FlowColumnTemplate>
+                        <DataTemplate>
+                            <xfShapeView:ShapeView
+                                BorderColor="Gray"
+                                BorderWidth="2"
+                                IsVisible="True"
+                                Opacity="1"
+                                Progress="50"
+                                ShapeType="Circle"
+                                Color="Gray">
+                                <Label
+                                    x:Name="labNumber"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Number}"
+                                    XAlign="Center"
+                                    YAlign="Center" />
+                            </xfShapeView:ShapeView>
+                        </DataTemplate>
+                    </flv:FlowListView.FlowColumnTemplate>
+                </flv:FlowListView>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

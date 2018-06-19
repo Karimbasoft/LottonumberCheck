@@ -6,10 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using TestApp.Business;
-using TestApp.Converter;
 using Xamarin.Forms;
 
-namespace TestApp.ViewModels
+namespace App.UI.ViewModels
 {
     public class LottoZahlenViewModel : BaseViewModel, INotifyPropertyChanged
     {
@@ -21,13 +20,13 @@ namespace TestApp.ViewModels
         #endregion
 
         #region Private Propertys
-        private Services.WebsideDataConverter WebsideDataConverter { get; set; }
+        private TestApp.Services.WebsideDataConverter WebsideDataConverter { get; set; }
         #endregion
 
         #region Public Propertys
-        public ObservableCollection<Business.LottoNumber> CurrentLottoNumbers { get; set; }
+        public ObservableCollection<TestApp.Business.LottoNumber> CurrentLottoNumbers { get; set; }
         private List<int> HitsInThePossibleProfitArea { get; set; }
-        public Business.User AppUser { get; set; }
+        public TestApp.Business.User AppUser { get; set; }
         public int SuperNumber { get; set; }
 
         /// <summary>
@@ -91,7 +90,8 @@ namespace TestApp.ViewModels
         #endregion
 
 
-        public LottoZahlenViewModel(Services.WebsideDataConverter websideDataConverter, Business.User user)
+        public LottoZahlenViewModel(TestApp.Services.WebsideDataConverter websideDataConverter, 
+            TestApp.Business.User user)
         {
             WebsideDataConverter = websideDataConverter;
             SuperNumber = WebsideDataConverter.SuperNumber;

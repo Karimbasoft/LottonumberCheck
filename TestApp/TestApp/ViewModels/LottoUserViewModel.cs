@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,9 +9,10 @@ using System.Text;
 using System.Windows.Input;
 using TestApp.Business;
 using TestApp.Services;
+using TestApp.Views;
 using Xamarin.Forms;
 
-namespace TestApp.ViewModels
+namespace App.UI.ViewModels
 {
     public class LottoUserViewModel : BaseViewModel
     {
@@ -42,9 +44,9 @@ namespace TestApp.ViewModels
         {
             get
             {
-                return new Command(() =>
+                return new Command(async () =>
                 {
-                    AddSparkleBoxToUserList();
+                    await AddSparkleBoxToUserListAsync();
                 });
 
             }
@@ -60,15 +62,15 @@ namespace TestApp.ViewModels
         {
             WebsideDataConverter = websideDataConverter;
             AppUser = user;
-            //AppUser.UserNumbers.Add(new SparkleBox(1, 13, 23, 33, 45, 46));
             UserLottoNumbers = AppUser.UserNumbers;
             //UserLottoNumbers.Add(new SparkleBox(1, 12, 22, 33, 44, 45));
         }
 
         #region Methods
-        private void AddSparkleBoxToUserList()
+        private async System.Threading.Tasks.Task AddSparkleBoxToUserListAsync()
         {
-            AppUser.AddEntryToSparkleBoxCollection("1 23 24 34 45 55");
+            await PopupNavigation.PushAsync(new AddLottoNumbers());
+            //AppUser.AddEntryToSparkleBoxCollection("1 23 24 34 45 55");
         }
 
         private void DeleteSparkleBoxFromUserList(string numbers)

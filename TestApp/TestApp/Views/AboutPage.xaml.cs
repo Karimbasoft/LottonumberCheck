@@ -1,13 +1,19 @@
 ﻿
+using App.UI.ViewModels;
 using Xamarin.Forms;
 
-namespace TestApp.Views
+namespace App.UI.Views
 {
 	public partial class AboutPage : ContentPage
 	{
-		public AboutPage()
+        #region Fields
+        private AboutViewModel aboutViewModel;
+        #endregion
+
+        public AboutPage()
 		{
 			InitializeComponent();
+            BindingContext = aboutViewModel = new AboutViewModel();
 		}
 	}
 }

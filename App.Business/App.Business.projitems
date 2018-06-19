@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>033f75fb-77d9-458a-9207-0d5c8a244efb</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>App.Business</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\LottoNumber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\SparkleBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mock\SparkleBoxMocker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SerializeObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SparkleAnalysis.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TicketAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)User.cs" />
+  </ItemGroup>
+</Project>
