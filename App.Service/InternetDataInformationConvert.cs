@@ -1,4 +1,5 @@
 ﻿using Android.Util;
+using App.Business.LotteryTicket;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -50,7 +51,7 @@ namespace TestApp.Services
             }
         }
 
-        public ObservableCollection<Business.LottoNumber> WinningNumbers
+        public ObservableCollection<LottoNumber> WinningNumbers
         {
             get
             {
@@ -86,41 +87,41 @@ namespace TestApp.Services
             }
         }
 
-        public ObservableCollection<Business.LottoNumber> SuperSechsNumbers
+        public ObservableCollection<LottoNumber> SuperSechsNumbers
         {
             get
             {
-                ObservableCollection<Business.LottoNumber> tempNumbers = new ObservableCollection<Business.LottoNumber>();
+                ObservableCollection<LottoNumber> tempNumbers = new ObservableCollection<LottoNumber>();
 
                 foreach (char item in _superSechsNumbersAsString)
                 {
-                    tempNumbers.Add(new Business.LottoNumber(item.ToString()));
+                    tempNumbers.Add(new LottoNumber(item.ToString()));
                 }
                 return tempNumbers;
             }
         }
 
-        public ObservableCollection<Business.LottoNumber> SpielSiebenundsiebzigNumbers
+        public ObservableCollection<LottoNumber> SpielSiebenundsiebzigNumbers
         {
             get
             {
-                ObservableCollection<Business.LottoNumber> tempNumbers = new ObservableCollection<Business.LottoNumber>();
+                ObservableCollection<LottoNumber> tempNumbers = new ObservableCollection<LottoNumber>();
 
                 foreach (char item in _spielSiebenundsiebzigAsString)
                 {
-                    tempNumbers.Add(new Business.LottoNumber(item.ToString()));
+                    tempNumbers.Add(new LottoNumber(item.ToString()));
                 }
                 return tempNumbers;
             }
         }
 
-        public ObservableCollection<Business.LottoNumber> ConvertObservableIntCollectionToLottonumberCollection(ObservableCollection<int> tmpNumberCollection)
+        public ObservableCollection<LottoNumber> ConvertObservableIntCollectionToLottonumberCollection(ObservableCollection<int> tmpNumberCollection)
         {
-            ObservableCollection<Business.LottoNumber> tmpLottoCollection = new ObservableCollection<Business.LottoNumber>();
+            ObservableCollection<LottoNumber> tmpLottoCollection = new ObservableCollection<LottoNumber>();
 
             foreach (int item in tmpNumberCollection)
             {
-                tmpLottoCollection.Add(new Business.LottoNumber(item));
+                tmpLottoCollection.Add(new LottoNumber(item));
             }
             return tmpLottoCollection;
         }
@@ -222,9 +223,9 @@ namespace TestApp.Services
         /// <param name="htmlSource"></param>
         /// <param name="className"></param>
         /// <param name="classNameEnd"></param>
-        /// <param name="mode"></param>
+        /// <param name="mode"> 1 => Lotto, 2 => Spiel 77/Super 6</param>
         /// <returns></returns>
-        public string[] GetQuotes(string htmlSource, string className, string classNameEnd, int mode)
+        private string[] GetQuotes(string htmlSource, string className, string classNameEnd, int mode)
         {
             int startIndex = 0;
             int endindex = 0;

@@ -1,28 +1,29 @@
-﻿using System;
+﻿using App.UI.ViewModels;
+using Rg.Plugins.Popup.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Rg.Plugins.Popup.Animations.Base;
+
 using Xamarin.Forms;
-using App.UI.ViewModels;
 using Xamarin.Forms.Xaml;
-using TestApp.Services;
-using System.Collections.ObjectModel;
-using TestApp.Business;
-using App.Business.LotteryTicket;
 
 namespace TestApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddLottoNumbers : Rg.Plugins.Popup.Pages.PopupPage
+    public partial class SelectSuperNumber : PopupPage
     {
         #region Propertys
-        public ObservableCollection<LottoNumber> SelectedNumbers
+        public int SelectedSuperNumber
         {
+            set
+            {
+                viewModel.SelectedNumber = value;
+            }
             get
             {
-                return viewModel.SelectedLottoNumbersCollection;
+                return viewModel.SelectedNumber;
             }
         }
 
@@ -35,14 +36,15 @@ namespace TestApp.Views
         }
         #endregion
        
-        AddLottoNumbersViewModel viewModel;
 
-        public AddLottoNumbers(WebsideDataConverter websideDataConverter, Business.User user)
+
+        SelectSuperNumberViewModel viewModel;
+        public SelectSuperNumber()
         {
             InitializeComponent();
-            BindingContext = viewModel = new AddLottoNumbersViewModel(websideDataConverter, user);
+            viewModel = new SelectSuperNumberViewModel();
+            BindingContext = viewModel;
         }
-
 
         protected override void OnAppearing()
         {

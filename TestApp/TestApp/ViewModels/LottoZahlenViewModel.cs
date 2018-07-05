@@ -1,11 +1,16 @@
-﻿using System;
+﻿using App.Business.LotteryTicket;
+using App.UI.Converter;
+using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using TestApp.Business;
+using TestApp.Views;
 using Xamarin.Forms;
 
 namespace App.UI.ViewModels
@@ -24,7 +29,7 @@ namespace App.UI.ViewModels
         #endregion
 
         #region Public Propertys
-        public ObservableCollection<TestApp.Business.LottoNumber> CurrentLottoNumbers { get; set; }
+        public ObservableCollection<LottoNumber> CurrentLottoNumbers { get; set; }
         private List<int> HitsInThePossibleProfitArea { get; set; }
         public TestApp.Business.User AppUser { get; set; }
         public int SuperNumber { get; set; }
@@ -46,9 +51,13 @@ namespace App.UI.ViewModels
             set
             {
                 _countHits = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Zeigt durch eine Farbe an, ob die Superzahl richtig war
+        /// </summary>
         public string SuperNumberColor
         {
             get
@@ -58,9 +67,13 @@ namespace App.UI.ViewModels
             set
             {
                 superNumberColor = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Gibt an, ob die InfoTabelle angezeigt wird oder nicht
+        /// </summary>
         public string ShowInfoTable
         {
             get
@@ -73,6 +86,11 @@ namespace App.UI.ViewModels
                 NotifyPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Das PopUp zum auswählen der Superzahl
+        /// </summary>
+        public SelectSuperNumber SelectSuperNumberPopUp { get; set; }
         #endregion
 
         #region Commands
@@ -80,9 +98,9 @@ namespace App.UI.ViewModels
         {
             get
             {
-                return new Command(() =>
+                return new Command(async () =>
                 {
-                    ShowInfoTable = "True";
+                    await AddSparkleBoxToUserListAsync();  
                 });
 
             }
@@ -96,7 +114,8 @@ namespace App.UI.ViewModels
             WebsideDataConverter = websideDataConverter;
             SuperNumber = WebsideDataConverter.SuperNumber;
             HitsInThePossibleProfitArea = new List<int>();
-            SuperNumberColor = "Red";
+            WinningAnaylsis = new ObservableCollection<SparkleAnalysis>();
+            SuperNumberColor = "White";
             ShowInfoTable = "False";
             CountHits = 0;         
             CurrentLottoNumbers = WebsideDataConverter.WinningNumbers;
@@ -111,51 +130,102 @@ namespace App.UI.ViewModels
 
         #region Methods
 
-        //private void CountHitsFromUser()
-        //{
-        //    int counter = 0;
-        //    int biggestCounter = 0;
-        //    List<int> UsernumbersFromSparkleBox;
-        //    List<SparkleAnalysis> listWithAnalysis = new List<SparkleAnalysis>();
-        //    WinningAnaylsis.Clear();
+        /// <summary>
+        /// Zählt die Treffer des Benutzers und erstellt eine Analyse der Treffer (Gewinn, etc.)
+        /// </summary>
+        private void CountHitsFromUser()
+        {
+            int counter = 0;
+            int biggestCounter = 0;
+            List<int> UsernumbersFromSparkleBox;
+            List<SparkleAnalysis> listWithAnalysis = new List<SparkleAnalysis>();
+            WinningAnaylsis.Clear();
 
-        //    foreach (SparkleBox sparkleBox in AppUser.UserNumbers)
-        //    {
-        //        counter = 0;
-        //        UsernumbersFromSparkleBox = SparkleBoxConverter.ConvertSparkleBoxToIntList(sparkleBox);
-        //        foreach (int number in UsernumbersFromSparkleBox)
-        //        {
-        //            foreach (LottoNumber throwNumber in CurrentLottoNumbers)
-        //            {
-        //                if (throwNumber.Number == number)
-        //                    counter++;
-        //            }
-        //        }
-        //        listWithAnalysis.Add(new SparkleAnalysis(sparkleBox, counter, ""));
-        //        if (counter >= 2)
-        //        {
-        //            HitsInThePossibleProfitArea.Add(counter);
-        //            if (counter > biggestCounter)
-        //            {
-        //                CountHits = counter;
-        //                biggestCounter = counter;
-        //            }
-        //        }
-        //    }
-        //    WinningAnaylsis = TicketAnalyzer.CreateWinningAnalysis(listWithAnalysis);
+            foreach (SparkleBox sparkleBox in AppUser.UserNumbers)
+            {
+                counter = 0;
+                UsernumbersFromSparkleBox = SparkleBoxConverter.ConvertSparkleBoxToIntList(sparkleBox);
 
-        //    if (CountHits < 0 )
-        //    {
-        //        CountHits = 0;
-        //    }
-        //}
+                foreach (int number in UsernumbersFromSparkleBox)
+                {
+                    foreach (LottoNumber throwNumber in CurrentLottoNumbers)
+                    {
+                        if (throwNumber.Number == number)
+                            counter++;
+                    }
+                }
 
+                listWithAnalysis.Add(new SparkleAnalysis(sparkleBox, counter, "0.00 €"));
+
+                if (counter >= 2)
+                {
+                    HitsInThePossibleProfitArea.Add(counter);
+                    
+                }
+
+                if (counter > biggestCounter)
+                {
+                    CountHits = counter;
+                    biggestCounter = counter;
+                }
+            }
+            WinningAnaylsis = TicketAnalyzer.CreateWinningAnalysis(listWithAnalysis, 
+                TicketAnalyzer.CheckIfSupernumberIsAnHit(AppUser.SuperNumber, WebsideDataConverter.SuperNumber),
+                WebsideDataConverter.WinningQuotesLotto);
+
+            if (CountHits < 0)
+            {
+                CountHits = 0;
+            }
+        }
+
+        private async Task AddSparkleBoxToUserListAsync()
+        {
+            SelectSuperNumberPopUp = new SelectSuperNumber();
+            SelectSuperNumberPopUp.Disappearing += SelectSuperNumberPopUp_Disappearing;
+            await PopupNavigation.PushAsync(SelectSuperNumberPopUp);
+        }
+
+        private void StartToCheckLottoTicket()
+        {
+            ShowInfoTable = "True";
+            CompareSuperNumbers();
+            CountHitsFromUser();
+        }
+
+        private void CompareSuperNumbers()
+        {
+            if (TicketAnalyzer.CheckIfSupernumberIsAnHit(AppUser.SuperNumber, WebsideDataConverter.SuperNumber))
+            {
+                SuperNumberColor = "Green";
+            }
+            else
+            {
+                SuperNumberColor = "Red";
+            }
+        }
+
+        /// <summary>
+        /// Wird aufgerufen, sobald Popup geschlossen wurde
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectSuperNumberPopUp_Disappearing(object sender, EventArgs e)
+        {
+            if (SelectSuperNumberPopUp.Save)
+            {
+                AppUser.SuperNumber = SelectSuperNumberPopUp.SelectedSuperNumber;
+                SelectSuperNumberPopUp.Disappearing -= SelectSuperNumberPopUp_Disappearing;
+                SelectSuperNumberPopUp = null;
+                StartToCheckLottoTicket();
+            }
+        }
 
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-        
+
     }
 }

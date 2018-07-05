@@ -10,7 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\LottoNumber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\Digit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\SparkleBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\SuperNumber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mock\SparkleBoxMocker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SerializeObject.cs" />

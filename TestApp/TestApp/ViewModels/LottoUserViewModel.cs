@@ -1,4 +1,5 @@
-﻿using Rg.Plugins.Popup.Services;
+﻿using Android.Util;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using TestApp.Business;
 using TestApp.Services;
@@ -24,6 +26,7 @@ namespace App.UI.ViewModels
         public ObservableCollection<SparkleBox> UserLottoNumbers { get; set; }
         private User AppUser { get; }
         private WebsideDataConverter WebsideDataConverter { get; }
+        public AddLottoNumbers AddLottoNumbersPopUp { get; set; }
         #endregion
 
         #region Commands    
@@ -63,14 +66,29 @@ namespace App.UI.ViewModels
             WebsideDataConverter = websideDataConverter;
             AppUser = user;
             UserLottoNumbers = AppUser.UserNumbers;
-            //UserLottoNumbers.Add(new SparkleBox(1, 12, 22, 33, 44, 45));
+            Title = "User";
         }
 
         #region Methods
-        private async System.Threading.Tasks.Task AddSparkleBoxToUserListAsync()
+        private async Task AddSparkleBoxToUserListAsync()
         {
-            await PopupNavigation.PushAsync(new AddLottoNumbers());
-            //AppUser.AddEntryToSparkleBoxCollection("1 23 24 34 45 55");
+            AddLottoNumbersPopUp = new AddLottoNumbers(WebsideDataConverter, AppUser);
+            AddLottoNumbersPopUp.Disappearing += AddLottoNumbersPopUp_Disappearing;
+            await PopupNavigation.PushAsync(AddLottoNumbersPopUp);
+        }
+
+        private void AddLottoNumbersPopUp_Disappearing(object sender, EventArgs e)
+        {
+            if (AddLottoNumbersPopUp.Save)
+            {
+                if (AddLottoNumbersPopUp.SelectedNumbers.Count == 6)
+                {
+                    AppUser.AddEntryToSparkleBoxCollection(
+                        SparkleBox.ConvertTicketNumberCollectionToString(AddLottoNumbersPopUp.SelectedNumbers));
+                }
+                AddLottoNumbersPopUp.Disappearing -= AddLottoNumbersPopUp_Disappearing;
+                AddLottoNumbersPopUp.SelectedNumbers.Clear();
+                }
         }
 
         private void DeleteSparkleBoxFromUserList(string numbers)

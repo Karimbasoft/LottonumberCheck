@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.Business.LotteryTicket;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -48,6 +49,34 @@ namespace TestApp.Business
             }
 
             return tempNumber;
+        }
+
+        /// <summary>
+        /// Convertiert eine Collection aus Lottozahlen in einen String
+        /// </summary>
+        /// <param name="lottoNumbers">Collection aus Lottozahlen</param>
+        /// <returns>String mit Lottozahlen</returns>
+        public static string ConvertTicketNumberCollectionToString(ObservableCollection<LottoNumber> lottoNumbers)
+        {
+            string tmp = "";
+            int counter = 0;
+
+            if (lottoNumbers.Count == 6)
+            {
+                foreach (var item in lottoNumbers)
+                {
+                    counter++;
+                    if (counter == 6)
+                    {
+                        tmp += $"{item.Number}";
+                    }
+                    else
+                    {
+                        tmp += $"{item.Number} ";
+                    }
+                }
+            }
+            return tmp;
         }
         #endregion
     }

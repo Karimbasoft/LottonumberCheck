@@ -1,13 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <pages:PopupPage
-    x:Class="TestApp.Views.AddLottoNumbers"
+    x:Class="TestApp.Views.SelectSuperNumber"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
     xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:xfShapeView="clr-namespace:XFShapeView;assembly=XFShapeView"
-    x:Name="addLottoNumbers">
+    x:Name="selectSuperNumber">
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation
             DurationIn="400"
@@ -32,7 +32,7 @@
                 <StackLayout Orientation="Horizontal">
                     <Label
                         FontSize="20"
-                        Text="Lottozahlen hinzufügen:"
+                        Text="Superzahl auswählen:"
                         TextColor="Black" />
                     <Button
                         x:Name="btnSaveNumbers"
@@ -45,10 +45,10 @@
                         WidthRequest="40" />
                 </StackLayout>
                 <StackLayout>
-                    <ScrollView HeightRequest="1250">
+                    <ScrollView>
                         <flv:FlowListView
-                            FlowColumnCount="7"
-                            FlowItemsSource="{Binding PossibleLottoNumberCollections}"
+                            FlowColumnCount="3"
+                            FlowItemsSource="{Binding PossibleSuperNumbersCollections}"
                             HasUnevenRows="false"
                             HorizontalOptions="Center"
                             SeparatorVisibility="None"
@@ -57,48 +57,13 @@
                                 <DataTemplate>
                                     <Button
                                         x:Name="btnLottoNumber"
-                                        Command="{Binding Path=BindingContext.CmdSelectLottoNumber, Source={x:Reference addLottoNumbers}"
+                                        Command="{Binding Path=BindingContext.CmdSelectSuperNumber, Source={x:Reference selectSuperNumber}"
                                         CommandParameter="{Binding}"
                                         Text="{Binding Number}" />
                                 </DataTemplate>
                             </flv:FlowListView.FlowColumnTemplate>
                         </flv:FlowListView>
                     </ScrollView>
-                    <Label
-                        FontSize="Small"
-                        HorizontalOptions="Center"
-                        Text="Ausgewählte Zahlen:"
-                        TextColor="Black" />
-                    <flv:FlowListView
-                        FlowColumnCount="6"
-                        FlowItemsSource="{Binding SelectedLottoNumbersCollection}"
-                        SeparatorVisibility="None">
-                        <flv:FlowListView.FlowColumnTemplate>
-                            <DataTemplate>
-                                <xfShapeView:ShapeView
-                                    BorderColor="Gray"
-                                    BorderWidth="2"
-                                    IsVisible="True"
-                                    Opacity="1"
-                                    Progress="50"
-                                    ShapeType="Circle"
-                                    Color="Gray">
-                                    <Button
-                                        x:Name="btnSelectedNumber"
-                                        BackgroundColor="Transparent"
-                                        BorderColor="Transparent"
-                                        Command="{Binding Path=BindingContext.CmdRemoveSelectedNumber, Source={x:Reference addLottoNumbers}"
-                                        CommandParameter="{Binding}"
-                                        Text="{Binding Number}" />
-                                </xfShapeView:ShapeView>
-                            </DataTemplate>
-                        </flv:FlowListView.FlowColumnTemplate>
-                    </flv:FlowListView>
-
-                    <Button
-                        Command="{Binding CmdSaveSelection}"
-                        Text="Save"
-                        TextColor="Black" />
                 </StackLayout>
             </StackLayout>
         </Frame>

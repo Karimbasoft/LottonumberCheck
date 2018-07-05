@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestApp.Business
+namespace App.Business.LotteryTicket
 {
-    public class LottoNumber
+    public class LottoNumber : Digit
     {
         public LottoNumber()
         {
@@ -22,7 +22,7 @@ namespace TestApp.Business
         }
 
         #region Propertys
-        public int Number { get; set; }
+
         #endregion
     }
 }

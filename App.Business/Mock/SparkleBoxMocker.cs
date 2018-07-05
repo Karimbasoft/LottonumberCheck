@@ -36,7 +36,7 @@ namespace TestApp.Business
         {
             if (UserNumbers.Count < 12)
             {
-                UserNumbers.Add(new SparkleBox(numbers.Split(' ').Select(n => Convert.ToInt32(n)).ToArray()));
+                UserNumbers.Add(new SparkleBox(numbers.Split(' ').Select(n => Convert.ToInt32(n)).OrderBy(i => i).ToArray()));
                 SerializeSparkleBox(UserNumbers);
             }
         }
@@ -49,5 +49,7 @@ namespace TestApp.Business
                 SerializeSparkleBox(UserNumbers);
             }
         }
+
+        
     }
 }
