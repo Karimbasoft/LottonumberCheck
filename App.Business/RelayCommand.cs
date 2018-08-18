@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace TestApp.Business
+namespace App.Business
 {
     public class RelayCommand : Command
     {

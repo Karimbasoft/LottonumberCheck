@@ -16,6 +16,9 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)PopUp\SelectSuperNumber.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)PopUp\ShowAnalysingInfo.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -24,6 +27,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Converter\SparkleBoxConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PopUp\AddLottoNumbers.xaml.cs">
       <DependentUpon>AddLottoNumbers.xaml</DependentUpon>
@@ -31,17 +37,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)PopUp\SelectSuperNumber.xaml.cs">
       <DependentUpon>SelectSuperNumber.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)PopUp\ShowAnalysingInfo.xaml.cs">
+      <DependentUpon>ShowAnalysingInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AddLottoNumbersViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SelectSuperNumberViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ShowAnalysingInfoViewModel.cs" />
     <!--<Compile Include="$(MSBuildThisFileDirectory)PopUpView\AddLottoNumber.xaml.cs">
       <SubType>Code</SubType>
     </Compile>-->
     <Compile Include="$(MSBuildThisFileDirectory)Views\AdditionalLottoGameView.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>AdditionalLottoGameView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AdditionalLottoGameViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LottoHomePageViewModel.cs" />

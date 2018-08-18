@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using App.Business.LotteryTicket;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 
-namespace TestApp.Business
+namespace App.Business
 {
     public class SerializeObject
     {

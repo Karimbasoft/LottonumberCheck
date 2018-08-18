@@ -1,5 +1,8 @@
-﻿using App.Business.LotteryTicket;
+﻿using App.Business;
+using App.Business.LotteryTicket;
+using App.Services;
 using App.UI.Converter;
+using App.UI.PopUp;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -9,8 +12,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TestApp.Business;
-using TestApp.Views;
 using Xamarin.Forms;
 
 namespace App.UI.ViewModels
@@ -21,17 +22,19 @@ namespace App.UI.ViewModels
         private string superNumberColor;
         private string _showInfoTable;
         private int _countHits;
+        private string _totalProfit;
+
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
         #region Private Propertys
-        private TestApp.Services.WebsideDataConverter WebsideDataConverter { get; set; }
+        private WebsideDataConverter WebsideDataConverter { get; set; }
         #endregion
 
         #region Public Propertys
         public ObservableCollection<LottoNumber> CurrentLottoNumbers { get; set; }
         private List<int> HitsInThePossibleProfitArea { get; set; }
-        public TestApp.Business.User AppUser { get; set; }
+        public  User AppUser { get; set; }
         public int SuperNumber { get; set; }
 
         /// <summary>
@@ -87,10 +90,29 @@ namespace App.UI.ViewModels
             }
         }
 
+        //Gibt den gesamten Gewinn zurück
+        public string TotalProfit
+        {
+            get
+            {
+                return _totalProfit;
+            }
+            set
+            {
+                _totalProfit = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Das PopUp zum auswählen der Superzahl
         /// </summary>
         public SelectSuperNumber SelectSuperNumberPopUp { get; set; }
+
+        /// <summary>
+        /// Das PopUp zur Ansicht der Gewinninformationen
+        /// </summary>
+        public ShowAnalysingInfo ShowAnalysingInfoPopUp { get; set; }
         #endregion
 
         #region Commands
@@ -100,7 +122,19 @@ namespace App.UI.ViewModels
             {
                 return new Command(async () =>
                 {
-                    await AddSparkleBoxToUserListAsync();  
+                    await ShowSuperNumberPopUpAsync();  
+                });
+
+            }
+        }
+
+        public ICommand CmdShowMoreInformations
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await ShowWinningAnalysisPopUpAsync();
                 });
 
             }
@@ -108,8 +142,8 @@ namespace App.UI.ViewModels
         #endregion
 
 
-        public LottoZahlenViewModel(TestApp.Services.WebsideDataConverter websideDataConverter, 
-            TestApp.Business.User user)
+        public LottoZahlenViewModel(WebsideDataConverter websideDataConverter,
+            User user)
         {
             WebsideDataConverter = websideDataConverter;
             SuperNumber = WebsideDataConverter.SuperNumber;
@@ -179,20 +213,48 @@ namespace App.UI.ViewModels
             }
         }
 
-        private async Task AddSparkleBoxToUserListAsync()
+        private async Task ShowSuperNumberPopUpAsync()
         {
             SelectSuperNumberPopUp = new SelectSuperNumber();
             SelectSuperNumberPopUp.Disappearing += SelectSuperNumberPopUp_Disappearing;
             await PopupNavigation.PushAsync(SelectSuperNumberPopUp);
         }
 
-        private void StartToCheckLottoTicket()
+        private async Task ShowWinningAnalysisPopUpAsync()
         {
-            ShowInfoTable = "True";
-            CompareSuperNumbers();
-            CountHitsFromUser();
+            ShowAnalysingInfoPopUp = new ShowAnalysingInfo(WinningAnaylsis);
+            ShowAnalysingInfoPopUp.Disappearing += ShowAnalysingInfoPopUp_Disappearing;
+            await PopupNavigation.PushAsync(ShowAnalysingInfoPopUp);
         }
 
+        private void ShowAnalysingInfoPopUp_Disappearing(object sender, EventArgs e)
+        {
+            ShowAnalysingInfoPopUp = null;
+        }
+
+        private void StartToCheckLottoTicket()
+        {
+            CompareSuperNumbers();
+            CountHitsFromUser();
+            CalcTheTotalAmount();
+            ShowInfoTable = "True";
+        }
+
+        private void CalcTheTotalAmount()
+        {
+            double totalAmount = 0;
+
+            foreach (var item in WinningAnaylsis)
+            {
+                totalAmount += TicketAnalyzer.ToDouble(item.AmountOfMoney);
+            }
+
+            TotalProfit = TicketAnalyzer.ToMoney(totalAmount);
+        }
+
+        /// <summary>
+        /// Bestimmt die Farbausgabe der Superzahl, Grün = Treffer / Rot = Kein Treffer
+        /// </summary>
         private void CompareSuperNumbers()
         {
             if (TicketAnalyzer.CheckIfSupernumberIsAnHit(AppUser.SuperNumber, WebsideDataConverter.SuperNumber))

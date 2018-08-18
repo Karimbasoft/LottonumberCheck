@@ -53,8 +53,18 @@
                             <FormattedString.Spans>
                                 <Span FontAttributes="Italic" Text="Die Daten für die Lottozahlen stammen aus:" />
                                 <Span Text="&#10;" />
-                                <Span Text="&#10;" />
                                 <Span Text="http://www.lotto24.de/webshop/product/lottonormal/result" />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span FontAttributes="Italic" Text="Die Icons stammen aus:" />
+                                <Span Text="&#10;" />
+                                <Span Text="https://icons8.de/" />
                             </FormattedString.Spans>
                         </FormattedString>
                     </Label.FormattedText>

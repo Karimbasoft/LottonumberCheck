@@ -7,12 +7,12 @@ using Rg.Plugins.Popup.Animations.Base;
 using Xamarin.Forms;
 using App.UI.ViewModels;
 using Xamarin.Forms.Xaml;
-using TestApp.Services;
 using System.Collections.ObjectModel;
-using TestApp.Business;
 using App.Business.LotteryTicket;
+using App.Services;
+using App.Business;
 
-namespace TestApp.Views
+namespace App.UI.PopUp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddLottoNumbers : Rg.Plugins.Popup.Pages.PopupPage
@@ -37,7 +37,7 @@ namespace TestApp.Views
        
         AddLottoNumbersViewModel viewModel;
 
-        public AddLottoNumbers(WebsideDataConverter websideDataConverter, Business.User user)
+        public AddLottoNumbers(WebsideDataConverter websideDataConverter, User user)
         {
             InitializeComponent();
             BindingContext = viewModel = new AddLottoNumbersViewModel(websideDataConverter, user);

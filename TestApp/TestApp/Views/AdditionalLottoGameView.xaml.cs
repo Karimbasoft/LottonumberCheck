@@ -1,4 +1,6 @@
-﻿using App.UI.ViewModels;
+﻿using App.Business;
+using App.Services;
+using App.UI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,7 @@ namespace App.UI.Views
 			InitializeComponent();
 		}
 
-        public AdditionalLottoGameView(TestApp.Services.WebsideDataConverter websideDataConverter, TestApp.Business.User user)
+        public AdditionalLottoGameView(WebsideDataConverter websideDataConverter, User user)
         {
             InitializeComponent();
             BindingContext = ViewModel = new AdditionalLottoGameViewModel(websideDataConverter, user);

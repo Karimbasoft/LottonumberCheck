@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace TestApp.Business
+namespace App.Business.LotteryTicket
 {
     public class SparkleBox
     {

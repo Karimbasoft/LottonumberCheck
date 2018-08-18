@@ -1,34 +1,28 @@
-﻿using App.UI.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TestApp.Services;
+﻿using App.Business;
+using App.Services;
+using App.UI.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TestApp.Views
+namespace App.UI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LottoUserView : ContentPage
     {
-        #region Propertys
-        
+        #region Fields
+        LottoUserViewModel viewModel;
         #endregion
 
-        LottoUserViewModel viewModel;
+        #region Propertys
 
-        public LottoUserView(WebsideDataConverter websideDataConverter, TestApp.Business.User user)
+        #endregion
+
+        public LottoUserView(WebsideDataConverter websideDataConverter, User user)
         {
             InitializeComponent();
             BindingContext = viewModel = new LottoUserViewModel(websideDataConverter, user);
         }
 
-        public LottoUserView()
-        {
-            InitializeComponent();
-        }
+        public LottoUserView() => InitializeComponent();
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using TestApp.Helpers;
-using TestApp.Views;
+using App.UI.Helpers;
+using App.UI.Views;
 
 using Xamarin.Forms;
 

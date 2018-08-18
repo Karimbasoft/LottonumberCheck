@@ -1,4 +1,6 @@
-﻿using App.Business.LotteryTicket;
+﻿using App.Business;
+using App.Business.LotteryTicket;
+using App.Services;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -7,8 +9,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
-using TestApp.Business;
-using TestApp.Services;
 using Xamarin.Forms;
 
 namespace App.UI.ViewModels

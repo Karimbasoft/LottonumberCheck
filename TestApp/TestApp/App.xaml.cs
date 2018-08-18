@@ -1,31 +1,31 @@
-﻿using App.UI.Views;
+﻿using App.Business;
+using App.Services;
+using App.UI.Views;
+using System;
 using DLToolkit.Forms.Controls;
-using TestApp.Views;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using App.Business.LotteryTicket;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
-namespace TestApp
+namespace App.UI
 {
 	public partial class App : Application
 	{
+        #region Fields
+        public static WebsideDataConverter dataConverter;
+        public static User user;
+        #endregion
+
         public App()
 		{
 			InitializeComponent();
             FlowListView.Init();
-            dataConverter = new Services.WebsideDataConverter();
-            user = new Business.User();
-            user.UserNumbers = new System.Collections.ObjectModel.ObservableCollection<Business.SparkleBox>(user.DeserializeSparkleBoxList());
+            dataConverter = new WebsideDataConverter();
+            user = new User();
+            user.UserNumbers = new System.Collections.ObjectModel.ObservableCollection<SparkleBox>(user.DeserializeSparkleBoxList());
             SetMainPage();
 		}
-
-        #region Fields
-        public static Services.WebsideDataConverter dataConverter;
-        public static Business.User user;
-        #endregion
-
-        
 
         public static void SetMainPage() => Current.MainPage = new TabbedPage
         {
@@ -49,9 +49,6 @@ namespace TestApp
                 }
         };
 
-        public static Page GetMainPage()
-        {
-            return new NavigationPage(new LottoHomePage());
-        }
+        public static Page GetMainPage() => new NavigationPage(new LottoHomePage());
     }
 }

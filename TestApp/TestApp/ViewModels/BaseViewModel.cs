@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using TestApp.Helpers;
-using TestApp.Services;
+using App.UI.Helpers;
 
 using Xamarin.Forms;
 

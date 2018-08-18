@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="TestApp.Views.LottoUserView"
+    x:Class="App.UI.Views.LottoUserView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Name="lottoUserView"
@@ -32,10 +32,10 @@
                         WidthRequest="50" />-->
                     <Button
                         x:Name="btnAddSparkleBox"
-                        BackgroundColor="{StaticResource Primary}"
                         Command="{Binding AddSparkleBox}"
                         HeightRequest="40"
                         HorizontalOptions="Center"
+                        Image="add_default.png"
                         Text="+"
                         TextColor="Wheat"
                         WidthRequest="50" />

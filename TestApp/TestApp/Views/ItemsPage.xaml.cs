@@ -2,7 +2,7 @@
 
 using Xamarin.Forms;
 
-namespace TestApp.Views
+namespace App.UI.Views
 {
 	public partial class ItemsPage : ContentPage
 	{

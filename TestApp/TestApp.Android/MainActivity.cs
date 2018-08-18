@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using UI = App.UI;
 using System;
 using Android.Runtime;
 using Android.Views;
@@ -9,7 +10,7 @@ using Rg.Plugins.Popup.Droid;
 
 namespace TestApp.Droid
 {
-    [Activity(Label = "TestApp.Android", Theme = "@style/MyTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "TestApp.Android", Theme = "@style/MyTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
 
@@ -26,7 +27,7 @@ namespace TestApp.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            LoadApplication(new App());
+            LoadApplication(new UI.App());
         }
     }
 }

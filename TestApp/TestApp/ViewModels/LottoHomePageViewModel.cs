@@ -1,10 +1,7 @@
-﻿using App.UI.Views;
-using System;
-using System.Diagnostics;
+﻿using App.Business;
+using App.Services;
+using App.UI.Views;
 using System.Windows.Input;
-using TestApp.Business;
-using TestApp.Helpers;
-using TestApp.Views;
 using Xamarin.Forms;
 
 namespace App.UI.ViewModels
@@ -21,7 +18,7 @@ namespace App.UI.ViewModels
             {
                 if (_loadLottoViewCommand == null)
                 {
-                    _loadLottoViewCommand = new RelayCommand(async p => await _navigation.PushAsync(new LottoZahlenView(WebsideDataConverter, AppUser)), p => true);
+                    _loadLottoViewCommand = new RelayCommand(async p => await _navigation.PushAsync(new UI.Views.LottoZahlenView(WebsideDataConverter, AppUser)), p => true);
                     
                 }
                 return _loadLottoViewCommand;
@@ -34,19 +31,19 @@ namespace App.UI.ViewModels
             {
                 return new Command(async () =>
                 {
-                    await _navigation.PushAsync(new AdditionalLottoGameView(WebsideDataConverter, AppUser));
+                    await _navigation.PushAsync(new UI.Views.AdditionalLottoGameView(WebsideDataConverter, AppUser));
                 });
             }
         }
         #endregion
 
         #region Propertys
-        public TestApp.Services.WebsideDataConverter WebsideDataConverter { get; set; }
+        public WebsideDataConverter WebsideDataConverter { get; set; }
 
         public User AppUser { get; set; }
         #endregion
 
-        public LottoHomePageViewModel(INavigation navigation, TestApp.Services.WebsideDataConverter websideDataConverter, User user)
+        public LottoHomePageViewModel(INavigation navigation, WebsideDataConverter websideDataConverter, User user)
         {
             _navigation = navigation;
             WebsideDataConverter = websideDataConverter;

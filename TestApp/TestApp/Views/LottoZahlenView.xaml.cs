@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestApp.Services;
+using App.Business;
+using App.Services;
 using App.UI.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,7 +16,7 @@ namespace App.UI.Views
 	{
         LottoZahlenViewModel viewModel;
 
-        public LottoZahlenView (WebsideDataConverter websideDataConverter, TestApp.Business.User user)
+        public LottoZahlenView (WebsideDataConverter websideDataConverter, User user)
 		{
 			InitializeComponent();
             BindingContext = viewModel = new LottoZahlenViewModel(websideDataConverter, user);

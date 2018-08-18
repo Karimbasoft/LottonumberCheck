@@ -1,4 +1,8 @@
 ﻿using Android.Util;
+using App.Business;
+using App.Business.LotteryTicket;
+using App.Services;
+using App.UI.PopUp;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -9,9 +13,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TestApp.Business;
-using TestApp.Services;
-using TestApp.Views;
 using Xamarin.Forms;
 
 namespace App.UI.ViewModels

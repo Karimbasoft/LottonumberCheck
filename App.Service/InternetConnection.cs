@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Util;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TestApp.Services
+namespace App.Services
 {
     public class InternetConnection
     {
@@ -106,18 +107,26 @@ namespace TestApp.Services
             {
                 string url = Url;
 
-
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.Method = "GET";
-                request.ContentType = "text/html";
-                HttpWebResponse myResp = (HttpWebResponse)request.GetResponse();
-
-                using (var response = request.GetResponse())
+                if (CheckInternetConnection())
                 {
-                    using (var reader = new StreamReader(response.GetResponseStream()))
+
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                    request.Method = "GET";
+                    request.ContentType = "text/html";
+                    HttpWebResponse myResp = (HttpWebResponse)request.GetResponse();
+
+                    using (var response = request.GetResponse())
                     {
-                        html = reader.ReadToEnd();
+                        using (var reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            html = reader.ReadToEnd();
+                        }
                     }
+                }
+                else
+                {
+                    ShowInformationMassageAsync("No connection", "Es ist nicht möglich eine Verbindung zum Internet herzustellen !");
+                    Log.Info("LottoscheinAuswerter", "Keine Internetverindung möglich !");
                 }
             }
 
@@ -125,6 +134,7 @@ namespace TestApp.Services
             {
                 Console.WriteLine(exception.Message);
                 html = "";
+                Log.Info("LottoscheinAuswerter", "Keine Internetverindung möglich !");
             }
             return html;
         }
@@ -133,7 +143,7 @@ namespace TestApp.Services
         /// Prüft ob eine Internetverbindung zustande kommt
         /// </summary>
         /// <returns></returns>
-        private bool CheckInternetConnection()
+        public bool CheckInternetConnection()
         {
             try
             {
@@ -147,6 +157,7 @@ namespace TestApp.Services
             }
             catch
             {
+                Log.Error("LottoscheinAuswerter","Keine Internetverbindung möglich");
                 return false;
             }
         }
@@ -159,7 +170,7 @@ namespace TestApp.Services
         /// <returns></returns>
         private async System.Threading.Tasks.Task ShowInformationMassageAsync(string titel, string text)
         {
-            await App.Current.MainPage.DisplayAlert(titel, text, "OK");
+            await App.UI.App.Current.MainPage.DisplayAlert(titel, text, "OK");
         }
     }
 }

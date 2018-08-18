@@ -8,6 +8,7 @@
     Title="LottoView">
     <ContentPage.Content>
         <StackLayout>
+            <!--<ScrollView HeightRequest="1250">-->
             <Grid x:Name="GridAuswerter" Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -16,7 +17,7 @@
                     <RowDefinition Height="30" />
                     <RowDefinition Height="60" />
                     <RowDefinition Height="30" />
-                    <RowDefinition Height="70" />
+                    <RowDefinition Height="80" />
                 </Grid.RowDefinitions>
                 <Label
                     x:Name="labHeader"
@@ -90,7 +91,7 @@
                     Margin="0,30,0,0"
                     BackgroundColor="{StaticResource Primary}"
                     Command="{Binding ShowEvaluation}"
-                    Text="Lottoschein Auswerten"
+                    Text="Auswerten"
                     TextColor="Wheat" />
             </Grid>
             <Grid
@@ -106,7 +107,7 @@
                     <RowDefinition Height="20" />
                     <RowDefinition Height="20" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="60" />
                 </Grid.RowDefinitions>
                 <Label
                     x:Name="labSuperzahltxt"
@@ -126,12 +127,15 @@
                     Progress="50"
                     ShapeType="Circle"
                     Color="{Binding SuperNumberColor}" />
-                <!--<Label x:Name="CheckSuperzahlIsSame"
-                       BackgroundColor="{Binding SuperNumberColor}"
-                       HorizontalOptions="Center"
-                       WidthRequest="20"
-                       Grid.Row="0"
-                       Grid.Column="1" />-->
+
+                <!--<Label
+                    x:Name="CheckSuperzahlIsSame"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    BackgroundColor="{Binding SuperNumberColor}"
+                    HorizontalOptions="Center"
+                    WidthRequest="20" />-->
+
                 <Label
                     x:Name="labTreffertxt"
                     Grid.Row="1"
@@ -151,14 +155,14 @@
                     Grid.Column="0"
                     FontSize="16"
                     HorizontalTextAlignment="End"
-                    Text="Gewinn:" />
+                    Text="Gesamter Gewinn:" />
                 <Label
                     x:Name="labGewinnQuote"
                     Grid.Row="3"
                     Grid.Column="1"
                     FontSize="16"
                     HorizontalTextAlignment="Center"
-                    Text="{Binding Path=MoneyQuote}" />
+                    Text="{Binding TotalProfit}" />
                 <Button
                     x:Name="btnMoreInformations"
                     Grid.Row="4"
@@ -169,6 +173,7 @@
                     Text="Mehr Informationen"
                     TextColor="Wheat" />
             </Grid>
+            <!--</ScrollView>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

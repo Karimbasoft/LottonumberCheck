@@ -69,7 +69,7 @@ namespace App.UI.ViewModels
         private void CreateListWithPossibleSuperNumbers()
         {
             PossibleSuperNumbersCollections = new ObservableCollection<LottoNumber>();
-            for (int i = 1; i <= 9; i++)
+            for (int i = 0; i <= 9; i++)
             {
                 PossibleSuperNumbersCollections.Add(new LottoNumber(i));
             }

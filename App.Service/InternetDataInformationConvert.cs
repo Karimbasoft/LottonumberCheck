@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace TestApp.Services
+namespace App.Services
 {
     public class WebsideDataConverter
     {
@@ -144,7 +144,7 @@ namespace TestApp.Services
             else
             {
                 Log.Error("LottoscheinAuswerter", "Es war nicht möglich eine Verbindung zum Internet herzustellen");
-                ShowInformationMassageAsync("Verbindung fehlgeschlagen", "Es war nicht möglich eine Verbindung zum Internet herzustellen");
+                ShowInformationMassageAsync("Verbindung fehlgeschlagen", "Es war nicht möglich eine Verbindung zum Internet herzustellen").Start();
             }
         }
         #endregion
@@ -172,7 +172,7 @@ namespace TestApp.Services
             }
             catch (Exception)
             {
-                ShowInformationMassageAsync("Fehler", "Problem beim auslesen der Superzahl !");
+                ShowInformationMassageAsync("Fehler", "Problem beim auslesen der Superzahl !").Start();
             }
 
 
@@ -242,27 +242,35 @@ namespace TestApp.Services
                 endindex = endindex * -1;
             }
 
-            string specialPart = htmlSource.Substring(startIndex, endindex);
             string[] QuotesAsStringArray;
 
-            if (!specialPart.Contains("wird ermittelt"))
+            if (startIndex <= 0 || endindex <= 0)
             {
-                if (mode == 1)
-                {
-                    QuotesAsStringArray = GetMoneyQoutesFromSubstring(specialPart);
-                }
-                else
-                {
-                    var arr = Regex.Matches(specialPart, @"(\d{1,9})(.\d{1,9}|)(.\d{1,9})")
-                              .Cast<Match>()
-                              .Select(m => m.Value)
-                              .ToArray();
-                    QuotesAsStringArray = arr;
-                }
+                QuotesAsStringArray = new string[0];
             }
             else
             {
-                QuotesAsStringArray = new string[0];
+                string specialPart = htmlSource.Substring(startIndex, endindex);
+
+                if (!specialPart.Contains("wird ermittelt"))
+                {
+                    if (mode == 1)
+                    {
+                        QuotesAsStringArray = GetMoneyQoutesFromSubstring(specialPart);
+                    }
+                    else
+                    {
+                        var arr = Regex.Matches(specialPart, @"(\d{1,9})(.\d{1,9}|)(.\d{1,9})")
+                                  .Cast<Match>()
+                                  .Select(m => m.Value)
+                                  .ToArray();
+                        QuotesAsStringArray = arr;
+                    }
+                }
+                else
+                {
+                    QuotesAsStringArray = new string[0];
+                }
             }
 
             return QuotesAsStringArray;
@@ -273,34 +281,53 @@ namespace TestApp.Services
             string result = "";
             string currentSecialPart = specialPart;
 
-            for (int i = 0; i < 9; i++)
+            try
             {
-                int pFrom = currentSecialPart.IndexOf("<span class=\"visible-xs\">") + "<span class=\"visible-xs\">".Length;
-                var a = currentSecialPart.Substring(pFrom + "<span class=\"visible-xs\">".Length);
-                int pTo;
+                //Gibt die Tabellenzeile an, wo sich die Gewinne befinden
+                int tableRowCounter = 0;
 
-                if (i != 8)
+                //Geht jede mögliche Gewinnklasse (also 9 mal) durch
+                for (int i = 0; i < 9; i++)
                 {
-                    pTo = a.IndexOf("<div class=\"col-xs-2 col-sm-2\">");
+                    int pFrom = currentSecialPart.IndexOf("<span class=\"visible-xs\">") + "<span class=\"visible-xs\">".Length;
+                    var a = currentSecialPart.Substring(pFrom + "<span class=\"visible-xs\">".Length);
+                    int pTo;
+                    
+                    //Prüft, ob dies der letzte Durchgang ist
+                    if (i != 8)
+                    {
+                        //Prüft, ob dies der erste durchlauf ist
+                        tableRowCounter = (i == 0) ? tableRowCounter += 2 : tableRowCounter += 1;
 
-                }
-                else
-                {
-                    pTo = a.IndexOf("<div class=\"product-table__content\">");
-                }
-                result += RemoveWhitespace(currentSecialPart.Substring(pFrom, pTo));
-                currentSecialPart = a.Substring(pTo);
-            }
+                        pTo = a.IndexOf($"<div class=\"inner-table-row\" data-test-id=\"tableRow{tableRowCounter}\">");
+                    }
+                    else
+                    {
+                        pTo = a.IndexOf("<div class=\"product-table__content\">");
+                    }
 
-            return Regex.Matches(result, @"(\d{1,9})(.\d{1,9}|)(.\d{1,9})")
+                    result += RemoveWhitespace(currentSecialPart.Substring(pFrom, pTo));
+                    currentSecialPart = a.Substring(pTo);
+                }
+                return Regex.Matches(result, @"(\d{1,9})(.\d{1,9}|)(.\d{1,9})")
                             .Cast<Match>()
                             .Select(m => m.Value)
                             .ToArray();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("LottoscheinAuswerter", ex.ToString());
+                return new string[0];
+            }
         }
 
         #endregion
 
-
+        /// <summary>
+        /// Prüft, ob ein Substring ein Escape-Symbol (\n) enthält
+        /// </summary>
+        /// <param name="specialpart"></param>
+        /// <returns></returns>
         private bool CheckIfSubstringContainsEscapeSymbol(string specialpart)
         {
             return specialpart.Contains("\n") ? false : true;
@@ -415,12 +442,12 @@ namespace TestApp.Services
             }
             catch (ArgumentException ae)
             {
-                ShowInformationMassageAsync("Fehler", string.Format("Ein Fehler bein auslesen der Webseite ist aufgetren !", ae));
+                ShowInformationMassageAsync("Fehler", string.Format("Ein Fehler bein auslesen der Webseite ist aufgetren !", ae)).Start();
                 temp = new string[0];
             }
             catch
             {
-                ShowInformationMassageAsync("Ein unerwarteter Fehler ist bei Auslesen des Spiel77 aufgetreten !", "WARNUNG");
+                ShowInformationMassageAsync("WARNUNG", "Ein unerwarteter Fehler ist bei Auslesen des Spiel77 aufgetreten !").Start();
                 temp = new string[0];
             }
             string numbers = temp[4];
@@ -429,7 +456,7 @@ namespace TestApp.Services
 
         private async System.Threading.Tasks.Task ShowInformationMassageAsync(string titel, string text)
         {
-            await App.Current.MainPage.DisplayAlert(titel, text, "OK");
+            await App.UI.App.Current.MainPage.DisplayAlert(titel, text, "OK");
         }
 
     }

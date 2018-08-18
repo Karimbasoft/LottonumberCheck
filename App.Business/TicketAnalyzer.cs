@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
-using TestApp.Services;
+using App.Business;
 
-namespace TestApp.Business
+namespace App.Business
 {
     public class TicketAnalyzer 
     {
@@ -133,24 +133,32 @@ namespace TestApp.Business
         /// </summary>
         /// <param name="In">Wert</param>
         /// <returns>Betrag</returns>
-        private static string ToMoney(double In)
+        public static string ToMoney(double In)
         {
             return In.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
         }
 
 
         /// <summary>
-        /// Convertiert einen String in ein double
+        /// Konvertiert einen String in ein double
         /// </summary>
-        /// <param name="In"></param>
+        /// <param name="inputString"></param>
         /// <returns></returns>
-        public static double ToDouble(string In)
+        public static double ToDouble(string inputString)
         {
-            NumberStyles styles = NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign | NumberStyles.Number |
-            NumberStyles.AllowDecimalPoint;
-            In = In.Remove(In.IndexOf('€'));
-            double Double = double.Parse(In, styles);
-            return Double;
+            //NumberStyles styles = NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign | NumberStyles.Number |
+            //NumberStyles.AllowDecimalPoint;
+
+            var cultureInfo = CultureInfo.GetCultureInfo("fr-FR");
+
+            //InputString = String.Format(cultureInfo, "{0:C}", InputString);
+            
+            inputString = inputString.Remove(inputString.IndexOf('€')).Replace(" ","");
+            string cent = inputString.Substring(inputString.IndexOf(',')).Replace(",","");
+            double centAsDouble = double.Parse($"0,{cent}", cultureInfo);
+            inputString = inputString.Remove(inputString.IndexOf(','));
+            double doubleMoney = double.Parse(inputString, NumberStyles.Currency);
+            return (doubleMoney+ centAsDouble);
         }
 
         /// <summary>
