@@ -14,8 +14,9 @@ namespace LottoAuswerter.Android
         {
 
             base.OnCreate(savedInstanceState);
-            //Rg.Plugins.Popup.Popup.Init(this, bundle);
-
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+            TabLayoutResource = Resource.Layout.Tabbar;
+            ToolbarResource = Resource.Layout.Toolbar;
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 

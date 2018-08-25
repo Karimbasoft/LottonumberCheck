@@ -1,5 +1,6 @@
 ﻿using Android.Util;
 using App.Business.LotteryTicket;
+using App.Business.Web;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +15,7 @@ namespace App.Services
     {
         #region Fields
         private InternetConnection _connection;
+        private CSSClasses _cSSClasses;
         private string _superSechsNumbersAsString;
         private string _spielSiebenundsiebzigAsString;
         private string _htmlSourceCode;
@@ -43,13 +45,13 @@ namespace App.Services
             }
         }
 
-        public string[] WinningQuotesSpielSiebenundsiebzig
-        {
-            get
-            {
-                return GetQuotes(HtmlSourceCode, "class=\"inner-table-header align-middle hidden-xs", "class=\"inner-table-header align-middle hidden-xs", 2);
-            }
-        }
+        /// <summary>
+        /// Gibt die Gewinnqouten für Spiel 77 zurück
+        /// </summary>
+        public string[] WinningQuotesSpielSiebenundsiebzig => 
+            GetQuotes(HtmlSourceCode,
+                    _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesSpielSiebenundsiebzigStart.ToString()),
+                    _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesSpielSiebenundsiebzigEnd.ToString()), 2);
 
         public ObservableCollection<LottoNumber> WinningNumbers
         {
@@ -79,13 +81,8 @@ namespace App.Services
         /// <summary>
         /// Gibt die gezogene Superzahl zurück
         /// </summary>
-        public int SuperNumber
-        {
-            get
-            {
-                return GetSuperNumber(HtmlSourceCode, "class=\"winning-numbers__number winning-numbers__number--superzahl\"");
-            }
-        }
+        public int SuperNumber => 
+            GetSuperNumber(HtmlSourceCode, _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.SuperNumber.ToString()));
 
         public ObservableCollection<LottoNumber> SuperSechsNumbers
         {
@@ -135,6 +132,7 @@ namespace App.Services
 
             if (!string.IsNullOrEmpty(HtmlSourceCode))
             {
+                _cSSClasses = new CSSClasses();
                 Log.Info("LottoscheinAuswerter", "Internetverbindung erfolgreich");
                 ClassNameBeginn = "class=\"row winning-numbers\"";
                 ClassNameEnds = "class=\"col-xs-12 col-sm-6 align-right hidden-xs\"";

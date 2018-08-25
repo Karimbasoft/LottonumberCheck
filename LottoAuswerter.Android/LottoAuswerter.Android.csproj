@@ -195,6 +195,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Toolbar.axml" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\bin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\info.png" />
+  </ItemGroup>
   <Import Project="..\TestApp\TestApp\TestApp.projitems" Label="Shared" />
   <Import Project="..\App.Business\App.Business.projitems" Label="Shared" />
   <Import Project="..\App.Service\App.Service.projitems" Label="Shared" />

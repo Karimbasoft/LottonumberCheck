@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using App.Business;
+using System.Linq;
 
 namespace App.Business
 {
@@ -146,19 +147,36 @@ namespace App.Business
         /// <returns></returns>
         public static double ToDouble(string inputString)
         {
-            //NumberStyles styles = NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign | NumberStyles.Number |
-            //NumberStyles.AllowDecimalPoint;
+            try
+            {
+                //NumberStyles styles = NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign | NumberStyles.Number |
+                //NumberStyles.AllowDecimalPoint;
 
-            var cultureInfo = CultureInfo.GetCultureInfo("fr-FR");
+                var cultureInfo = CultureInfo.GetCultureInfo("fr-FR");
 
-            //InputString = String.Format(cultureInfo, "{0:C}", InputString);
+                //InputString = String.Format(cultureInfo, "{0:C}", InputString);
             
-            inputString = inputString.Remove(inputString.IndexOf('€')).Replace(" ","");
-            string cent = inputString.Substring(inputString.IndexOf(',')).Replace(",","");
-            double centAsDouble = double.Parse($"0,{cent}", cultureInfo);
-            inputString = inputString.Remove(inputString.IndexOf(','));
-            double doubleMoney = double.Parse(inputString, NumberStyles.Currency);
-            return (doubleMoney+ centAsDouble);
+                inputString = inputString.Remove(inputString.IndexOf('€')).Replace(" ","");
+
+                if (inputString.Contains(','))
+                {
+                    string cent = inputString.Substring(inputString.IndexOf(',')).Replace(",","");
+                    double centAsDouble = double.Parse($"0,{cent}", cultureInfo);
+                    inputString = inputString.Remove(inputString.IndexOf(','));
+                    double doubleMoney = double.Parse(inputString, NumberStyles.Currency);
+                    return (doubleMoney + centAsDouble);
+                }
+                else
+                {
+                    double doubleMoney = double.Parse(inputString, NumberStyles.Currency);
+                    return doubleMoney;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warn("LottoscheinAuswerter", $"Fehler bei der Konvertierung in double {ex}");
+                return 0;
+            }     
         }
 
         /// <summary>

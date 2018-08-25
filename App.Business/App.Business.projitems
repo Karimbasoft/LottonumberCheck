@@ -19,5 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)SparkleAnalysis.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TicketAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\CSSClasses.cs" />
   </ItemGroup>
 </Project>

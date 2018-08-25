@@ -18,33 +18,19 @@
                 <StackLayout
                     x:Name="layoutHeader"
                     Grid.Row="0"
-                    Grid.Column="0"
-                    Margin="10,10"
-                    Orientation="Horizontal">
-                    <!--<Button
-                        x:Name="btnAddSparkleBox"
-                        BackgroundColor="{StaticResource Primary}"
-                        Command="{Binding AddSparkleBox}"
-                        HeightRequest="40"
-                        HorizontalOptions="Center"
-                        Text="+"
-                        TextColor="Wheat"
-                        WidthRequest="50" />-->
-                    <Button
-                        x:Name="btnAddSparkleBox"
-                        Command="{Binding AddSparkleBox}"
-                        HeightRequest="40"
-                        HorizontalOptions="Center"
-                        Image="add_default.png"
-                        Text="+"
-                        TextColor="Wheat"
-                        WidthRequest="50" />
+                    Grid.Column="0">
+                    <Image x:Name="btnAddSparkleBox" Source="add_default.png">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddSparkleBox}" CommandParameter="add" />
+                        </Image.GestureRecognizers>
+                    </Image>
                 </StackLayout>
                 <ListView
                     x:Name="listCurrentLottoNumbers"
                     Grid.Row="1"
                     Grid.Column="0"
                     CachingStrategy="RecycleElement"
+                    HorizontalOptions="FillAndExpand"
                     ItemsSource="{Binding UserLottoNumbers}"
                     VerticalOptions="FillAndExpand">
                     <ListView.ItemTemplate>
@@ -62,7 +48,7 @@
                                             Command="{Binding Path=BindingContext.DeleteSparkleBox, Source={x:Reference lottoUserView}"
                                             CommandParameter="{Binding}"
                                             HorizontalOptions="Center"
-                                            Text="DEL"
+                                            Text="-"
                                             TextColor="Wheat" />
                                         <!--  CommandParameter="{x:Reference btnDelSparkleBox}"  -->
                                     </StackLayout>
@@ -71,6 +57,17 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <!--<StackLayout>
+                    <Button
+                        x:Name="btnDelSparkleBox"
+                        BackgroundColor="{StaticResource Primary}"
+                        Command="{Binding Path=BindingContext.DeleteSparkleBox, Source={x:Reference lottoUserView}"
+                        CommandParameter="{Binding}"
+                        HorizontalOptions="EndAndExpand"
+                        Text="-"
+                        TextColor="Wheat"
+                        VerticalOptions="EndAndExpand" />
+                </StackLayout>-->
             </Grid>
         </StackLayout>
     </ContentPage.Content>

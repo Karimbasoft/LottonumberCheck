@@ -28,6 +28,14 @@ namespace App.UI.ViewModels
         private User AppUser { get; }
         private WebsideDataConverter WebsideDataConverter { get; }
         public AddLottoNumbers AddLottoNumbersPopUp { get; set; }
+
+        public bool IsListEmpty
+        {
+            get
+            {
+                return UserLottoNumbers.Count > 0 ? false : true;
+            }
+        }
         #endregion
 
         #region Commands    
@@ -37,8 +45,10 @@ namespace App.UI.ViewModels
             {
                 return new Command((object obj) =>
                 {
-                    SparkleBox a = obj as SparkleBox;
-                    DeleteSparkleBoxFromUserList(a.SparkleBoxNumbers);
+                    if (obj is SparkleBox a)
+                    {
+                        DeleteSparkleBoxFromUserList(a.SparkleBoxNumbers);
+                    }
                 });
             }
         }
@@ -68,6 +78,11 @@ namespace App.UI.ViewModels
             AppUser = user;
             UserLottoNumbers = AppUser.UserNumbers;
             Title = "User";
+
+            //if (!UserLottoNumbers.Any())
+            //{
+            //    UserLottoNumbers.Add(new SparkleBox(1, 2, 3, 4, 5, 6));
+            //}
         }
 
         #region Methods
