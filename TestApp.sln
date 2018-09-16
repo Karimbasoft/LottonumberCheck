@@ -13,6 +13,10 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "App.Service", "App.Service\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LottoAuswerter.Android", "LottoAuswerter.Android\LottoAuswerter.Android.csproj", "{7539F143-3895-463B-859E-A9178C806E86}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{29EA3D06-EB9C-445A-9C1E-08851BDCF9D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTest", "ServiceTest\ServiceTest.csproj", "{16ECDDB7-0AF8-4003-9020-9F730E50457B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		App.Business\App.Business.projitems*{033f75fb-77d9-458a-9207-0d5c8a244efb}*SharedItemsImports = 13
@@ -67,9 +71,24 @@ Global
 		{7539F143-3895-463B-859E-A9178C806E86}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{7539F143-3895-463B-859E-A9178C806E86}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{7539F143-3895-463B-859E-A9178C806E86}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Release|iPhone.Build.0 = Release|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{16ECDDB7-0AF8-4003-9020-9F730E50457B} = {29EA3D06-EB9C-445A-9C1E-08851BDCF9D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39FEF51B-483B-4B13-91EF-C16049BB36B7}

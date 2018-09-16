@@ -55,11 +55,22 @@
                             VerticalOptions="Center">
                             <flv:FlowListView.FlowColumnTemplate>
                                 <DataTemplate>
+                                    <!--<xfShapeView:ShapeView
+                                        BorderColor="Gray"
+                                        BorderWidth="2"
+                                        IsVisible="True"
+                                        Opacity="1"
+                                        Progress="50"
+                                        ShapeType="Circle"
+                                        Color="Gray">-->
                                     <Button
                                         x:Name="btnLottoNumber"
+                                        Margin="0,0.5,0,0.5"
+                                        BorderWidth="0"
                                         Command="{Binding Path=BindingContext.CmdSelectLottoNumber, Source={x:Reference addLottoNumbers}"
                                         CommandParameter="{Binding}"
                                         Text="{Binding Number}" />
+                                    <!--</xfShapeView:ShapeView>-->
                                 </DataTemplate>
                             </flv:FlowListView.FlowColumnTemplate>
                         </flv:FlowListView>
@@ -75,22 +86,22 @@
                         SeparatorVisibility="None">
                         <flv:FlowListView.FlowColumnTemplate>
                             <DataTemplate>
-                                <xfShapeView:ShapeView
+                                <!--<xfShapeView:ShapeView
                                     BorderColor="Gray"
                                     BorderWidth="2"
                                     IsVisible="True"
                                     Opacity="1"
                                     Progress="50"
                                     ShapeType="Circle"
-                                    Color="Gray">
-                                    <Button
-                                        x:Name="btnSelectedNumber"
-                                        BackgroundColor="Transparent"
-                                        BorderColor="Transparent"
-                                        Command="{Binding Path=BindingContext.CmdRemoveSelectedNumber, Source={x:Reference addLottoNumbers}"
-                                        CommandParameter="{Binding}"
-                                        Text="{Binding Number}" />
-                                </xfShapeView:ShapeView>
+                                    Color="Gray">-->
+                                <Button
+                                    x:Name="btnSelectedNumber"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="Transparent"
+                                    Command="{Binding Path=BindingContext.CmdRemoveSelectedNumber, Source={x:Reference addLottoNumbers}"
+                                    CommandParameter="{Binding}"
+                                    Text="{Binding Number}" />
+                                <!--</xfShapeView:ShapeView>-->
                             </DataTemplate>
                         </flv:FlowListView.FlowColumnTemplate>
                     </flv:FlowListView>

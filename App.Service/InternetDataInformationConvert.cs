@@ -142,7 +142,6 @@ namespace App.Services
             else
             {
                 Log.Error("LottoscheinAuswerter", "Es war nicht möglich eine Verbindung zum Internet herzustellen");
-                ShowInformationMassageAsync("Verbindung fehlgeschlagen", "Es war nicht möglich eine Verbindung zum Internet herzustellen").Start();
             }
         }
         #endregion
@@ -452,7 +451,7 @@ namespace App.Services
             return numbers;
         }
 
-        private async System.Threading.Tasks.Task ShowInformationMassageAsync(string titel, string text)
+        private async Task ShowInformationMassageAsync(string titel, string text)
         {
             await App.UI.App.Current.MainPage.DisplayAlert(titel, text, "OK");
         }

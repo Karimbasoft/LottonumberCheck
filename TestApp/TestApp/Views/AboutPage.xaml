@@ -69,18 +69,59 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Button
-                    Margin="0,10,0,0"
-                    BackgroundColor="{StaticResource Primary}"
-                    Command="{Binding OpenYouTubeLink}"
-                    Text="Folge mir auf YouTube"
-                    TextColor="White" />
-                <Button
-                    Margin="0,10,0,0"
-                    BackgroundColor="{StaticResource Primary}"
-                    Command="{Binding OpenGooglePlusLink}"
-                    Text="Folge mir auf Google+"
-                    TextColor="White" />
+                <Label x:Name="labFollowMe" Text="Follow me on:" />
+                <StackLayout x:Name="slForFollowButton" Orientation="Horizontal">
+                    <Button
+                        Margin="0,10,0,0"
+                        Command="{Binding OpenYouTubeLink}"
+                        HorizontalOptions="Fill"
+                        Image="youTube.png"
+                        VerticalOptions="Fill">
+                        <Button.WidthRequest>
+                            <OnIdiom
+                                x:TypeArguments="x:Double"
+                                Phone="60"
+                                Tablet="80" />
+                        </Button.WidthRequest>
+                        <Button.HeightRequest>
+                            <OnIdiom
+                                x:TypeArguments="x:Double"
+                                Phone="60"
+                                Tablet="80" />
+                        </Button.HeightRequest>
+                        <Button.BorderRadius>
+                            <OnIdiom
+                                x:TypeArguments="x:Int32"
+                                Phone="30"
+                                Tablet="40" />
+                        </Button.BorderRadius>
+                    </Button>
+                    <Button
+                        Margin="0,10,0,0"
+                        Command="{Binding OpenGooglePlusLink}"
+                        HorizontalOptions="Fill"
+                        Image="googlePlus.png"
+                        VerticalOptions="Fill">
+                        <Button.WidthRequest>
+                            <OnIdiom
+                                x:TypeArguments="x:Double"
+                                Phone="60"
+                                Tablet="80" />
+                        </Button.WidthRequest>
+                        <Button.HeightRequest>
+                            <OnIdiom
+                                x:TypeArguments="x:Double"
+                                Phone="60"
+                                Tablet="80" />
+                        </Button.HeightRequest>
+                        <Button.BorderRadius>
+                            <OnIdiom
+                                x:TypeArguments="x:Int32"
+                                Phone="30"
+                                Tablet="40" />
+                        </Button.BorderRadius>
+                    </Button>
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </Grid>
