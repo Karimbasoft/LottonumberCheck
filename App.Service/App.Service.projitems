@@ -11,5 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)InternetConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InternetDataInformationConvert.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LotteryTicketService.cs" />
   </ItemGroup>
 </Project>

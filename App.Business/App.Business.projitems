@@ -9,6 +9,7 @@
     <Import_RootNamespace>App.Business</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\LotteryTicket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\LottoNumber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\Digit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\SparkleBox.cs" />
