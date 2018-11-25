@@ -2,6 +2,7 @@
 using App.Business.LotteryTicket;
 using App.Services;
 using App.UI.Helpers;
+using App.UI.ViewModels.Base;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -15,7 +16,7 @@ using Xamarin.Forms;
 
 namespace App.UI.ViewModels
 {
-    public class AddLottoNumbersViewModel : BaseViewModel
+    public class AddLottoNumbersViewModel : PopUpBaseViewModel
     {
         #region Fields
         private WebsideDataConverter websideDataConverter;
@@ -62,18 +63,6 @@ namespace App.UI.ViewModels
             }
         }
 
-        public ICommand CmdCloseWindow
-        {
-            get
-            {
-                return new Command((object obj) =>
-                {
-                    Save = false;
-                    CloseWindow();
-                });
-            }
-        }
-
         public ICommand CmdSaveSelection
         {
             get
@@ -114,11 +103,6 @@ namespace App.UI.ViewModels
             }
 
             return tmpLottoNumberCollection;
-        }
-
-        private async void CloseWindow()
-        {
-            await PopupNavigation.PopAsync(true);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using App.Business.LotteryTicket;
+using App.UI.ViewModels.Base;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using Xamarin.Forms;
 
 namespace App.UI.ViewModels
 {
-    public class SelectSuperNumberViewModel : BaseViewModel
+    public class SelectSuperNumberViewModel : PopUpBaseViewModel
     {
         #region Fields
 
@@ -37,21 +38,6 @@ namespace App.UI.ViewModels
                 });
             }
         }
-
-
-        public ICommand CmdCloseWindow
-        {
-            get
-            {
-                return new Command((object obj) =>
-                {
-                    Save = false;
-                    CloseWindow();
-                });
-            }
-        }
-
-        
         #endregion
 
         public SelectSuperNumberViewModel()
@@ -61,11 +47,6 @@ namespace App.UI.ViewModels
         }
 
         #region Methods
-        private async void CloseWindow()
-        {
-            await PopupNavigation.PopAsync(true);
-        }
-
         private void CreateListWithPossibleSuperNumbers()
         {
             PossibleSuperNumbersCollections = new ObservableCollection<LottoNumber>();

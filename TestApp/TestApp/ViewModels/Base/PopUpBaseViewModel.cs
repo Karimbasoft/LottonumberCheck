@@ -24,6 +24,6 @@ namespace App.UI.ViewModels.Base
         /// <summary>
         /// Close the PopUp Window
         /// </summary>
-        private async void CloseWindow() => await PopupNavigation.PopAsync(true);
+        public async void CloseWindow() => await PopupNavigation.PopAsync(true);
     }
 }
