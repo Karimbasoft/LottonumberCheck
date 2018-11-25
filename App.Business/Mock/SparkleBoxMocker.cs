@@ -33,6 +33,15 @@ namespace App.Business
             }
         }
 
+        public void ClearSparkleBox(SparkleBox sparkleBox)
+        {
+            if (UserNumbers.Any(x => x.SparkleBoxNumbers.Equals(sparkleBox.SparkleBoxNumbers)))
+            {
+                UserNumbers.Clear();
+                SerializeSparkleBox(UserNumbers);
+            }
+        }
+
         public void AddEntryToSparkleBoxCollection(string numbers)
         {
             if (UserNumbers.Count < 12)

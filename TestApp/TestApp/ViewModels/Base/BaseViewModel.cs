@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using App.UI.Helpers;
+using App.Business.Base;
 
 using Xamarin.Forms;
 

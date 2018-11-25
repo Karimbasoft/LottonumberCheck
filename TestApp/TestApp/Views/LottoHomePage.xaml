@@ -2,7 +2,16 @@
 <ContentPage
     x:Class="App.UI.Views.LottoHomePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="LottoscheinAuswerter 2.0">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Name="MenuItem1"
+            Command="{Binding CmdShowInfoPage}"
+            Icon="info.png"
+            Order="Primary"
+            Priority="2" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -14,7 +23,7 @@
                     Padding="16,40,16,40"
                     Orientation="Vertical"
                     Spacing="10">
-                    <Label FontSize="22">
+                    <!--<Label FontSize="22">
                         <Label.FormattedText>
                             <FormattedString>
                                 <FormattedString.Spans>
@@ -27,7 +36,7 @@
                                 </FormattedString.Spans>
                             </FormattedString>
                         </Label.FormattedText>
-                    </Label>
+                    </Label>-->
                     <Label>
                         <Label.FormattedText>
                             <FormattedString>
@@ -40,29 +49,59 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Button
+                    <StackLayout x:Name="gameCollection" Orientation="Vertical">
+                        <!--<Button
                         Margin="0,10,0,0"
                         BackgroundColor="{StaticResource Primary}"
                         Command="{Binding LoadLottoViewCommand}"
                         Text="Lottozahlen"
-                        TextColor="White" />
-                    <Button
+                        TextColor="White" />-->
+                        <Frame
+                            Padding="10"
+                            HasShadow="true"
+                            OutlineColor="Blue">
+                            <StackLayout Orientation="Horizontal">
+                                <Image
+                                    x:Name="btnStartLottoCheck"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Source="lotto_logo.png">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding LoadLottoViewCommand}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </StackLayout>
+                        </Frame>
+                        <Frame
+                            Padding="10"
+                            HasShadow="true"
+                            OutlineColor="Blue">
+                            <Image
+                                x:Name="btnStartSpielAndSuper"
+                                HorizontalOptions="CenterAndExpand"
+                                Source="logo_additionalGame.png">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding LoadSpielAndSuperCommand}" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Frame>
+                        <!--<Button
                         Margin="0,10,0,0"
                         BackgroundColor="{StaticResource Primary}"
                         Command="{Binding LoadSpielAndSuperCommand}"
                         Text="Spiel 77 und Super 6"
-                        TextColor="White" />
-                    <!--<Label>
+                        TextColor="White" />-->
+                    </StackLayout>
+                    <Label>
                         <Label.FormattedText>
                             <FormattedString>
                                 <FormattedString.Spans>
                                     <Span Text="Alle angaben in dieser App sind " />
-                                    <Span Text="ohne Gewähr" FontAttributes="Bold"/>
+                                    <Span FontAttributes="Bold" Text="ohne Gewähr" />
                                     <Span Text="." />
                                 </FormattedString.Spans>
                             </FormattedString>
                         </Label.FormattedText>
-                    </Label>-->
+                    </Label>
                 </StackLayout>
             </ScrollView>
         </Grid>

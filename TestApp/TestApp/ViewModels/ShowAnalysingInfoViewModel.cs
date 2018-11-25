@@ -12,7 +12,7 @@ namespace App.UI.ViewModels
     public class ShowAnalysingInfoViewModel
     {
         #region Fields
-        private readonly TicketAnalyzer _ticketAnalyzer;
+
         #endregion
 
         #region Propertys

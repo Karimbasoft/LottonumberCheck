@@ -41,7 +41,8 @@ namespace App.Services
         {
             get
             {
-                return GetQuotes(HtmlSourceCode, "class=\"inner-table-header align-middle hidden-xs", "class=\"inner-table-header align-middle visible-xs-block", 1);
+                return GetQuotes(HtmlSourceCode, _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesLottoStart.ToString()),
+                    _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesLottoEnd.ToString()), 1);
             }
         }
 
@@ -392,7 +393,7 @@ namespace App.Services
 
                 temp = new string[0];
             }
-            string numbers = temp[4];
+            string numbers = temp[5];
             return numbers;
         }
 
@@ -447,7 +448,7 @@ namespace App.Services
                 ShowInformationMassageAsync("WARNUNG", "Ein unerwarteter Fehler ist bei Auslesen des Spiel77 aufgetreten !").Start();
                 temp = new string[0];
             }
-            string numbers = temp[4];
+            string numbers = temp[5];
             return numbers;
         }
 

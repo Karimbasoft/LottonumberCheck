@@ -3,50 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Rg.Plugins.Popup.Animations.Base;
+
 using Xamarin.Forms;
-using App.UI.ViewModels;
 using Xamarin.Forms.Xaml;
-using System.Collections.ObjectModel;
-using App.Business.LotteryTicket;
-using App.Services;
-using App.Business;
 
 namespace App.UI.PopUp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddLottoNumbers : Rg.Plugins.Popup.Pages.PopupPage
+    public partial class About : Rg.Plugins.Popup.Pages.PopupPage
     {
-        #region Propertys
-        public ObservableCollection<LottoNumber> SelectedNumbers
-        {
-            get
-            {
-                var tmpCollection = new ObservableCollection<LottoNumber>();
-                viewModel.SelectedLottoNumbersCollection.ToList().ForEach(x => tmpCollection.Add(new LottoNumber(x.Number)));
-
-                return tmpCollection;
-            }
-        }
-
-        public bool Save
-        {
-            get
-            {
-                return viewModel.Save;
-            }
-        }
+        #region Fields
+        private ViewModels.AboutViewModel viewModel;
         #endregion
-       
-        AddLottoNumbersViewModel viewModel;
 
-        public AddLottoNumbers(WebsideDataConverter websideDataConverter, User user)
+        public About()
         {
             InitializeComponent();
-            BindingContext = viewModel = new AddLottoNumbersViewModel(websideDataConverter, user);
+            BindingContext = viewModel = new ViewModels.AboutViewModel();
         }
-
-
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -74,5 +48,6 @@ namespace App.UI.PopUp
             // Return false if you don't want to close this popup page when a background of the popup page is clicked
             return base.OnBackgroundClicked();
         }
+
     }
 }

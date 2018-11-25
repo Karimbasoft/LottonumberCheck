@@ -1,10 +1,11 @@
-﻿using System;
+﻿using App.UI.ViewModels.Base;
+using System;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace App.UI.ViewModels
 {
-	public class AboutViewModel : BaseViewModel
+	public class AboutViewModel : PopUpBaseViewModel
 	{
 		public AboutViewModel()
 		{

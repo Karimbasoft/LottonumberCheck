@@ -69,7 +69,17 @@
                                         BorderWidth="0"
                                         Command="{Binding Path=BindingContext.CmdSelectLottoNumber, Source={x:Reference addLottoNumbers}"
                                         CommandParameter="{Binding}"
-                                        Text="{Binding Number}" />
+                                        Text="{Binding Number}">
+                                        <Button.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding IsSelected}"
+                                                TargetType="Button"
+                                                Value="True">
+                                                <Setter Property="BackgroundColor" Value="Red" />
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
                                     <!--</xfShapeView:ShapeView>-->
                                 </DataTemplate>
                             </flv:FlowListView.FlowColumnTemplate>

@@ -1,6 +1,7 @@
 ﻿using App.Business;
 using App.Business.LotteryTicket;
 using App.Services;
+using App.UI.Helpers;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -21,8 +23,8 @@ namespace App.UI.ViewModels
         #endregion
 
         #region Propertys
-        public ObservableCollection<LottoNumber> PossibleLottoNumberCollections { get; set; }
-        public ObservableCollection<LottoNumber> SelectedLottoNumbersCollection { get; set; }
+        public ObservableCollection<Helpers.AddLottoNumberItem> PossibleLottoNumberCollections { get; set; }
+        public ObservableCollection<Helpers.AddLottoNumberItem> SelectedLottoNumbersCollection { get; set; }
 
         //Hat Benutzer den Speichern Button gedrückt
         public bool Save { get; set; }
@@ -35,11 +37,12 @@ namespace App.UI.ViewModels
             {
                 return new Command((object obj) =>
                 {
-                    LottoNumber number = obj as LottoNumber;
+                    Helpers.AddLottoNumberItem number = obj as Helpers.AddLottoNumberItem;
 
                     if (SelectedLottoNumbersCollection.Count < 6 
                         && !SelectedLottoNumbersCollection.Any(x => x.Number == number.Number))
                     {
+                        number.IsSelected = true;
                         SelectedLottoNumbersCollection.Add(number);
                     }             
                 });
@@ -52,8 +55,9 @@ namespace App.UI.ViewModels
             {
                 return new Command((object obj) =>
                 {
-                    LottoNumber number = obj as LottoNumber;
-                    SelectedLottoNumbersCollection.Remove(number);                   
+                    AddLottoNumberItem number = obj as AddLottoNumberItem;
+                    number.IsSelected = false;
+                    SelectedLottoNumbersCollection.Remove(number);           
                 });
             }
         }
@@ -86,7 +90,7 @@ namespace App.UI.ViewModels
         public AddLottoNumbersViewModel(WebsideDataConverter pWebsideDataConverter, User pUser)
         {
             PossibleLottoNumberCollections = CreatePossibleLottoNumberCollection();
-            SelectedLottoNumbersCollection = new ObservableCollection<LottoNumber>();
+            SelectedLottoNumbersCollection = new ObservableCollection<Helpers.AddLottoNumberItem>();
             Save = false;
         }
 
@@ -100,13 +104,13 @@ namespace App.UI.ViewModels
         /// </summary>
         /// <param name="lottoNumberCollection"></param>
         /// <returns></returns>
-        private ObservableCollection<LottoNumber> CreatePossibleLottoNumberCollection()
+        private ObservableCollection<AddLottoNumberItem> CreatePossibleLottoNumberCollection()
         {
-            ObservableCollection<LottoNumber> tmpLottoNumberCollection = new ObservableCollection<LottoNumber>();
+            ObservableCollection<AddLottoNumberItem> tmpLottoNumberCollection = new ObservableCollection<AddLottoNumberItem>();
 
             for(int i = 1; i <= 49; i++)
             {
-                tmpLottoNumberCollection.Add(new LottoNumber(i));
+                tmpLottoNumberCollection.Add(new AddLottoNumberItem(i));
             }
 
             return tmpLottoNumberCollection;

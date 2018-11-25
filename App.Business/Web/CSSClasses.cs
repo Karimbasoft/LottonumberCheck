@@ -24,7 +24,9 @@ namespace App.Business.Web
         {
             SuperNumber,
             WinningQuotesSpielSiebenundsiebzigStart,
-            WinningQuotesSpielSiebenundsiebzigEnd
+            WinningQuotesSpielSiebenundsiebzigEnd,
+            WinningQuotesLottoStart,
+            WinningQuotesLottoEnd
         }
         #endregion
 
@@ -39,7 +41,9 @@ namespace App.Business.Web
             {
                 { CSSClassNames.SuperNumber.ToString(), "class=\"winning-numbers__number winning-numbers__number--superzahl\"" },
                 { CSSClassNames.WinningQuotesSpielSiebenundsiebzigStart.ToString(), "class=\"inner-table-header align-middle hidden-xs" },
-                { CSSClassNames.WinningQuotesSpielSiebenundsiebzigEnd.ToString(),  "class=\"inner-table-header align-middle hidden-xs" }
+                { CSSClassNames.WinningQuotesSpielSiebenundsiebzigEnd.ToString(),  "class=\"inner-table-header align-middle hidden-xs" },
+                { CSSClassNames.WinningQuotesLottoStart.ToString(),  "class=\"inner-table-header align-middle hidden-xs" },
+                { CSSClassNames.WinningQuotesLottoEnd.ToString(),   "class=\"inner-table-header align-middle visible-xs-block" }
             };
 
 

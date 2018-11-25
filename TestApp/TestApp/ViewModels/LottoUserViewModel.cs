@@ -65,6 +65,23 @@ namespace App.UI.ViewModels
 
             }
         }
+
+        public ICommand ClearSparkleBox
+        {
+            get
+            {
+                return new Command((object obj) =>
+                {
+                    if (obj is SparkleBox a)
+                    {
+                        AppUser.ClearSparkleBox(a);
+                    }
+                });
+
+            }
+        }
+
+        
         #endregion
 
         public LottoUserViewModel()

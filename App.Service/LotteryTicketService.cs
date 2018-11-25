@@ -48,7 +48,7 @@ namespace App.Service
         /// </summary>
         /// <param name="lotteryTicket"></param>
         /// <returns></returns>
-        public async Task<bool> RemoveLotteryTicketToCollection(LotteryTicket lotteryTicket)
+        public async Task<bool> RemoveLotteryTicketInCollection(LotteryTicket lotteryTicket)
         {
             bool complete = false;
 
@@ -63,7 +63,7 @@ namespace App.Service
         }
 
         /// <summary>
-        /// Updated ein Lottoschein aus der Liste
+        /// Update for a LotteryTicket
         /// </summary>
         /// <param name="lotteryTicket"></param>
         /// <returns></returns>
@@ -82,6 +82,15 @@ namespace App.Service
                 }   
             }
             return complete;
+        }
+
+        /// <summary>
+        /// Clear the LotteryTicket
+        /// </summary>
+        public void ClearLotteryTicket(LotteryTicket lotteryTicket)
+        {
+            LotteryTicketCollection
+                .FirstOrDefault(ticket => ticket.TicketNumber == lotteryTicket.TicketNumber).SparkleBoxCollection.Clear();
         }
         #endregion
     }

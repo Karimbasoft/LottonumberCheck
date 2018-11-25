@@ -10,14 +10,21 @@
             <Grid x:Name="gridLayoutDesign">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70" />
+                    <RowDefinition Height="70" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Picker
+                    x:Name="pickTicketNumbers"
+                    ItemDisplayBinding="{Binding SparkleBoxNumbers}"
+                    ItemsSource="{Binding UserLottoNumbers}"
+                    SelectedItem="{Binding SelectedLottoTicket, Mode=TwoWay}" />
                 <StackLayout
                     x:Name="layoutHeader"
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Grid.Column="0">
                     <Image x:Name="btnAddSparkleBox" Source="add_default.png">
                         <Image.GestureRecognizers>
@@ -27,7 +34,7 @@
                 </StackLayout>
                 <ListView
                     x:Name="listCurrentLottoNumbers"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="0"
                     CachingStrategy="RecycleElement"
                     HorizontalOptions="FillAndExpand"
@@ -57,17 +64,35 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <!--<StackLayout>
-                    <Button
-                        x:Name="btnDelSparkleBox"
-                        BackgroundColor="{StaticResource Primary}"
-                        Command="{Binding Path=BindingContext.DeleteSparkleBox, Source={x:Reference lottoUserView}"
-                        CommandParameter="{Binding}"
+                <StackLayout
+                    x:Name="LottoTicketControl"
+                    Grid.Row="3"
+                    Orientation="Horizontal">
+                    <Image
+                        x:Name="btnChangeTicketNumber"
+                        HorizontalOptions="StartAndExpand"
+                        Source="enterNumber.png">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChangeTicketNumber}" CommandParameter="chnageTK" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image
+                        x:Name="btnClearSparkleBox"
+                        HorizontalOptions="CenterAndExpand"
+                        Source="bin.png">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClearSparkleBox}" CommandParameter="d" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image
+                        x:Name="btnChangeSuperNumebr"
                         HorizontalOptions="EndAndExpand"
-                        Text="-"
-                        TextColor="Wheat"
-                        VerticalOptions="EndAndExpand" />
-                </StackLayout>-->
+                        Source="superhero.png">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChangeSuperNumber}" CommandParameter="chnage" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
             </Grid>
         </StackLayout>
     </ContentPage.Content>
