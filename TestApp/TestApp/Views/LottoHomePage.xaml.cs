@@ -33,7 +33,7 @@ namespace App.UI.Views
         {
             if (websideDataConverter.HtmlSourceCode == null || websideDataConverter.HtmlSourceCode.Equals(""))
             {
-                if (!websideDataConverter.WebsideContent.CheckInternetConnection())
+                if (websideDataConverter.Webside.Online)
                 {
                     await DisplayAlert("Warnung", "Es konnte keine Internetverbindung aufgebaut werden !", "OK");
                 }

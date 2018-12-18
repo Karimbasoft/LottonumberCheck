@@ -13,20 +13,5 @@ namespace ServiceTest
             InternetConnection internetConnection = new InternetConnection("https://www.lotto24.de/webshop/product/lottonormal/result");
             Assert.IsTrue(internetConnection.CheckInternetConnection());
         }
-
-        [TestMethod]
-        public void CheckIfHTMLConntentIsAvailable()
-        {
-            InternetConnection internetConnection = new InternetConnection("https://www.lotto24.de/webshop/product/lottonormal/result");
-            Assert.IsTrue(internetConnection.HtmlQuellcode != null);
-            Assert.IsTrue(internetConnection.HtmlQuellcode.Length > 0);
-        }
-        [TestMethod]
-        public void CheckIfHTMLConntentIsEmptyAtWrongURL()
-        {
-            InternetConnection internetConnection = new InternetConnection("www.gooogle.de");
-            Assert.IsTrue(internetConnection.HtmlQuellcode == null);
-        }
-
     }
 }

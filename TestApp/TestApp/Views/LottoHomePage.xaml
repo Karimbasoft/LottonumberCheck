@@ -2,11 +2,10 @@
 <ContentPage
     x:Class="App.UI.Views.LottoHomePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="LottoscheinAuswerter 2.0">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ContentPage.ToolbarItems>
         <ToolbarItem
-            Name="MenuItem1"
+            Name="Info"
             Command="{Binding CmdShowInfoPage}"
             Icon="info.png"
             Order="Primary"
@@ -59,7 +58,7 @@
                         <Frame
                             Padding="10"
                             HasShadow="true"
-                            OutlineColor="Blue">
+                            OutlineColor="Wheat">
                             <StackLayout Orientation="Horizontal">
                                 <Image
                                     x:Name="btnStartLottoCheck"
@@ -74,7 +73,7 @@
                         <Frame
                             Padding="10"
                             HasShadow="true"
-                            OutlineColor="Blue">
+                            OutlineColor="Wheat">
                             <Image
                                 x:Name="btnStartSpielAndSuper"
                                 HorizontalOptions="CenterAndExpand"

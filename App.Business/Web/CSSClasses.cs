@@ -12,42 +12,23 @@ namespace App.Business.Web
         #endregion
 
         #region Propertys
-        /// <summary>
-        /// Beinhaltet die CSSClassen
-        /// </summary>
-        public Dictionary<string, string> CSSClassDictionary { get; set; }
+
         #endregion
 
         #region Enum
 
         public enum CSSClassNames
         {
+            LottoNumberStart,
+            LottoNumberEnd,
             SuperNumber,
+            AdditionalLottoGameStart,
+            AdditionalLottoGameEnd,
             WinningQuotesSpielSiebenundsiebzigStart,
             WinningQuotesSpielSiebenundsiebzigEnd,
             WinningQuotesLottoStart,
             WinningQuotesLottoEnd
         }
         #endregion
-
-        public CSSClasses()
-        {
-            CSSClassDictionary = CreateStandardCSSClasses();
-        }
-
-        private Dictionary<string, string> CreateStandardCSSClasses()
-        {
-            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>
-            {
-                { CSSClassNames.SuperNumber.ToString(), "class=\"winning-numbers__number winning-numbers__number--superzahl\"" },
-                { CSSClassNames.WinningQuotesSpielSiebenundsiebzigStart.ToString(), "class=\"inner-table-header align-middle hidden-xs" },
-                { CSSClassNames.WinningQuotesSpielSiebenundsiebzigEnd.ToString(),  "class=\"inner-table-header align-middle hidden-xs" },
-                { CSSClassNames.WinningQuotesLottoStart.ToString(),  "class=\"inner-table-header align-middle hidden-xs" },
-                { CSSClassNames.WinningQuotesLottoEnd.ToString(),   "class=\"inner-table-header align-middle visible-xs-block" }
-            };
-
-
-            return keyValuePairs;
-        }
     }
 }

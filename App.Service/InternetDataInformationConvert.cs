@@ -14,7 +14,6 @@ namespace App.Services
     public class WebsideDataConverter
     {
         #region Fields
-        private InternetConnection _connection;
         private CSSClasses _cSSClasses;
         private string _superSechsNumbersAsString;
         private string _spielSiebenundsiebzigAsString;
@@ -23,6 +22,8 @@ namespace App.Services
         #endregion
 
         #region Propertys
+
+        public Webside Webside { get; set; }
 
         public string HtmlSourceCode
         {
@@ -41,8 +42,8 @@ namespace App.Services
         {
             get
             {
-                return GetQuotes(HtmlSourceCode, _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesLottoStart.ToString()),
-                    _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesLottoEnd.ToString()), 1);
+                return GetQuotes(HtmlSourceCode, Webside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesLottoStart.ToString()),
+                    Webside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesLottoEnd.ToString()), 1);
             }
         }
 
@@ -51,27 +52,14 @@ namespace App.Services
         /// </summary>
         public string[] WinningQuotesSpielSiebenundsiebzig => 
             GetQuotes(HtmlSourceCode,
-                    _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesSpielSiebenundsiebzigStart.ToString()),
-                    _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesSpielSiebenundsiebzigEnd.ToString()), 2);
+                    Webside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesSpielSiebenundsiebzigStart.ToString()),
+                     Webside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesSpielSiebenundsiebzigEnd.ToString()), 2);
 
         public ObservableCollection<LottoNumber> WinningNumbers
         {
             get
             {
                 return ConvertObservableIntCollectionToLottonumberCollection(GetWinningNumbers(HtmlSourceCode, ClassNameBeginn, ClassNameEnds));
-            }
-        }
-
-        internal InternetConnection WebsideContent
-        {
-            get
-            {
-                return _connection;
-            }
-
-            set
-            {
-                _connection = value;
             }
         }
 
@@ -83,7 +71,7 @@ namespace App.Services
         /// Gibt die gezogene Superzahl zurück
         /// </summary>
         public int SuperNumber => 
-            GetSuperNumber(HtmlSourceCode, _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.SuperNumber.ToString()));
+            GetSuperNumber(HtmlSourceCode, Webside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.SuperNumber.ToString()));
 
         public ObservableCollection<LottoNumber> SuperSechsNumbers
         {
@@ -128,8 +116,9 @@ namespace App.Services
         #region Constructor
         public WebsideDataConverter()
         {
-            WebsideContent = new InternetConnection(_lottoWebsideURL);
-            HtmlSourceCode = WebsideContent.HtmlQuellcode;
+            Webside = new Webside(_lottoWebsideURL);
+            HtmlSourceCode = Webside.HTMLCode;
+            TestNewProvider();
 
             if (!string.IsNullOrEmpty(HtmlSourceCode))
             {
@@ -146,6 +135,16 @@ namespace App.Services
             }
         }
         #endregion
+
+        private void TestNewProvider()
+        {
+            Service.Web.LottoWebsideProvider lottoWebsideProvider = new Service.Web.LottoWebsideProvider("https://www.gewinnspiel-gewinner.de/lottozahlen/");
+            var b = lottoWebsideProvider.WinningNumbers;
+            var a = lottoWebsideProvider.SuperNumber;
+            var c = lottoWebsideProvider.SuperSechsNumbers;
+            var d = lottoWebsideProvider.SpielSiebenundsiebzigNumbers;
+            var e = lottoWebsideProvider.WinningQuotesLotto;
+        }
 
         /// <summary>
         /// Gibt die Superzahl zurück

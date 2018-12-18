@@ -15,22 +15,11 @@ namespace App.Services
     {
         #region Fields
         private string _url;
-        private string _htmlQuellcode;
-        private bool _isSynchronMode = true;
         #endregion
         
         public InternetConnection(string url)
         {
-            Url = url;
-
-            if (_isSynchronMode)
-            {
-                HtmlQuellcode = GetHTMLWebRequest();
-            }
-            else
-            {
-                StartToDownloadHTMLSourceAsync(60);
-            }          
+            Url = url; 
         }
 
 
@@ -48,96 +37,7 @@ namespace App.Services
                 _url = value;
             }
         }
-
-        public string HtmlQuellcode
-        {
-            get
-            {
-                return _htmlQuellcode;
-            }
-
-            set
-            {
-                _htmlQuellcode = value;
-            }
-        }
-
         #endregion
-
-        public async void StartToDownloadHTMLSourceAsync(int timeInSeconds)
-        {
-             HtmlQuellcode = await GetHTMLAsync(timeInSeconds);
-        }
-
-        public async Task<string> GetHTMLAsync(int timeInSeconds)//http://www.lotto24.de/webshop/product/lottonormal/result
-        {
-            string html = "";
-            CancellationTokenSource tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(timeInSeconds));
-            CancellationToken token = tokenSource.Token;
-
-            await Task.Run(async () =>
-            {
-
-                 if (CheckInternetConnection())
-                 {
-                     html = await Task.FromResult(GetHTMLWebRequest());
-                 }
-                 else
-                 {
-                     html = "";
-                     await ShowInformationMassageAsync("No connection", "Es ist nicht möglich eine Verbindung zum Internet herzustellen !");
-                 }
-             }, token);
-
-
-            if (token.IsCancellationRequested)
-            {
-                HtmlQuellcode = "";
-                Debugger.Break();
-            }
-
-            //Quellcode zurückgeben
-            return html;
-        }
-
-        private string GetHTMLWebRequest()
-        {
-            string html = "";
-            try
-            {
-                string url = Url;
-
-                if (CheckInternetConnection())
-                {
-
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                    request.Method = "GET";
-                    request.ContentType = "text/html";
-                    HttpWebResponse myResp = (HttpWebResponse)request.GetResponse();
-
-                    using (var response = request.GetResponse())
-                    {
-                        using (var reader = new StreamReader(response.GetResponseStream()))
-                        {
-                            html = reader.ReadToEnd();
-                        }
-                    }
-                }
-                else
-                {
-                    ShowInformationMassageAsync("No connection", "Es ist nicht möglich eine Verbindung zum Internet herzustellen !");
-                    Log.Info("LottoscheinAuswerter", "Keine Internetverindung möglich !");
-                }
-            }
-
-            catch (WebException exception)
-            {
-                Console.WriteLine(exception.Message);
-                html = "";
-                Log.Info("LottoscheinAuswerter", "Keine Internetverindung möglich !");
-            }
-            return html;
-        }
 
         /// <summary>
         /// Prüft ob eine Internetverbindung zustande kommt
@@ -158,6 +58,29 @@ namespace App.Services
             catch
             {
                 Log.Error("LottoscheinAuswerter","Keine Internetverbindung möglich");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Prüft ob eine Internetverbindung zustande kommt
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckInternetConnection(string url)
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    using (var stream = client.OpenRead(url))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                Log.Error("LottoscheinAuswerter", "Keine Internetverbindung möglich");
                 return false;
             }
         }

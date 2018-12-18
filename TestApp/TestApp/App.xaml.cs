@@ -33,19 +33,14 @@ namespace App.UI
                 {
                     new NavigationPage(new LottoHomePage(dataConverter, user))
                     {
-                        Title = "Startseite",
-                        //Icon = Device.OnPlatform("tab_feed.png",null,null)
+                        //Title = "Startseite",
+                        Icon = Device.OnPlatform("home_50.png","home_50.png","home_50.png")
                     },
                     new NavigationPage(new LottoUserView(dataConverter, user))
                     {
-                        Title = "Benutzer",
-                        //Icon = Device.OnPlatform("tab_about.png",null,null)
+                        //Title = "Benutzer",
+                        Icon = Device.OnPlatform("customer_50.png","customer_50.png","customer_50.png")
                     },
-                    //new NavigationPage(new AboutPage())
-                    //{
-                    //    Title = "Über",
-                    //    //Icon = Device.OnPlatform("tab_about.png",null,null)
-                    //},
                 }
         };
 

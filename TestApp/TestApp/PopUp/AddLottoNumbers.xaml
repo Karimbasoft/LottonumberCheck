@@ -45,7 +45,7 @@
                         WidthRequest="40" />
                 </StackLayout>
                 <StackLayout>
-                    <ScrollView HeightRequest="1250">
+                    <ScrollView HeightRequest="500">
                         <flv:FlowListView
                             FlowColumnCount="7"
                             FlowItemsSource="{Binding PossibleLottoNumberCollections}"
@@ -87,12 +87,12 @@
                     </ScrollView>
                     <Label
                         FontSize="Small"
-                        HorizontalOptions="Center"
                         Text="Ausgewählte Zahlen:"
                         TextColor="Black" />
                     <flv:FlowListView
                         FlowColumnCount="6"
                         FlowItemsSource="{Binding SelectedLottoNumbersCollection}"
+                        MinimumHeightRequest="100"
                         SeparatorVisibility="None">
                         <flv:FlowListView.FlowColumnTemplate>
                             <DataTemplate>
