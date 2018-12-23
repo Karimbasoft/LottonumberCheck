@@ -118,7 +118,6 @@ namespace App.Services
         {
             Webside = new Webside(_lottoWebsideURL);
             HtmlSourceCode = Webside.HTMLCode;
-            TestNewProvider();
 
             if (!string.IsNullOrEmpty(HtmlSourceCode))
             {
@@ -136,15 +135,6 @@ namespace App.Services
         }
         #endregion
 
-        private void TestNewProvider()
-        {
-            Service.Web.LottoWebsideProvider lottoWebsideProvider = new Service.Web.LottoWebsideProvider("https://www.gewinnspiel-gewinner.de/lottozahlen/");
-            var b = lottoWebsideProvider.WinningNumbers;
-            var a = lottoWebsideProvider.SuperNumber;
-            var c = lottoWebsideProvider.SuperSechsNumbers;
-            var d = lottoWebsideProvider.SpielSiebenundsiebzigNumbers;
-            var e = lottoWebsideProvider.WinningQuotesLotto;
-        }
 
         /// <summary>
         /// Gibt die Superzahl zurück

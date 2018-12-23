@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using App.Business;
+using App.Service.Web;
 using App.Services;
 using App.UI.ViewModels;
 using Xamarin.Forms;
@@ -23,17 +24,17 @@ namespace App.UI.Views
             BindingContext = viewModel = new LottoHomePageViewModel(this.Navigation);
         }
 
-        public LottoHomePage(WebsideDataConverter websideDataConverter, User user)
+        public LottoHomePage(LottoService lottoService, User user)
         {
             InitializeComponent();
-            CheckIfStartIsPossible(websideDataConverter, user);
+            CheckIfStartIsPossible(lottoService, user);
         }
 
-        private async void CheckIfStartIsPossible(WebsideDataConverter websideDataConverter , User user)
+        private async void CheckIfStartIsPossible(LottoService lottoService , User user)
         {
-            if (websideDataConverter.HtmlSourceCode == null || websideDataConverter.HtmlSourceCode.Equals(""))
+            if (lottoService.LottoWebside.HTML == null || lottoService.LottoWebside.HTML.Equals(""))
             {
-                if (websideDataConverter.Webside.Online)
+                if (lottoService.LottoWebside.LottoWebside.Online)
                 {
                     await DisplayAlert("Warnung", "Es konnte keine Internetverbindung aufgebaut werden !", "OK");
                 }
@@ -44,7 +45,7 @@ namespace App.UI.Views
             }
             else
             {
-                BindingContext = viewModel = new LottoHomePageViewModel(this.Navigation, websideDataConverter, user);
+                BindingContext = viewModel = new LottoHomePageViewModel(this.Navigation, lottoService, user);
             }
         }
         //async void Lottozahlen_Clicked(object sender, EventArgs e)

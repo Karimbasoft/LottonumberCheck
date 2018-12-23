@@ -1,5 +1,6 @@
 ﻿using App.Business;
 using App.Business.LotteryTicket;
+using App.Service.Web;
 using App.Services;
 using App.UI.Helpers;
 using App.UI.ViewModels.Base;
@@ -19,7 +20,7 @@ namespace App.UI.ViewModels
     public class AddLottoNumbersViewModel : PopUpBaseViewModel
     {
         #region Fields
-        private WebsideDataConverter websideDataConverter;
+        private LottoService lottoService;
         private User user;
         #endregion
 
@@ -76,7 +77,7 @@ namespace App.UI.ViewModels
         }
         #endregion
 
-        public AddLottoNumbersViewModel(WebsideDataConverter pWebsideDataConverter, User pUser)
+        public AddLottoNumbersViewModel(LottoService pLottoService, User pUser)
         {
             PossibleLottoNumberCollections = CreatePossibleLottoNumberCollection();
             SelectedLottoNumbersCollection = new ObservableCollection<Helpers.AddLottoNumberItem>();

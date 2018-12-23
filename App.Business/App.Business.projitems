@@ -9,6 +9,8 @@
     <Import_RootNamespace>App.Business</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\MoneyConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\SparkleBoxConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helper\ArrayHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Base\ObservableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helper\StringHelper.cs" />

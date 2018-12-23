@@ -19,7 +19,8 @@ namespace App.Service.Web
         #region Fields
         private static NLog.Logger logger;
         private readonly string _lottoWebsideURL;
-        private WebsideDataConverter websideDataConverter;
+        private WebsideDataConverter lottoService;
+        private static string _websideMessageWhenDataIsNotReadyYet = "wird ermittelt";
         #endregion
 
         #region Propertys
@@ -27,24 +28,29 @@ namespace App.Service.Web
 
         public string HTML { get; set; }
 
-        public string[] WinningQuotesLotto
+        public List<Quote> WinningQuotesLotto
         {
             get =>  GetQuotes(Games.Varietie.Lotto);
         }
 
-        ///// <summary>
-        ///// Gibt die Gewinnqouten für Spiel 77 zurück
-        ///// </summary>
-        //public string[] WinningQuotesSpielSiebenundsiebzig =>
-        //    GetQuotes(HtmlSourceCode,
-        //            _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesSpielSiebenundsiebzigStart.ToString()),
-        //            _cSSClasses.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesSpielSiebenundsiebzigEnd.ToString()), 2);
+        /// <summary>
+        /// Gibt die Gewinnqouten für Spiel 77 zurück
+        /// </summary>
+        public List<Quote> WinningQuotesSpiel77 =>
+            GetQuotes(Games.Varietie.Spiel77);
+
+        /// <summary>
+        /// Gibt die Gewinnqouten für Spiel 77 zurück
+        /// </summary>
+        public List<Quote> WinningQuotesSuper6 =>
+            GetQuotes(Games.Varietie.Super6);
 
         public ObservableCollection<LottoNumber> WinningNumbers
         {
             get
             {
                 var winningNumbers = GetWinningNumberData();
+                winningNumbers.RemoveAt(winningNumbers.Count() - 1);
                 return ConvertIntCollectionToLottonumberCollection(winningNumbers);
             }
         }
@@ -267,11 +273,11 @@ namespace App.Service.Web
         /// <param name="className"></param>
         /// <param name="classNameEnd"></param>
         /// <returns></returns>
-        private string[] GetQuotes(Games.Varietie mode)
+        private List<Quote> GetQuotes(Games.Varietie mode)
         {
             int startIndex = 0;
             int endindex = 0;
-            string[] quotesAsStringArray = new string[0];
+            List<Quote> quoteList = new List<Quote>();
 
             try
             {
@@ -293,32 +299,24 @@ namespace App.Service.Web
 
                 if (startIndex <= 0 || endindex <= 0)
                 {
-                    quotesAsStringArray = new string[0];
                     throw new Exception("Index zum auslesen stimmt nicht mit HTML überein");
                 }
                 else
                 {
                     string specialPart = HTML.Substring(startIndex, endindex);
 
-                    //if (!specialPart.Contains("wird ermittelt"))
-                    //{
-                        if (mode == Games.Varietie.Lotto)
-                        {
-                            quotesAsStringArray = GetMoneyQoutesFromSubstring(specialPart);
-                        }
-                        else if (mode == Games.Varietie.Super6 || mode == Games.Varietie.Spiel77)
-                        {
-                            var arr = Regex.Matches(specialPart, @"(\d{1,9})(.\d{1,9}|)(.\d{1,9})")
-                                      .Cast<Match>()
-                                      .Select(m => m.Value)
-                                      .ToArray();
-                            quotesAsStringArray = arr;
-                        }
-                    //}
-                    //else
-                    //{
-                    //    quotesAsStringArray = new string[0];
-                    //}
+                    if (mode == Games.Varietie.Lotto)
+                    {
+                        quoteList = GetMoneyQoutesFromSubstring(specialPart);
+                    }
+                    else if (mode == Games.Varietie.Super6 || mode == Games.Varietie.Spiel77)
+                    {
+                        //var arr = Regex.Matches(specialPart, @"(\d{1,9})(.\d{1,9}|)(.\d{1,9})")
+                        //          .Cast<Match>()
+                        //          .Select(m => m.Value)
+                        //          .ToArray();
+                        //quotesAsStringArray = arr;
+                    }
                 }
             }
             catch (Exception ex)
@@ -327,52 +325,51 @@ namespace App.Service.Web
             }
 
 
-            return quotesAsStringArray;
+            return quoteList;
         }
 
-        private string[] GetMoneyQoutesFromSubstring(string specialPart)
+        private List<Quote> GetMoneyQoutesFromSubstring(string specialPart)
         {
-            string result = "";
+            string[] separatingCharsForEachQutes = { "<tr>", "</tr>" };
+            string[] separatingCharsForEachAtribute = { "<td>", "</td>" };
+            List<Quote> qouteInfos = new List<Quote>();
+            int winningClasses = 9;
             string currentSecialPart = specialPart;
 
             try
             {
-                //Gibt die Tabellenzeile an, wo sich die Gewinne befinden
-                int tableRowCounter = 0;
+                //Entfernt den head Berecih drr Tabelle
+                currentSecialPart = currentSecialPart.Remove(0, currentSecialPart.IndexOf("<tbody>"));
+                
+                //Fast die Inforamtionen in ein Array zusammen, anhand der Tabellenspalte
+                var trData = currentSecialPart.Split(separatingCharsForEachQutes, System.StringSplitOptions.RemoveEmptyEntries);
 
+                //Der erste Eintrag ist nicht brauchbar
+                trData = trData.Skip(1).ToArray();
+                
                 //Geht jede mögliche Gewinnklasse (also 9 mal) durch
-                for (int i = 0; i < 9; i++)
-                {
-                    int pFrom = currentSecialPart.IndexOf("<span class=\"visible-xs\">") + "<span class=\"visible-xs\">".Length;
-                    var a = currentSecialPart.Substring(pFrom + "<span class=\"visible-xs\">".Length);
-                    int pTo;
+                for (int i = 0; i < winningClasses; i++)
+                {       
+                    var subInfos = trData[i].Split(separatingCharsForEachAtribute, System.StringSplitOptions.RemoveEmptyEntries);
 
-                    //Prüft, ob dies der letzte Durchgang ist
-                    if (i != 8)
+                    //Wenn keine Geldbeträge da sind, wird auch kein Geld ausgegeben
+                    if (subInfos[2].Equals(_websideMessageWhenDataIsNotReadyYet))
                     {
-                        //Prüft, ob dies der erste durchlauf ist
-                        tableRowCounter = (i == 0) ? tableRowCounter += 2 : tableRowCounter += 1;
-
-                        pTo = a.IndexOf($"<div class=\"inner-table-row\" data-test-id=\"tableRow{tableRowCounter}\">");
+                        qouteInfos.Clear();
+                        break;
                     }
-                    else
-                    {
-                        pTo = a.IndexOf("<div class=\"product-table__content\">");
-                    }
-
-                    result += currentSecialPart.Substring(pFrom, pTo);
-                    //currentSecialPart = a.Substring(pTo);
+                    
+                    //Fügt die Einträge der Qoutenliste hinzu, wenn keine Gewinner Daten da sind, wird diese als 0 vermerkt
+                    qouteInfos.Add(new Quote(subInfos[0], (!subInfos[1].Equals(_websideMessageWhenDataIsNotReadyYet)) ? int.Parse(subInfos[1]) : 0, subInfos[2]));
+                    
                 }
-                return Regex.Matches(result, @"(\d{1,9})(.\d{1,9}|)(.\d{1,9})")
-                            .Cast<Match>()
-                            .Select(m => m.Value)
-                            .ToArray();
             }
             catch (Exception ex)
             {
                 //Log.Error("LottoscheinAuswerter", ex.ToString());
-                return new string[0];
+                return new List<Quote>();
             }
+            return qouteInfos;
         }
 
 

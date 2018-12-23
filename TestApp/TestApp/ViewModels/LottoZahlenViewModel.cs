@@ -1,10 +1,12 @@
 ﻿using App.Business;
 using App.Business.LotteryTicket;
+using App.Service.Web;
 using App.Services;
 using App.UI.Converter;
 using App.UI.PopUp;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -23,12 +25,8 @@ namespace App.UI.ViewModels
         private string _showInfoTable;
         private int _countHits;
         private string _totalProfit;
-
+        private readonly LottoService _lottoService;
         public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
-
-        #region Private Propertys
-        private WebsideDataConverter WebsideDataConverter { get; set; }
         #endregion
 
         #region Public Propertys
@@ -142,17 +140,17 @@ namespace App.UI.ViewModels
         #endregion
 
 
-        public LottoZahlenViewModel(WebsideDataConverter websideDataConverter,
+        public LottoZahlenViewModel(LottoService lottoService,
             User user)
         {
-            WebsideDataConverter = websideDataConverter;
-            SuperNumber = WebsideDataConverter.SuperNumber;
+            _lottoService = lottoService;
+            SuperNumber = _lottoService.Supernumber;
             HitsInThePossibleProfitArea = new List<int>();
             WinningAnaylsis = new ObservableCollection<SparkleAnalysis>();
             SuperNumberColor = "White";
             ShowInfoTable = "False";
             CountHits = 0;         
-            CurrentLottoNumbers = WebsideDataConverter.WinningNumbers;
+            CurrentLottoNumbers = _lottoService.LottoNumbers;
             AppUser = user;
         }
 
@@ -203,9 +201,9 @@ namespace App.UI.ViewModels
                     biggestCounter = counter;
                 }
             }
-            WinningAnaylsis = TicketAnalyzer.CreateWinningAnalysis(listWithAnalysis, 
-                TicketAnalyzer.CheckIfSupernumberIsAnHit(AppUser.SuperNumber, WebsideDataConverter.SuperNumber),
-                WebsideDataConverter.WinningQuotesLotto);
+            WinningAnaylsis = TicketAnalyzer.CreateWinningAnalysis(listWithAnalysis,
+                TicketAnalyzer.CheckIfSupernumberIsAnHit(AppUser.SuperNumber, _lottoService.Supernumber),
+                _lottoService.LottoQuotes.ToList());
 
             if (CountHits < 0)
             {
@@ -249,7 +247,7 @@ namespace App.UI.ViewModels
                 totalAmount += TicketAnalyzer.ToDouble(item.AmountOfMoney);
             }
 
-            TotalProfit = TicketAnalyzer.ToMoney(totalAmount);
+            TotalProfit = Business.Converter.MoneyConverter.DoubleToEuros(totalAmount);
         }
 
         /// <summary>
@@ -257,7 +255,7 @@ namespace App.UI.ViewModels
         /// </summary>
         private void CompareSuperNumbers()
         {
-            if (TicketAnalyzer.CheckIfSupernumberIsAnHit(AppUser.SuperNumber, WebsideDataConverter.SuperNumber))
+            if (TicketAnalyzer.CheckIfSupernumberIsAnHit(AppUser.SuperNumber, _lottoService.Supernumber))
             {
                 SuperNumberColor = "Green";
             }

@@ -1,4 +1,5 @@
 ﻿using App.Business;
+using App.Service.Web;
 using App.Services;
 using App.UI.ViewModels;
 using Xamarin.Forms;
@@ -17,10 +18,10 @@ namespace App.UI.Views
 
         #endregion
 
-        public LottoUserView(WebsideDataConverter websideDataConverter, User user)
+        public LottoUserView(LottoService lottoService, User user)
         {
             InitializeComponent();
-            BindingContext = viewModel = new LottoUserViewModel(websideDataConverter, user);
+            BindingContext = viewModel = new LottoUserViewModel(lottoService, user);
         }
 
         public LottoUserView() => InitializeComponent();

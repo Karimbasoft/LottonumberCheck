@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using App.Business.LotteryTicket;
 using App.Services;
 using App.Business;
+using App.Service.Web;
 
 namespace App.UI.PopUp
 {
@@ -40,10 +41,10 @@ namespace App.UI.PopUp
        
         AddLottoNumbersViewModel viewModel;
 
-        public AddLottoNumbers(WebsideDataConverter websideDataConverter, User user)
+        public AddLottoNumbers(LottoService lottoService, User user)
         {
             InitializeComponent();
-            BindingContext = viewModel = new AddLottoNumbersViewModel(websideDataConverter, user);
+            BindingContext = viewModel = new AddLottoNumbersViewModel(lottoService, user);
         }
 
 

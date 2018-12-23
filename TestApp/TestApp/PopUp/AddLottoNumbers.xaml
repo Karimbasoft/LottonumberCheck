@@ -21,7 +21,7 @@
             ScaleOut="0.8" />
     </pages:PopupPage.Animation>
     <StackLayout
-        Padding="20,0"
+        Padding="10,0"
         HorizontalOptions="FillAndExpand"
         VerticalOptions="Center">
         <Frame
@@ -35,7 +35,7 @@
                         Text="Lottozahlen hinzufügen:"
                         TextColor="Black" />
                     <Button
-                        x:Name="btnSaveNumbers"
+                        x:Name="btnCloseWindow"
                         Command="{Binding CmdCloseWindow, Mode=OneWay}"
                         HeightRequest="40"
                         HorizontalOptions="EndAndExpand"
@@ -45,42 +45,55 @@
                         WidthRequest="40" />
                 </StackLayout>
                 <StackLayout>
-                    <ScrollView HeightRequest="500">
+                    <ScrollView>
                         <flv:FlowListView
                             FlowColumnCount="7"
                             FlowItemsSource="{Binding PossibleLottoNumberCollections}"
                             HasUnevenRows="false"
-                            HorizontalOptions="Center"
-                            SeparatorVisibility="None"
-                            VerticalOptions="Center">
+                            SeparatorVisibility="Default"
+                            VerticalOptions="FillAndExpand">
                             <flv:FlowListView.FlowColumnTemplate>
                                 <DataTemplate>
-                                    <!--<xfShapeView:ShapeView
+                                    <xfShapeView:ShapeView
                                         BorderColor="Gray"
                                         BorderWidth="2"
                                         IsVisible="True"
                                         Opacity="1"
                                         Progress="50"
-                                        ShapeType="Circle"
-                                        Color="Gray">-->
-                                    <Button
-                                        x:Name="btnLottoNumber"
-                                        Margin="0,0.5,0,0.5"
-                                        BorderWidth="0"
-                                        Command="{Binding Path=BindingContext.CmdSelectLottoNumber, Source={x:Reference addLottoNumbers}"
-                                        CommandParameter="{Binding}"
-                                        Text="{Binding Number}">
-                                        <Button.Triggers>
-                                            <DataTrigger
-                                                Binding="{Binding IsSelected}"
-                                                TargetType="Button"
-                                                Value="True">
-                                                <Setter Property="BackgroundColor" Value="Red" />
-                                                <Setter Property="IsEnabled" Value="False" />
-                                            </DataTrigger>
-                                        </Button.Triggers>
-                                    </Button>
-                                    <!--</xfShapeView:ShapeView>-->
+                                        ShapeType="Circle">
+                                        <xfShapeView:ShapeView.Style>
+                                            <Style TargetType="xfShapeView:ShapeView">
+                                                <Setter Property="Color" Value="Gray" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding IsSelected}"
+                                                        TargetType="xfShapeView:ShapeView"
+                                                        Value="True">
+                                                        <Setter Property="Color" Value="Red" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </xfShapeView:ShapeView.Style>
+                                        <Button
+                                            x:Name="btnLottoNumber"
+                                            Margin="0,1,0,1"
+                                            BackgroundColor="Transparent"
+                                            BorderColor="Transparent"
+                                            BorderWidth="0"
+                                            Command="{Binding Path=BindingContext.CmdSelectLottoNumber, Source={x:Reference addLottoNumbers}"
+                                            CommandParameter="{Binding}"
+                                            Text="{Binding Number}">
+                                            <Button.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding IsSelected}"
+                                                    TargetType="Button"
+                                                    Value="True">
+                                                    <!--<Setter Property="BackgroundColor" Value="Red" />-->
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+                                    </xfShapeView:ShapeView>
                                 </DataTemplate>
                             </flv:FlowListView.FlowColumnTemplate>
                         </flv:FlowListView>
@@ -89,37 +102,39 @@
                         FontSize="Small"
                         Text="Ausgewählte Zahlen:"
                         TextColor="Black" />
-                    <flv:FlowListView
-                        FlowColumnCount="6"
-                        FlowItemsSource="{Binding SelectedLottoNumbersCollection}"
-                        MinimumHeightRequest="100"
-                        SeparatorVisibility="None">
-                        <flv:FlowListView.FlowColumnTemplate>
-                            <DataTemplate>
-                                <!--<xfShapeView:ShapeView
-                                    BorderColor="Gray"
-                                    BorderWidth="2"
-                                    IsVisible="True"
-                                    Opacity="1"
-                                    Progress="50"
-                                    ShapeType="Circle"
-                                    Color="Gray">-->
-                                <Button
-                                    x:Name="btnSelectedNumber"
-                                    BackgroundColor="Transparent"
-                                    BorderColor="Transparent"
-                                    Command="{Binding Path=BindingContext.CmdRemoveSelectedNumber, Source={x:Reference addLottoNumbers}"
-                                    CommandParameter="{Binding}"
-                                    Text="{Binding Number}" />
-                                <!--</xfShapeView:ShapeView>-->
-                            </DataTemplate>
-                        </flv:FlowListView.FlowColumnTemplate>
-                    </flv:FlowListView>
-
+                    <Frame HeightRequest="65" OutlineColor="Wheat">
+                        <flv:FlowListView
+                            FlowColumnCount="6"
+                            FlowItemsSource="{Binding SelectedLottoNumbersCollection}"
+                            SeparatorVisibility="None">
+                            <flv:FlowListView.FlowColumnTemplate>
+                                <DataTemplate>
+                                    <xfShapeView:ShapeView
+                                        BorderColor="Gray"
+                                        BorderWidth="2"
+                                        IsVisible="True"
+                                        Opacity="1"
+                                        Progress="50"
+                                        ShapeType="Circle"
+                                        Color="Gray">
+                                        <Button
+                                            x:Name="btnSelectedNumber"
+                                            BackgroundColor="Transparent"
+                                            BorderColor="Transparent"
+                                            Command="{Binding Path=BindingContext.CmdRemoveSelectedNumber, Source={x:Reference addLottoNumbers}"
+                                            CommandParameter="{Binding}"
+                                            Text="{Binding Number}" />
+                                    </xfShapeView:ShapeView>
+                                </DataTemplate>
+                            </flv:FlowListView.FlowColumnTemplate>
+                        </flv:FlowListView>
+                    </Frame>
                     <Button
                         Command="{Binding CmdSaveSelection}"
+                        HorizontalOptions="CenterAndExpand"
                         Text="Save"
-                        TextColor="Black" />
+                        TextColor="Black"
+                        VerticalOptions="EndAndExpand" />
                 </StackLayout>
             </StackLayout>
         </Frame>

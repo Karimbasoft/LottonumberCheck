@@ -13,17 +13,17 @@ namespace App.UI
 	public partial class App : Application
 	{
         #region Fields
-        public static WebsideDataConverter dataConverter;
-        public static User user;
+        private static Service.Web.LottoService _lottoService;
+        private static User _user;
         #endregion
 
         public App()
 		{
 			InitializeComponent();
             FlowListView.Init();
-            dataConverter = new WebsideDataConverter();
-            user = new User();
-            user.UserNumbers = new System.Collections.ObjectModel.ObservableCollection<SparkleBox>(user.DeserializeSparkleBoxList());
+            _user = new User();
+            _lottoService = new Service.Web.LottoService("https://www.gewinnspiel-gewinner.de/lottozahlen/");
+            _user.UserNumbers = new System.Collections.ObjectModel.ObservableCollection<SparkleBox>(_user.DeserializeSparkleBoxList());
             SetMainPage();
 		}
 
@@ -31,12 +31,12 @@ namespace App.UI
         {
             Children =
                 {
-                    new NavigationPage(new LottoHomePage(dataConverter, user))
+                    new NavigationPage(new LottoHomePage(_lottoService, _user))
                     {
                         //Title = "Startseite",
                         Icon = Device.OnPlatform("home_50.png","home_50.png","home_50.png")
                     },
-                    new NavigationPage(new LottoUserView(dataConverter, user))
+                    new NavigationPage(new LottoUserView(_lottoService, _user))
                     {
                         //Title = "Benutzer",
                         Icon = Device.OnPlatform("customer_50.png","customer_50.png","customer_50.png")

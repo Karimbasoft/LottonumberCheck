@@ -40,7 +40,7 @@ namespace App.Business
 
 
 
-        private static string GetMoneyQuoteFromSpecialHit(int hits, bool superNumber, string[] moneyQoutes)
+        private static string GetMoneyQuoteFromSpecialHit(int hits, bool superNumber, List<Quote> moneyQoutes)
         {
             string moneyForUser = "0,00";
             double money = 0;
@@ -69,7 +69,7 @@ namespace App.Business
                 }
             }
 
-            return ToMoney(money);
+            return Converter.MoneyConverter.DoubleToEuros(Converter.MoneyConverter.CentToEuros(money));
         }
 
         /// <summary>
@@ -77,38 +77,38 @@ namespace App.Business
         /// </summary>
         /// <param name="pQuoteLevel"></param>
         /// <returns></returns>
-        private static string CompareQuoteToHits(int pQuoteLevel, string[] moneyQoutes)
+        private static string CompareQuoteToHits(int pQuoteLevel,List<Quote> moneyQoutes)
         {
             string money = "0,00";
 
             switch (pQuoteLevel)
             {
                 case 1:
-                    money = moneyQoutes[14]; //20
+                    money = moneyQoutes[8].Money;
                     break;
                 case 2:
-                    money = moneyQoutes[12]; //17
+                    money = moneyQoutes[7].Money;
                     break;
                 case 3:
-                    money = moneyQoutes[10]; //14
+                    money = moneyQoutes[6].Money; //14
                     break;
                 case 4:
-                    money = moneyQoutes[8]; //11
+                    money = moneyQoutes[5].Money; //11
                     break;
                 case 5:
-                    money = moneyQoutes[6]; //8
+                    money = moneyQoutes[4].Money; //8
                     break;
                 case 6:
-                    money = moneyQoutes[4]; //5
+                    money = moneyQoutes[3].Money; //5
                     break;
                 case 7:
-                    money = moneyQoutes[2]; //2
+                    money = moneyQoutes[2].Money; //2
                     break;
                 case 8:
-                    money = moneyQoutes[1]; //1
+                    money = moneyQoutes[1].Money; //1
                     break;
                 case 9:
-                    money = moneyQoutes[0]; //0
+                    money = moneyQoutes[0].Money; //0
                     break;
                 default:
                     money = "0,00";
@@ -127,16 +127,6 @@ namespace App.Business
         public static bool CheckIfSupernumberIsAnHit(int userSuperNumber, int lottoSuperNumber)
         {
             return userSuperNumber == lottoSuperNumber;
-        }
-
-        /// <summary>
-        /// Wandelt einen double Wert in Euro um
-        /// </summary>
-        /// <param name="In">Wert</param>
-        /// <returns>Betrag</returns>
-        public static string ToMoney(double In)
-        {
-            return In.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
         }
 
 
@@ -183,7 +173,7 @@ namespace App.Business
         /// Erstellt eine Gewinn-Auswertung übersicht
         /// </summary>
         /// <param name="listWinningInformations"></param>
-        public static ObservableCollection<SparkleAnalysis> CreateWinningAnalysis(List<SparkleAnalysis> listWinningInformations, bool superNumber, string[] moneyQoute)
+        public static ObservableCollection<SparkleAnalysis> CreateWinningAnalysis(List<SparkleAnalysis> listWinningInformations, bool superNumber, List<Quote> moneyQoute)
         {
             ObservableCollection<SparkleAnalysis> tmpWinningAnalysis = new ObservableCollection<SparkleAnalysis>();
             foreach (var item in listWinningInformations)

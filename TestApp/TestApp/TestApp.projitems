@@ -16,6 +16,9 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)PopUp\AddLottoNumbers.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)PopUp\AddLottoTicket.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)PopUp\SelectSuperNumber.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -30,13 +33,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Converter\SparkleBoxConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\AddLottoNumberItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PopUp\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)PopUp\AddLottoNumbers.xaml.cs">
       <DependentUpon>AddLottoNumbers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)PopUp\AddLottoTicket.xaml.cs">
+      <DependentUpon>AddLottoTicket.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)PopUp\SelectSuperNumber.xaml.cs">
       <DependentUpon>SelectSuperNumber.xaml</DependentUpon>

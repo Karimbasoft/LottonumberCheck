@@ -1,5 +1,6 @@
 ﻿using App.Business;
 using App.Business.LotteryTicket;
+using App.Service.Web;
 using App.Services;
 using System;
 using System.Collections.Generic;
@@ -14,22 +15,21 @@ namespace App.UI.ViewModels
     {
 
         #region Fields
-
+        private readonly LottoService _lottoService;
         #endregion
 
         #region Propertys
         public ObservableCollection<LottoNumber> UserSuperSechsNumbers { get; set; }
         public ObservableCollection<LottoNumber> UserSpielSiebenundsiebzigNumbers { get; set; }
-        private User AppUser { get; }
-        private WebsideDataConverter WebsideDataConverter { get; }
+        private User AppUser { get; } 
         #endregion
 
-        public AdditionalLottoGameViewModel(WebsideDataConverter websideDataConverter, User user)
+        public AdditionalLottoGameViewModel(LottoService lottoService, User user)
         {
-            WebsideDataConverter = websideDataConverter;
+            _lottoService = lottoService;
             AppUser = user;
-            UserSuperSechsNumbers = WebsideDataConverter.SuperSechsNumbers;
-            UserSpielSiebenundsiebzigNumbers = WebsideDataConverter.SpielSiebenundsiebzigNumbers;
+            UserSuperSechsNumbers = _lottoService.Super66Numbers;
+            UserSpielSiebenundsiebzigNumbers = _lottoService.Spiel77Numbers;
         }
 
         public AdditionalLottoGameViewModel()

@@ -1,4 +1,5 @@
 ﻿using App.Business;
+using App.Service.Web;
 using App.Services;
 using App.UI.ViewModels;
 using System;
@@ -19,10 +20,10 @@ namespace App.UI.Views
 			InitializeComponent();
 		}
 
-        public AdditionalLottoGameView(WebsideDataConverter websideDataConverter, User user)
+        public AdditionalLottoGameView(LottoService lottoService, User user)
         {
             InitializeComponent();
-            BindingContext = ViewModel = new AdditionalLottoGameViewModel(websideDataConverter, user);
+            BindingContext = ViewModel = new AdditionalLottoGameViewModel(lottoService, user);
         }
 
         #region Propertys

@@ -1,4 +1,5 @@
-﻿using App.Business.LotteryTicket;
+﻿using App.Business;
+using App.Business.LotteryTicket;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,35 +10,41 @@ namespace App.Service.Web
     public class LottoService
     {
         #region Fields
-        private readonly LottoWebsideProvider _lottoWebside;
+
         #endregion
 
         #region Propertys
         /// <summary>
+        /// Representiert die LottoWebseite
+        /// </summary>
+        public LottoWebsideProvider LottoWebside { get; private set; }
+
+        /// <summary>
         /// Gibt die Superzahl zurück
         /// </summary>
-        public int Supernumber => _lottoWebside.SuperNumber;
+        public int Supernumber => LottoWebside.SuperNumber;
 
         /// <summary>
         /// Die Gewinnzaheln
         /// </summary>
-        public ObservableCollection<LottoNumber> LottoNumbers => _lottoWebside.WinningNumbers;
+        public ObservableCollection<LottoNumber> LottoNumbers => LottoWebside.WinningNumbers;
 
         /// <summary>
         /// Super 6 Zahlen
         /// </summary>
-        public ObservableCollection<LottoNumber> Super66Numbers => _lottoWebside.SuperSechsNumbers;
+        public ObservableCollection<LottoNumber> Super66Numbers => LottoWebside.SuperSechsNumbers;
 
         /// <summary>
         /// Spiel77 Zahlen
         /// </summary>
-        public ObservableCollection<LottoNumber> Spiel77Numbers => _lottoWebside.SpielSiebenundsiebzigNumbers;
+        public ObservableCollection<LottoNumber> Spiel77Numbers => LottoWebside.SpielSiebenundsiebzigNumbers;
 
+        public List<Quote> LottoQuotes => LottoWebside.WinningQuotesLotto;
         #endregion
 
         public LottoService(string url, string qoutenUrl = null)
         {
-            _lottoWebside = new LottoWebsideProvider(url);
+            LottoWebside = new LottoWebsideProvider(url);
         }
 
         #region Methods

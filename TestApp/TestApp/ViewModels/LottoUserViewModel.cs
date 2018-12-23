@@ -1,6 +1,7 @@
 ﻿using Android.Util;
 using App.Business;
 using App.Business.LotteryTicket;
+using App.Service.Web;
 using App.Services;
 using App.UI.PopUp;
 using Rg.Plugins.Popup.Services;
@@ -20,13 +21,13 @@ namespace App.UI.ViewModels
     public class LottoUserViewModel : BaseViewModel
     {
         #region Fields
-
+        private LottoService _lottoService { get; }
         #endregion 
 
         #region Propertys
         public ObservableCollection<SparkleBox> UserLottoNumbers { get; set; }
         private User AppUser { get; }
-        private WebsideDataConverter WebsideDataConverter { get; }
+        
         public AddLottoNumbers AddLottoNumbersPopUp { get; set; }
 
         public bool IsListEmpty
@@ -89,9 +90,9 @@ namespace App.UI.ViewModels
             
         }
 
-        public LottoUserViewModel(WebsideDataConverter websideDataConverter, User user)
+        public LottoUserViewModel(LottoService lottoService, User user)
         {
-            WebsideDataConverter = websideDataConverter;
+            _lottoService = lottoService;
             AppUser = user;
             UserLottoNumbers = AppUser.UserNumbers;
             Title = "User";
@@ -105,7 +106,7 @@ namespace App.UI.ViewModels
         #region Methods
         private async Task AddSparkleBoxToUserListAsync()
         {
-            AddLottoNumbersPopUp = new AddLottoNumbers(WebsideDataConverter, AppUser);
+            AddLottoNumbersPopUp = new AddLottoNumbers(_lottoService, AppUser);
             AddLottoNumbersPopUp.Disappearing += AddLottoNumbersPopUp_Disappearing;
             await PopupNavigation.PushAsync(AddLottoNumbersPopUp);
         }
