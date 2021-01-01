@@ -30,7 +30,7 @@ namespace App.UI.ViewModels
         #endregion
 
         #region Public Propertys
-        public ObservableCollection<LottoNumber> CurrentLottoNumbers { get; set; }
+        public ObservableCollection<long> CurrentLottoNumbers { get; set; }
         private List<int> HitsInThePossibleProfitArea { get; set; }
         public  User AppUser { get; set; }
         public int SuperNumber { get; set; }
@@ -88,7 +88,9 @@ namespace App.UI.ViewModels
             }
         }
 
-        //Gibt den gesamten Gewinn zurück
+        /// <summary>
+        /// Gibt den gesamten Gewinn zurück
+        /// </summary>
         public string TotalProfit
         {
             get
@@ -180,9 +182,9 @@ namespace App.UI.ViewModels
 
                 foreach (int number in UsernumbersFromSparkleBox)
                 {
-                    foreach (LottoNumber throwNumber in CurrentLottoNumbers)
+                    foreach (long throwNumber in CurrentLottoNumbers)
                     {
-                        if (throwNumber.Number == number)
+                        if (throwNumber == number)
                             counter++;
                     }
                 }
@@ -215,14 +217,14 @@ namespace App.UI.ViewModels
         {
             SelectSuperNumberPopUp = new SelectSuperNumber();
             SelectSuperNumberPopUp.Disappearing += SelectSuperNumberPopUp_Disappearing;
-            await PopupNavigation.PushAsync(SelectSuperNumberPopUp);
+            await PopupNavigation.Instance.PushAsync(SelectSuperNumberPopUp);
         }
 
         private async Task ShowWinningAnalysisPopUpAsync()
         {
             ShowAnalysingInfoPopUp = new ShowAnalysingInfo(WinningAnaylsis);
             ShowAnalysingInfoPopUp.Disappearing += ShowAnalysingInfoPopUp_Disappearing;
-            await PopupNavigation.PushAsync(ShowAnalysingInfoPopUp);
+            await PopupNavigation.Instance.PushAsync(ShowAnalysingInfoPopUp);
         }
 
         private void ShowAnalysingInfoPopUp_Disappearing(object sender, EventArgs e)

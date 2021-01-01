@@ -22,7 +22,13 @@ namespace App.UI
 			InitializeComponent();
             FlowListView.Init();
             _user = new User();
-            _lottoService = new Service.Web.LottoService("https://www.gewinnspiel-gewinner.de/lottozahlen/");
+            //http://api.hubobel.de/lotto/Mittwoch
+            DayOfWeek dayOfWeek = DateTime.Now.DayOfWeek;
+            if (dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Thursday || dayOfWeek == DayOfWeek.Sunday || dayOfWeek == DayOfWeek.Wednesday)
+            
+            _lottoService = new Service.Web.LottoService("https://www.lottoland.com.au/api/drawings/german6aus49");
+            else
+                _lottoService = new Service.Web.LottoService("https://www.lottoland.com.au/api/drawings/german6aus49");
             _user.UserNumbers = new System.Collections.ObjectModel.ObservableCollection<SparkleBox>(_user.DeserializeSparkleBoxList());
             SetMainPage();
 		}

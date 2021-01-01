@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AddLottoNumbersViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Base\PopUpBaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PopUp\AddLottoTicketVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SelectSuperNumberViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ShowAnalysingInfoViewModel.cs" />
     <!--<Compile Include="$(MSBuildThisFileDirectory)PopUpView\AddLottoNumber.xaml.cs">

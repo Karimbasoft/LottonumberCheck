@@ -9,12 +9,15 @@
     <Import_RootNamespace>App.Business</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\LotteryWinningNumberElementConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\MoneyConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\ParseStringConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\SparkleBoxConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helper\ArrayHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Base\ObservableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helper\StringHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\LotteryTicket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\LotteryWinningNumbers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\LottoNumber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\Digit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LotteryTicket\SparkleBox.cs" />
@@ -28,6 +31,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)TicketAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\CSSClasses.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\HubobelAPIResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\LottolandApiResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Webside.cs" />
   </ItemGroup>
 </Project>

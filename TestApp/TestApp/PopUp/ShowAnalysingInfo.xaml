@@ -19,6 +19,7 @@
             ScaleOut="0.8" />
     </pages:PopupPage.Animation>
     <StackLayout
+        Margin="10"
         Padding="20,0"
         HorizontalOptions="FillAndExpand"
         VerticalOptions="Center">

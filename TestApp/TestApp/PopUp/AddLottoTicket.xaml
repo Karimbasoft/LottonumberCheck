@@ -1,10 +1,63 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LottoAuswerter.Android.AddLottoTicket">
-  <ContentView.Content>
-      <StackLayout>
-          <Label Text="Hello Xamarin.Forms!" />
-      </StackLayout>
-  </ContentView.Content>
-</ContentView>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<pages:PopupPage
+    x:Class="App.UI.PopUp.AddLottoTicket"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="False"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <StackLayout
+        Padding="10,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="Center">
+        <Frame
+            Padding="0"
+            BackgroundColor="#d3ebed"
+            CornerRadius="10">
+            <StackLayout Padding="10">
+                <flv:FlowListView
+                    FlowColumnCount="7"
+                    FlowItemsSource="{Binding TicketNumbers}"
+                    HasUnevenRows="false"
+                    SeparatorVisibility="Default"
+                    VerticalOptions="FillAndExpand">
+                    <flv:FlowListView.FlowColumnTemplate>
+                        <DataTemplate>
+                            <StackLayout>
+                                <Stepper
+                                    x:Name="_stepper"
+                                    HorizontalOptions="Center"
+                                    Increment="1"
+                                    Maximum="9"
+                                    Value="{Binding Number}" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Text="{Binding Source={x:Reference _stepper}, Path=Value, StringFormat=' {0:F0}'}"
+                                    VerticalOptions="CenterAndExpand" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </flv:FlowListView.FlowColumnTemplate>
+                </flv:FlowListView>
+
+                <Button
+                    Command="{Binding CmdSaveSelection}"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Save"
+                    TextColor="Black"
+                    VerticalOptions="EndAndExpand" />
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

@@ -22,6 +22,7 @@ namespace App.UI.ViewModels
     {
         #region Fields
         private LottoService _lottoService { get; }
+        private int _deleteClickCounter = 0;
         #endregion 
 
         #region Propertys
@@ -29,6 +30,11 @@ namespace App.UI.ViewModels
         private User AppUser { get; }
         
         public AddLottoNumbers AddLottoNumbersPopUp { get; set; }
+
+        /// <summary>
+        /// PopUp für das hinzufügen von Lottozahlen
+        /// </summary>
+        public AddLottoTicket AddLottoTicketPopUp { get; set; }
 
         public bool IsListEmpty
         {
@@ -71,18 +77,30 @@ namespace App.UI.ViewModels
         {
             get
             {
-                return new Command((object obj) =>
+                return new Command(() =>
                 {
-                    if (obj is SparkleBox a)
+                    _deleteClickCounter += 1;
+
+                    if (_deleteClickCounter == 2)
                     {
-                        AppUser.ClearSparkleBox(a);
-                    }
+                        AppUser.UserNumbers.Clear();
+                    }  
                 });
 
             }
         }
 
-        
+        public ICommand ChangeTicketNumber
+        {
+            get
+            {
+                return new Command(async (object obj) =>
+                {
+                    await AddLottoTicketAsync();
+                });
+
+            }
+        }
         #endregion
 
         public LottoUserViewModel()
@@ -109,6 +127,25 @@ namespace App.UI.ViewModels
             AddLottoNumbersPopUp = new AddLottoNumbers(_lottoService, AppUser);
             AddLottoNumbersPopUp.Disappearing += AddLottoNumbersPopUp_Disappearing;
             await PopupNavigation.PushAsync(AddLottoNumbersPopUp);
+        }
+
+        /// <summary>
+        /// Öffnet das PopUp für das hinzufügen eines Tickets
+        /// </summary>
+        /// <returns></returns>
+        private async Task AddLottoTicketAsync()
+        {
+            AddLottoTicketPopUp = new AddLottoTicket();
+            AddLottoTicketPopUp.Disappearing += AddLottoTicketPopUp_Disappearing; 
+            await PopupNavigation.PushAsync(AddLottoTicketPopUp);
+        }
+
+        private void AddLottoTicketPopUp_Disappearing(object sender, EventArgs e)
+        {
+            if (AddLottoNumbersPopUp != null && AddLottoNumbersPopUp.Save)
+            {
+
+            }
         }
 
         private void AddLottoNumbersPopUp_Disappearing(object sender, EventArgs e)

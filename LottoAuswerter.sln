@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "App.UI", "TestApp\TestApp\App.UI.shproj", "{F9AA70D3-618D-4EF1-8958-45A550979E0A}"
 EndProject
@@ -23,6 +23,9 @@ Global
 		App.Business\App.Business.projitems*{7539f143-3895-463b-859e-a9178c806e86}*SharedItemsImports = 4
 		App.Service\App.Service.projitems*{7539f143-3895-463b-859e-a9178c806e86}*SharedItemsImports = 4
 		TestApp\TestApp\TestApp.projitems*{7539f143-3895-463b-859e-a9178c806e86}*SharedItemsImports = 4
+		App.Business\App.Business.projitems*{93f098bb-e82a-4dd1-8719-a4197b080fde}*SharedItemsImports = 4
+		App.Service\App.Service.projitems*{93f098bb-e82a-4dd1-8719-a4197b080fde}*SharedItemsImports = 4
+		TestApp\TestApp\TestApp.projitems*{93f098bb-e82a-4dd1-8719-a4197b080fde}*SharedItemsImports = 4
 		TestApp\TestApp\TestApp.projitems*{f9aa70d3-618d-4ef1-8958-45a550979e0a}*SharedItemsImports = 13
 		App.Service\App.Service.projitems*{fb8c3b4d-756f-40a5-ae15-c4e11977f0cf}*SharedItemsImports = 13
 	EndGlobalSection

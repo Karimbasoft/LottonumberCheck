@@ -8,8 +8,9 @@
             Name="Info"
             Command="{Binding CmdShowInfoPage}"
             Icon="info.png"
-            Order="Primary"
-            Priority="2" />
+            Order="Secondary"
+            Priority="2"
+            Text="Info" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>

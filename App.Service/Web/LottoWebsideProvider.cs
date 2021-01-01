@@ -1,8 +1,11 @@
 ﻿using App.Business;
+using App.Business.Converter;
 using App.Business.LotteryTicket;
 using App.Business.LuckyGame;
 using App.Business.Web;
 using App.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,10 +20,11 @@ namespace App.Service.Web
     public class LottoWebsideProvider
     {
         #region Fields
+        private const int DefaultSuperNumber = -1;
         private static NLog.Logger logger;
         private readonly string _lottoWebsideURL;
-        private WebsideDataConverter lottoService;
         private static string _websideMessageWhenDataIsNotReadyYet = "wird ermittelt";
+        private LottolandApiResult _lottolandResult;
         #endregion
 
         #region Propertys
@@ -28,41 +32,35 @@ namespace App.Service.Web
 
         public string HTML { get; set; }
 
-        public List<Quote> WinningQuotesLotto
-        {
-            get =>  GetQuotes(Games.Varietie.Lotto);
-        }
+        public List<Quote> WinningQuotesLotto =>  GetQuotes(Games.Varietie.Lotto, _lottolandResult);
 
         /// <summary>
         /// Gibt die Gewinnqouten für Spiel 77 zurück
         /// </summary>
         public List<Quote> WinningQuotesSpiel77 =>
-            GetQuotes(Games.Varietie.Spiel77);
+            GetQuotes(Games.Varietie.Spiel77, _lottolandResult);
 
         /// <summary>
         /// Gibt die Gewinnqouten für Spiel 77 zurück
         /// </summary>
         public List<Quote> WinningQuotesSuper6 =>
-            GetQuotes(Games.Varietie.Super6);
+            GetQuotes(Games.Varietie.Super6, _lottolandResult);
 
-        public ObservableCollection<LottoNumber> WinningNumbers
+        public ObservableCollection<long> WinningNumbers
         {
             get
             {
-                var winningNumbers = GetWinningNumberData();
-                winningNumbers.RemoveAt(winningNumbers.Count() - 1);
-                return ConvertIntCollectionToLottonumberCollection(winningNumbers);
+                return (_lottolandResult?.Last?.Numbers != null) 
+                    ? new ObservableCollection<long>(_lottolandResult.Last.Numbers) 
+                    : new ObservableCollection<long>();
             }
         }
 
-        
-
-
-        ///// <summary>
-        ///// Gibt die gezogene Superzahl zurück
-        ///// </summary>
-        public int SuperNumber => (WinningNumbers != null && WinningNumbers.Count > 6) ? WinningNumbers[6].Number : 0;
-
+        /// <summary>
+        /// Gibt die gezogene Superzahl zurück
+        /// </summary>
+        public int SuperNumber => _lottolandResult?.Last?.Superzahl ?? DefaultSuperNumber;
+            
         /// <summary>
         /// Gibt die gezogenen SuperSechs Zahlen zurück
         /// </summary>
@@ -73,21 +71,12 @@ namespace App.Service.Web
                 ObservableCollection<LottoNumber> tempNumbers = new ObservableCollection<LottoNumber>();
                 try
                 {
-                    
-                    var addiotionalLottoNumbers = GetAdditionalLottoGameNumbers();
+                    var addiotionalLottoNumbers = _lottolandResult?.Last?.Super6?.ToCharArray();
 
                     if (addiotionalLottoNumbers != null)
                     {
-                        if (addiotionalLottoNumbers.Count() == 13)
-                        {
-                            for (int i = 8; i < 14; i++)
-                                tempNumbers.Add(new LottoNumber(addiotionalLottoNumbers[i]));
-                        }
-                        else
-                        {
-                            foreach (char item in addiotionalLottoNumbers[1])
-                                tempNumbers.Add(new LottoNumber(item.ToString()));
-                        }
+                        foreach (var item in addiotionalLottoNumbers)
+                            tempNumbers.Add(new LottoNumber(item));
                     }
                 }
                 catch (Exception ex)
@@ -110,21 +99,12 @@ namespace App.Service.Web
                 ObservableCollection<LottoNumber> tempNumbers = new ObservableCollection<LottoNumber>();
                 try
                 {
-                    var addiotionalLottoNumbers = GetAdditionalLottoGameNumbers();
+                    var addiotionalLottoNumbers = _lottolandResult?.Last?.Spiel77?.ToCharArray();
 
                     if (addiotionalLottoNumbers != null)
                     {
-                        if (addiotionalLottoNumbers.Count() == 13)
-                        {
-                            for (int i = 0; i <= 6; i++)
-                                tempNumbers.Add(new LottoNumber(addiotionalLottoNumbers[i]));
-                        }
-                        else
-                        {
-                            foreach (char item in addiotionalLottoNumbers[0])
-                                tempNumbers.Add(new LottoNumber(item.ToString()));
-                        }
-                        
+                        foreach (var item in addiotionalLottoNumbers)
+                            tempNumbers.Add(new LottoNumber(item));
                     }
                 }
                 catch (Exception ex)
@@ -139,132 +119,10 @@ namespace App.Service.Web
         public LottoWebsideProvider(string url)
         {
             _lottoWebsideURL = url;
-            LottoWebside = new Webside(_lottoWebsideURL);
-            HTML = LottoWebside.HTMLCode;
-            logger = NLog.LogManager.GetLogger("logfile");
-            CleanHTML();
+            DownloadAndPrepareLottoInformation();
         }
 
         #region Methdos
-        /// <summary>
-        /// Konvertiert eine int Collection in eine LottonumberCOllection
-        /// </summary>
-        /// <param name="tmpNumberCollection"></param>
-        /// <returns></returns>
-        public ObservableCollection<LottoNumber> ConvertIntCollectionToLottonumberCollection(ObservableCollection<int> tmpNumberCollection)
-        {
-            ObservableCollection<LottoNumber> tmpLottoCollection = new ObservableCollection<LottoNumber>();
-
-            foreach (int item in tmpNumberCollection)
-            {
-                tmpLottoCollection.Add(new LottoNumber(item));
-            }
-            return tmpLottoCollection;
-        }
-
-        /// <summary>
-        /// Gibt die gezogenen ZAhlen in einer synchronen Methode zurück
-        /// </summary>
-        /// <returns></returns>
-        private ObservableCollection<int> GetWinningNumberData()
-        {
-            var task = Task.Run(async () => await GetWinningNumbersAsync());
-            return (task.Status == TaskStatus.Faulted || task.Status == TaskStatus.Canceled) ? null : task.Result;
-        }
-
-        private string[] GetAdditionalLottoGameNumbers()
-        {
-            return Task.Run(async () => await GetAdditionalLottoGameNumbersAsync()).Result;
-        }
-
-        /// <summary>
-        /// Gibt die gezogenen Zahlen zurück
-        /// </summary>
-        /// <param name="htmlSource"></param>
-        /// <param name="className"></param>
-        /// <param name="classNameEnd"></param>
-        /// <returns></returns>
-        private async Task<ObservableCollection<int>> GetWinningNumbersAsync()
-        {
-             return await Task.Run(async () =>
-             {
-                 ObservableCollection<int> temp = new ObservableCollection<int>();
-
-                 try
-                 {
-                     var test = LottoWebside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.LottoNumberStart.ToString());
-                     int startIndex = HTML.IndexOf(LottoWebside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.LottoNumberStart.ToString()));
-                     int endindex = HTML.IndexOf(LottoWebside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.LottoNumberEnd.ToString())) - startIndex + 1;
-                     string specialPart = HTML.Substring(startIndex, endindex);
-                     string[] numbers = Regex.Split(specialPart, @"\D+");
-                     numbers = RemoveWhiteSpaceFromStringArray(numbers);
-
-                     if (numbers.Any())
-                        numbers = numbers.Count() > 7 ? numbers.Take(numbers.Count() -1).ToArray() : numbers.ToArray();
-
-                     //Füllt die temp Liste
-                     numbers.ToList().ForEach(num => temp.Add(int.Parse(num)));
-                 }
-                 catch (Exception ex)
-                 {
-                     await ShowInformationMassageAsync("Fehler", string.Format($"Ein Fehler bein auslesen der Lottozahlen ist aufgetren: {ex}"));
-                     logger.Error($"Fehler beim auslesen der Gewinnzahlen: {ex}");
-                 }
-
-                 return temp;
-             });
-        }
-
-        /// <summary>
-        /// Gibt die gezogenen Super 6 Zahlen zurück
-        /// </summary>
-        /// <param name="htmlSource"></param>
-        /// <param name="className"></param>
-        /// <param name="classNameEnd"></param>
-        /// <returns></returns>
-        private async Task<string[]> GetAdditionalLottoGameNumbersAsync()
-        {
-            return await Task.Run(async () =>
-            {
-                int startIndex = HTML.IndexOf(LottoWebside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.AdditionalLottoGameStart.ToString()));
-                int endindex = HTML.IndexOf(LottoWebside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.AdditionalLottoGameEnd.ToString())) - startIndex + 1;
-                string[] temp;
-                try
-                {
-                    string specialPart = HTML.Substring(startIndex, endindex);
-
-                    if (!specialPart.Contains("wird ermittelt"))
-                    {
-
-                        var arr = Regex.Matches(specialPart, @"\d+")
-                                    .Cast<Match>()
-                                    .Select(m => m.Value)
-                                    .ToArray();
-
-                        if (arr.Count() == 13)
-                        {
-                            //Nur die ersten 14 Zahlen werden gebraucht
-                            temp = arr.SubArray(0, 14);
-                        }
-                        else
-                        {
-                            temp = new string[] { arr[1], arr[3] };
-                        }
-                        
-                    }
-                    else
-                    {
-                        temp = new string[0];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await ShowInformationMassageAsync("Fehler", string.Format($"Ein Fehler bein auslesen der Spiel77/Super ist aufgetren: {ex}"));
-                    temp = new string[0];
-                }
-            return temp;
-            });
-        }
 
         /// <summary>
         /// Gibt die Gewinnquoten zurück
@@ -273,10 +131,8 @@ namespace App.Service.Web
         /// <param name="className"></param>
         /// <param name="classNameEnd"></param>
         /// <returns></returns>
-        private List<Quote> GetQuotes(Games.Varietie mode)
+        private List<Quote> GetQuotes(Games.Varietie mode, LottolandApiResult lottolandApiResult)
         {
-            int startIndex = 0;
-            int endindex = 0;
             List<Quote> quoteList = new List<Quote>();
 
             try
@@ -284,94 +140,45 @@ namespace App.Service.Web
                 switch (mode)
                 {
                     case Games.Varietie.Lotto:
-                        startIndex = HTML.IndexOf(LottoWebside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesLottoStart.ToString()));
-                        endindex = HTML.IndexOf(LottoWebside.CSSClassDictionary.GetValueOrDefault(CSSClasses.CSSClassNames.WinningQuotesLottoEnd.ToString())) - startIndex + 1;
+                        foreach (var element in lottolandApiResult.Last.Odds.OrderBy(x => x.Key))
+                        {
+                            quoteList.Add(ConvertOddToQoute(element));
+                        }
                         break;
                     case Games.Varietie.Super6:
+                        foreach (var element in lottolandApiResult.Last.Super6Odds)
+                        {
+                            quoteList.Add(ConvertOddToQoute(element));
+                        }
+                        break;
                     case Games.Varietie.Spiel77:
-                        //startIndex = IndexOfSecond(htmlSource, className);
-                        //endindex = htmlSource.IndexOf(classNameEnd) - startIndex + 1;
+                        foreach (var element in lottolandApiResult.Last.Spiel77Odds)
+                        {
+                            quoteList.Add(ConvertOddToQoute(element));
+                        }
                         break;
                     default:
                         break;
                 }
 
-
-                if (startIndex <= 0 || endindex <= 0)
-                {
-                    throw new Exception("Index zum auslesen stimmt nicht mit HTML überein");
-                }
-                else
-                {
-                    string specialPart = HTML.Substring(startIndex, endindex);
-
-                    if (mode == Games.Varietie.Lotto)
-                    {
-                        quoteList = GetMoneyQoutesFromSubstring(specialPart);
-                    }
-                    else if (mode == Games.Varietie.Super6 || mode == Games.Varietie.Spiel77)
-                    {
-                        //var arr = Regex.Matches(specialPart, @"(\d{1,9})(.\d{1,9}|)(.\d{1,9})")
-                        //          .Cast<Match>()
-                        //          .Select(m => m.Value)
-                        //          .ToArray();
-                        //quotesAsStringArray = arr;
-                    }
-                }
+                //Im ersten Eintrag befinden sich immer 0€
+                quoteList.RemoveAt(0);
             }
             catch (Exception ex)
             {
-                logger.Warn($"Leider können keine Quoten des {mode.ToString()} ausgelesen werden: {ex}");
+                logger.Warn($"Leider können keine Quoten des {mode} ausgelesen werden: {ex}");
             }
 
 
             return quoteList;
         }
 
-        private List<Quote> GetMoneyQoutesFromSubstring(string specialPart)
+        private Quote ConvertOddToQoute(KeyValuePair<string, Odd> keyOddPair)
         {
-            string[] separatingCharsForEachQutes = { "<tr>", "</tr>" };
-            string[] separatingCharsForEachAtribute = { "<td>", "</td>" };
-            List<Quote> qouteInfos = new List<Quote>();
-            int winningClasses = 9;
-            string currentSecialPart = specialPart;
-
-            try
-            {
-                //Entfernt den head Berecih drr Tabelle
-                currentSecialPart = currentSecialPart.Remove(0, currentSecialPart.IndexOf("<tbody>"));
-                
-                //Fast die Inforamtionen in ein Array zusammen, anhand der Tabellenspalte
-                var trData = currentSecialPart.Split(separatingCharsForEachQutes, System.StringSplitOptions.RemoveEmptyEntries);
-
-                //Der erste Eintrag ist nicht brauchbar
-                trData = trData.Skip(1).ToArray();
-                
-                //Geht jede mögliche Gewinnklasse (also 9 mal) durch
-                for (int i = 0; i < winningClasses; i++)
-                {       
-                    var subInfos = trData[i].Split(separatingCharsForEachAtribute, System.StringSplitOptions.RemoveEmptyEntries);
-
-                    //Wenn keine Geldbeträge da sind, wird auch kein Geld ausgegeben
-                    if (subInfos[2].Equals(_websideMessageWhenDataIsNotReadyYet))
-                    {
-                        qouteInfos.Clear();
-                        break;
-                    }
-                    
-                    //Fügt die Einträge der Qoutenliste hinzu, wenn keine Gewinner Daten da sind, wird diese als 0 vermerkt
-                    qouteInfos.Add(new Quote(subInfos[0], (!subInfos[1].Equals(_websideMessageWhenDataIsNotReadyYet)) ? int.Parse(subInfos[1]) : 0, subInfos[2]));
-                    
-                }
-            }
-            catch (Exception ex)
-            {
-                //Log.Error("LottoscheinAuswerter", ex.ToString());
-                return new List<Quote>();
-            }
-            return qouteInfos;
+            var moneyInCents = MoneyConverter.CurrencyConversion(keyOddPair.Value.Prize, "AUD", "EUR");
+            var moneyInEuro = MoneyConverter.CentToEuros(moneyInCents);
+            return new Quote(keyOddPair.Key, keyOddPair.Value.Winners, MoneyConverter.DoubleToEuros(moneyInEuro));
         }
-
 
         /// <summary>
         /// Entfert unnötige EInträge aus der HTML Datei
@@ -385,22 +192,40 @@ namespace App.Service.Web
 
         }
 
-        /// <summary>
-        /// Enfernt leere Array-Einträge
-        /// </summary>
-        /// <param name="toConvertArry"></param>
-        /// <returns></returns>
-        private string[] RemoveWhiteSpaceFromStringArray(string[] toConvertArry)
+        private LottolandApiResult LoadLotteryInformationsFromLottolandApi(string json)
         {
-            foreach (var item in toConvertArry)
+            LottolandApiResult lottolandApiResult = new LottolandApiResult(); 
+            try
             {
-                if (item.Equals(""))
-                {
-                    toConvertArry = toConvertArry.Where(val => val != item).ToArray();
-
-                }
+                //string jsonWithoutHint = json.Remove(json.IndexOf('"'), (json.IndexOf('"', json.IndexOf('"')+1)+1) );
+                //var b = JsonConvert.DeserializeObject<List<LotteryWinningNumbers>>(jsonWithoutHint, new LotteryWinningNumberElementConverter());
+                lottolandApiResult = JsonConvert.DeserializeObject<LottolandApiResult>(json);
+               
             }
-            return toConvertArry;
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Fehler beim laden der Lottozahlen");
+            }
+            return lottolandApiResult;
+        }
+
+        private async void DownloadAndPrepareLottoInformation()
+        {
+            LottoWebside = new Webside(_lottoWebsideURL);
+            
+            if (Xamarin.Essentials.Connectivity.NetworkAccess != Xamarin.Essentials.NetworkAccess.None)
+            {
+                HTML = LottoWebside.HTMLCode;
+                _lottolandResult = LoadLotteryInformationsFromLottolandApi(HTML);
+            }
+            else
+            {
+                _lottolandResult = new LottolandApiResult();
+                await ShowInformationMassageAsync("Info", "Bitte schalten Sie ihr Internet ein und starten Sie die App neu ;)");
+            }
+
+         
+            logger = NLog.LogManager.GetLogger("logfile");
         }
 
         private async Task ShowInformationMassageAsync(string titel, string text)

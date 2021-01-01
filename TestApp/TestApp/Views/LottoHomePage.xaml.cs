@@ -45,7 +45,7 @@ namespace App.UI.Views
             }
             else
             {
-                BindingContext = viewModel = new LottoHomePageViewModel(this.Navigation, lottoService, user);
+                BindingContext = viewModel = new LottoHomePageViewModel(Navigation, lottoService, user);
             }
         }
         //async void Lottozahlen_Clicked(object sender, EventArgs e)

@@ -443,7 +443,7 @@ namespace App.Services
 
         private async Task ShowInformationMassageAsync(string titel, string text)
         {
-            await App.UI.App.Current.MainPage.DisplayAlert(titel, text, "OK");
+            //await  MainPage.DisplayAlert(titel, text, "OK");
         }
 
     }

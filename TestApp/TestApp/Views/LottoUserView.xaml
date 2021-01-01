@@ -36,6 +36,7 @@
                     x:Name="listCurrentLottoNumbers"
                     Grid.Row="2"
                     Grid.Column="0"
+                    
                     CachingStrategy="RecycleElement"
                     HorizontalOptions="FillAndExpand"
                     ItemsSource="{Binding UserLottoNumbers}"
@@ -44,7 +45,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
-                                    <StackLayout Orientation="Horizontal">
+                                    <StackLayout Orientation="Horizontal" Margin="5">
                                         <Label
                                             FontSize="Large"
                                             HorizontalOptions="StartAndExpand"
@@ -52,10 +53,12 @@
                                         <Button
                                             x:Name="btnDelSparkleBox"
                                             BackgroundColor="{StaticResource Primary}"
-                                            Command="{Binding Path=BindingContext.DeleteSparkleBox, Source={x:Reference lottoUserView}"
+                                            Command="{Binding Path=BindingContext.DeleteSparkleBox, Source={x:Reference lottoUserView }}"
                                             CommandParameter="{Binding}"
                                             HorizontalOptions="Center"
                                             Text="-"
+                                            WidthRequest="50"
+                                            HeightRequest="20"
                                             TextColor="Wheat" />
                                     </StackLayout>
                                 </ViewCell.View>
@@ -67,30 +70,68 @@
                     x:Name="LottoTicketControl"
                     Grid.Row="3"
                     Orientation="Horizontal">
-                    <Image
+                    <ImageButton
                         x:Name="btnChangeTicketNumber"
                         HorizontalOptions="StartAndExpand"
+                        BackgroundColor="Transparent"
+                        Command="{Binding ChangeTicketNumber}"
                         Source="enterNumber.png">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ChangeTicketNumber}" CommandParameter="chnageTK" />
-                        </Image.GestureRecognizers>
-                    </Image>
-                    <Image
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale" Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale" Value="0.9" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ImageButton>
+                    <ImageButton
                         x:Name="btnClearSparkleBox"
                         HorizontalOptions="CenterAndExpand"
+                        BackgroundColor="Transparent"
+                        Command="{Binding ClearSparkleBox}"
                         Source="bin.png">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ClearSparkleBox}" CommandParameter="d" />
-                        </Image.GestureRecognizers>
-                    </Image>
-                    <Image
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale" Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale" Value="0.9" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ImageButton>
+                    <ImageButton
                         x:Name="btnChangeSuperNumebr"
+                        BackgroundColor="Transparent"
                         HorizontalOptions="EndAndExpand"
                         Source="superhero.png">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ChangeSuperNumber}" CommandParameter="chnage" />
-                        </Image.GestureRecognizers>
-                    </Image>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale" Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Property="Scale" Value="0.9" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ImageButton>
                 </StackLayout>
             </Grid>
         </StackLayout>

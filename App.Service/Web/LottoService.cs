@@ -27,7 +27,7 @@ namespace App.Service.Web
         /// <summary>
         /// Die Gewinnzaheln
         /// </summary>
-        public ObservableCollection<LottoNumber> LottoNumbers => LottoWebside.WinningNumbers;
+        public ObservableCollection<long> LottoNumbers => LottoWebside.WinningNumbers;
 
         /// <summary>
         /// Super 6 Zahlen

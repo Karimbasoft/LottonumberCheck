@@ -80,7 +80,7 @@
                                             BackgroundColor="Transparent"
                                             BorderColor="Transparent"
                                             BorderWidth="0"
-                                            Command="{Binding Path=BindingContext.CmdSelectLottoNumber, Source={x:Reference addLottoNumbers}"
+                                            Command="{Binding Path=BindingContext.CmdSelectLottoNumber, Source={x:Reference addLottoNumbers}}"
                                             CommandParameter="{Binding}"
                                             Text="{Binding Number}">
                                             <Button.Triggers>
@@ -121,7 +121,7 @@
                                             x:Name="btnSelectedNumber"
                                             BackgroundColor="Transparent"
                                             BorderColor="Transparent"
-                                            Command="{Binding Path=BindingContext.CmdRemoveSelectedNumber, Source={x:Reference addLottoNumbers}"
+                                            Command="{Binding Path=BindingContext.CmdRemoveSelectedNumber, Source={x:Reference addLottoNumbers}}"
                                             CommandParameter="{Binding}"
                                             Text="{Binding Number}" />
                                     </xfShapeView:ShapeView>

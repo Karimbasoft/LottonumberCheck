@@ -57,7 +57,7 @@
                                 <DataTemplate>
                                     <Button
                                         x:Name="btnLottoNumber"
-                                        Command="{Binding Path=BindingContext.CmdSelectSuperNumber, Source={x:Reference selectSuperNumber}"
+                                        Command="{Binding Path=BindingContext.CmdSelectSuperNumber, Source={x:Reference selectSuperNumber}}"
                                         CommandParameter="{Binding}"
                                         Text="{Binding Number}" />
                                 </DataTemplate>

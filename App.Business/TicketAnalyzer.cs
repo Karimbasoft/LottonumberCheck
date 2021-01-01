@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Text;
-using App.Business;
-using System.Linq;
 
 namespace App.Business
 {
@@ -42,80 +39,32 @@ namespace App.Business
 
         private static string GetMoneyQuoteFromSpecialHit(int hits, bool superNumber, List<Quote> moneyQoutes)
         {
-            string moneyForUser = "0,00";
-            double money = 0;
+            string moneyAsFormatedString = "0,00€";
+            //Der Modus wird nur alle 2 durchläufe erhöht, damit die Superzahlen prüfung abgeschlossen werden kann
             int mode = 2;
-            bool check = true;
+            int counter = 2;
+            bool superNumberCheck = true;
 
-            for (int i = 2; i <= 10; i++)
+            if (hits == 1)
+                return moneyAsFormatedString;
+
+            foreach (var qoute in moneyQoutes)
             {
-                if (mode == hits && superNumber == check)
+                if (mode == hits && superNumber == superNumberCheck)
                 {
-                    moneyForUser = CompareQuoteToHits(i - 1, moneyQoutes);
-                    money += ToDouble(moneyForUser);
+                    moneyAsFormatedString = qoute.Money;
                     break;
                 }
-                if (i % 2 == 0)
+
+                if (counter % 2 == 0)
                 {
                     mode++;
                 }
-                if (check)
-                {
-                    check = false;
-                }
-                else
-                {
-                    check = true;
-                }
+                counter++;
+                superNumberCheck = !superNumberCheck;
             }
 
-            return Converter.MoneyConverter.DoubleToEuros(Converter.MoneyConverter.CentToEuros(money));
-        }
-
-        /// <summary>
-        /// Bekommt den Gewinn zurueckgegeben, Uebergabeparamter ist das Qoutenlevel
-        /// </summary>
-        /// <param name="pQuoteLevel"></param>
-        /// <returns></returns>
-        private static string CompareQuoteToHits(int pQuoteLevel,List<Quote> moneyQoutes)
-        {
-            string money = "0,00";
-
-            switch (pQuoteLevel)
-            {
-                case 1:
-                    money = moneyQoutes[8].Money;
-                    break;
-                case 2:
-                    money = moneyQoutes[7].Money;
-                    break;
-                case 3:
-                    money = moneyQoutes[6].Money; //14
-                    break;
-                case 4:
-                    money = moneyQoutes[5].Money; //11
-                    break;
-                case 5:
-                    money = moneyQoutes[4].Money; //8
-                    break;
-                case 6:
-                    money = moneyQoutes[3].Money; //5
-                    break;
-                case 7:
-                    money = moneyQoutes[2].Money; //2
-                    break;
-                case 8:
-                    money = moneyQoutes[1].Money; //1
-                    break;
-                case 9:
-                    money = moneyQoutes[0].Money; //0
-                    break;
-                default:
-                    money = "0,00";
-                    break;
-            }
-            Log.Info("LottoscheinAuswerter", string.Format("Der Gewinn fuer Lotto betraegt: {0} €", money));
-            return string.Format("{0} €", money);
+            return moneyAsFormatedString;
         }
 
         /// <summary>
@@ -176,6 +125,9 @@ namespace App.Business
         public static ObservableCollection<SparkleAnalysis> CreateWinningAnalysis(List<SparkleAnalysis> listWinningInformations, bool superNumber, List<Quote> moneyQoute)
         {
             ObservableCollection<SparkleAnalysis> tmpWinningAnalysis = new ObservableCollection<SparkleAnalysis>();
+
+            //Für die auswertung ist es wichtig, dass die niedrigsten Gewinne oben stehen
+            moneyQoute.Reverse();
             foreach (var item in listWinningInformations)
             {
                 tmpWinningAnalysis.Add(new SparkleAnalysis(item.Lottozahlen, item.Hits, GetMoneyQuoteFromSpecialHit(item.Hits, superNumber, moneyQoute)));
