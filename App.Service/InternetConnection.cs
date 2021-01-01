@@ -84,16 +84,5 @@ namespace App.Services
                 return false;
             }
         }
-
-        /// <summary>
-        /// Zeigt eine MessageBox an
-        /// </summary>
-        /// <param name="titel"></param>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        private async System.Threading.Tasks.Task ShowInformationMassageAsync(string titel, string text)
-        {
-            await App.UI.App.Current.MainPage.DisplayAlert(titel, text, "OK");
-        }
     }
 }
