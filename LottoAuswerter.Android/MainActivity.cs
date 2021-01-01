@@ -1,9 +1,7 @@
-﻿using Android.App;
-using Android.Widget;
+﻿
+using Android.App;
 using Android.Content.PM;
-using App.UI;
 using Android.OS;
-using Android;
 
 namespace LottoAuswerter.Android
 {
@@ -14,11 +12,12 @@ namespace LottoAuswerter.Android
         {
 
             base.OnCreate(savedInstanceState);
-            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            Rg.Plugins.Popup.Popup.Init(this);
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             LoadApplication(new App.UI.App());
         }
