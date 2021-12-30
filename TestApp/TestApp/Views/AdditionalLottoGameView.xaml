@@ -25,7 +25,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span ForegroundColor="{StaticResource LightTextColor}" Text="Super 6" />
+                                <Span ForegroundColor="{StaticResource MediumGrayTextColor}" Text="Super 6" />
                             </FormattedString.Spans>
                         </FormattedString>
                     </Label.FormattedText>
@@ -71,11 +71,11 @@
                                 Opacity="1"
                                 Progress="50"
                                 ShapeType="Circle"
-                                Color="Gray">
+                                Color="{StaticResource LightBackgroundColor}">
                                 <Label
                                     x:Name="labNumber"
                                     HorizontalTextAlignment="Center"
-                                    Text="{Binding Number}"
+                                    Text="{Binding}"
                                     XAlign="Center"
                                     YAlign="Center" />
                             </xfShapeView:ShapeView>
@@ -116,7 +116,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span ForegroundColor="{StaticResource LightTextColor}" Text="Spiel 77" />
+                                <Span ForegroundColor="{StaticResource MediumGrayTextColor}" Text="Spiel 77" />
                             </FormattedString.Spans>
                         </FormattedString>
                     </Label.FormattedText>
@@ -139,11 +139,11 @@
                                 Opacity="1"
                                 Progress="50"
                                 ShapeType="Circle"
-                                Color="Gray">
+                                Color="{StaticResource LightBackgroundColor}">
                                 <Label
                                     x:Name="labNumber"
                                     HorizontalTextAlignment="Center"
-                                    Text="{Binding Number}"
+                                    Text="{Binding}"
                                     XAlign="Center"
                                     YAlign="Center" />
                             </xfShapeView:ShapeView>

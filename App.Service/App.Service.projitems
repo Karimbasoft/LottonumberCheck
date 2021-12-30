@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)InternetConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InternetDataInformationConvert.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LotteryTicketService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Notification\NotificationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\LottoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\LottoWebsideProvider.cs" />
   </ItemGroup>

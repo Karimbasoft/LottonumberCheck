@@ -25,25 +25,10 @@ namespace App.Business
         }
         #endregion
 
-        public void SerializeSparkleBox(SparkleBox obj)
+
+        public void SerializeUser(User obj)
         {
             string json = JsonConvert.SerializeObject(obj);
-
-            using (var file = File.Open(PathToJSON, FileMode.Create, FileAccess.Write))
-            using (var strm = new StreamWriter(file))
-            {
-                strm.Write(json);
-            }
-        }
-
-
-        /// <summary>
-        /// Serialisiert die SparkleBox
-        /// </summary>
-        /// <param name="objList"></param>
-        public void SerializeSparkleBox(ObservableCollection<SparkleBox> objList)
-        {
-            string json = JsonConvert.SerializeObject(objList);
 
             using (var file = File.Open(PathToJSON, FileMode.Create, FileAccess.Write))
             using (var strm = new StreamWriter(file))
@@ -56,20 +41,24 @@ namespace App.Business
         /// Deserialisiert die SparkleBox ObservableCollection
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<SparkleBox> DeserializeSparkleBoxList()
+        public User DeserializeUser()
         {
-            List<SparkleBox> temp = new List<SparkleBox>();
+            User temp = new User();
 
             if (CheckIfFileExist(PathToJSON))
             {
                 using (StreamReader r = new StreamReader(PathToJSON))
                 {
                     string json = r.ReadToEnd();
-                    temp = JsonConvert.DeserializeObject<List<SparkleBox>>(json);
+                    temp = JsonConvert.DeserializeObject<User>(json);
                 }
             }
+            else
+            {
+                temp.UserNumbers = new ObservableCollection<SparkleBox>();
+            }
 
-            return new ObservableCollection<SparkleBox>(temp);
+            return temp;
         }
 
         #region Methods

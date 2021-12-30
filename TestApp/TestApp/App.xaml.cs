@@ -23,13 +23,8 @@ namespace App.UI
             FlowListView.Init();
             _user = new User();
             //http://api.hubobel.de/lotto/Mittwoch
-            DayOfWeek dayOfWeek = DateTime.Now.DayOfWeek;
-            if (dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Thursday || dayOfWeek == DayOfWeek.Sunday || dayOfWeek == DayOfWeek.Wednesday)
-            
             _lottoService = new Service.Web.LottoService("https://www.lottoland.com.au/api/drawings/german6aus49");
-            else
-                _lottoService = new Service.Web.LottoService("https://www.lottoland.com.au/api/drawings/german6aus49");
-            _user.UserNumbers = new System.Collections.ObjectModel.ObservableCollection<SparkleBox>(_user.DeserializeSparkleBoxList());
+            _user = _user.FromJSON();
             SetMainPage();
 		}
 
@@ -40,12 +35,12 @@ namespace App.UI
                     new NavigationPage(new LottoHomePage(_lottoService, _user))
                     {
                         //Title = "Startseite",
-                        Icon = Device.OnPlatform("home_50.png","home_50.png","home_50.png")
+                        IconImageSource ="home_50.png"
                     },
                     new NavigationPage(new LottoUserView(_lottoService, _user))
                     {
                         //Title = "Benutzer",
-                        Icon = Device.OnPlatform("customer_50.png","customer_50.png","customer_50.png")
+                        IconImageSource = "customer_50.png"
                     },
                 }
         };

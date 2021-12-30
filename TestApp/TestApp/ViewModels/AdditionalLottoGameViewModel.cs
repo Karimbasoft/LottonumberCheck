@@ -19,8 +19,8 @@ namespace App.UI.ViewModels
         #endregion
 
         #region Propertys
-        public ObservableCollection<LottoNumber> UserSuperSechsNumbers { get; set; }
-        public ObservableCollection<LottoNumber> UserSpielSiebenundsiebzigNumbers { get; set; }
+        public ObservableCollection<int> UserSuperSechsNumbers { get; set; }
+        public ObservableCollection<int> UserSpielSiebenundsiebzigNumbers { get; set; }
         private User AppUser { get; } 
         #endregion
 

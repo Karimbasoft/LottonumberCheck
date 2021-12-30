@@ -3,6 +3,7 @@
     x:Class="App.UI.Views.LottoUserView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xfShapeView="clr-namespace:XFShapeView;assembly=XFShapeView"
     x:Name="lottoUserView"
     Icon="customer_50.png">
     <ContentPage.Content>
@@ -10,33 +11,27 @@
             <Grid x:Name="gridLayoutDesign">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70" />
-                    <RowDefinition Height="70" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="80" />
                     <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Picker
+                <!--<Picker
                     x:Name="pickTicketNumbers"
                     ItemDisplayBinding="{Binding SparkleBoxNumbers}"
                     ItemsSource="{Binding UserLottoNumbers}"
-                    SelectedItem="{Binding SelectedLottoTicket, Mode=TwoWay}" />
-                <StackLayout
-                    x:Name="layoutHeader"
-                    Grid.Row="1"
-                    Grid.Column="0">
-                    <Image x:Name="btnAddSparkleBox" Source="add_default.png">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding AddSparkleBox}" CommandParameter="add" />
-                        </Image.GestureRecognizers>
-                    </Image>
-                </StackLayout>
+                    SelectedItem="{Binding SelectedLottoTicket, Mode=TwoWay}" />-->
+                <Label
+                    Grid.Row="0"
+                    Margin="0,5,0,0"
+                    FontSize="Large"
+                    Text="Lottozahlen:" />
                 <ListView
                     x:Name="listCurrentLottoNumbers"
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Grid.Column="0"
-                    
                     CachingStrategy="RecycleElement"
                     HorizontalOptions="FillAndExpand"
                     ItemsSource="{Binding UserLottoNumbers}"
@@ -45,7 +40,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
-                                    <StackLayout Orientation="Horizontal" Margin="5">
+                                    <StackLayout Margin="5" Orientation="Horizontal">
                                         <Label
                                             FontSize="Large"
                                             HorizontalOptions="StartAndExpand"
@@ -53,24 +48,60 @@
                                         <Button
                                             x:Name="btnDelSparkleBox"
                                             BackgroundColor="{StaticResource Primary}"
-                                            Command="{Binding Path=BindingContext.DeleteSparkleBox, Source={x:Reference lottoUserView }}"
+                                            Command="{Binding Path=BindingContext.DeleteSparkleBox, Source={x:Reference lottoUserView}}"
                                             CommandParameter="{Binding}"
+                                            HeightRequest="20"
                                             HorizontalOptions="Center"
                                             Text="-"
-                                            WidthRequest="50"
-                                            HeightRequest="20"
-                                            TextColor="Wheat" />
+                                            TextColor="Wheat"
+                                            WidthRequest="50" />
                                     </StackLayout>
                                 </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <StackLayout Grid.Row="2" Orientation="Horizontal">
+                    <Label
+                        Margin="5,0,5,10"
+                        HorizontalOptions="StartAndExpand"
+                        Text="Superzahl:"
+                        VerticalOptions="Start"
+                        VerticalTextAlignment="Center" />
+                    <xfShapeView:ShapeView
+                        Margin="5,0,5,10"
+                        BorderColor="Gray"
+                        BorderWidth="2"
+                        HorizontalOptions="EndAndExpand"
+                        IsVisible="True"
+                        Opacity="1"
+                        Progress="50"
+                        ShapeType="Circle"
+                        VerticalOptions="StartAndExpand"
+                        Color="Gray">
+                        <Label
+                            x:Name="labNumber"
+                            Padding="10"
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding SuperNumber, Mode=TwoWay}">
+                            <Label.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding Source={x:Reference lottoUserView}, Path=SuperNumber}"
+                                    TargetType="Label"
+                                    Value="-1">
+                                    <Setter Property="Text" Value="Nicht gesetzt!" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </xfShapeView:ShapeView>
+                </StackLayout>
                 <StackLayout
                     x:Name="LottoTicketControl"
                     Grid.Row="3"
-                    Orientation="Horizontal">
-                    <ImageButton
+                    Orientation="Horizontal"
+                    VerticalOptions="EndAndExpand">
+                    <!--<ImageButton
                         x:Name="btnChangeTicketNumber"
                         HorizontalOptions="StartAndExpand"
                         BackgroundColor="Transparent"
@@ -90,12 +121,12 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                    </ImageButton>
+                    </ImageButton>-->
                     <ImageButton
                         x:Name="btnClearSparkleBox"
-                        HorizontalOptions="CenterAndExpand"
                         BackgroundColor="Transparent"
                         Command="{Binding ClearSparkleBox}"
+                        HorizontalOptions="StartAndExpand"
                         Source="bin.png">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -113,8 +144,16 @@
                         </VisualStateManager.VisualStateGroups>
                     </ImageButton>
                     <ImageButton
+                        x:Name="btnAddSparkleBox"
+                        BackgroundColor="Transparent"
+                        Command="{Binding AddSparkleBox}"
+                        CommandParameter="add"
+                        HorizontalOptions="CenterAndExpand"
+                        Source="add_default.png" />
+                    <ImageButton
                         x:Name="btnChangeSuperNumebr"
                         BackgroundColor="Transparent"
+                        Command="{Binding SelectSuperNumber}"
                         HorizontalOptions="EndAndExpand"
                         Source="superhero.png">
                         <VisualStateManager.VisualStateGroups>

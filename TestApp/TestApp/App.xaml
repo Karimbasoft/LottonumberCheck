@@ -5,16 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#2196F3</Color>
-            <Color x:Key="PrimaryDark">#1976D2</Color>
-            <Color x:Key="Accent">#96d1ff</Color>
-            <Color x:Key="LightBackgroundColor">#FAFAFA</Color>
-            <Color x:Key="DarkBackgroundColor">#C0C0C0</Color>
+            <Color x:Key="Primary">#455A64</Color>
+            <Color x:Key="PrimaryDark">#263238</Color>
+            <Color x:Key="Accent">#CFD8DC</Color>
+            <Color x:Key="LightBackgroundColor">#ECEFF1</Color>
+            <Color x:Key="DarkBackgroundColor">#263238</Color>
             <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
-            <Color x:Key="LightTextColor">#999999</Color>
+            <Color x:Key="LightTextColor">#ECEFF1</Color>
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="BarTextColor" Value="White" />
+                <Setter Property="BarTextColor" Value="#ECEFF1" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

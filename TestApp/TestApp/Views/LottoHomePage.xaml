@@ -2,7 +2,9 @@
 <ContentPage
     x:Class="App.UI.Views.LottoHomePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Lottozahlen-Auswerter"
+    Appearing="ContentPage_Appearing">
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Name="Info"
@@ -56,10 +58,7 @@
                         Command="{Binding LoadLottoViewCommand}"
                         Text="Lottozahlen"
                         TextColor="White" />-->
-                        <Frame
-                            Padding="10"
-                            HasShadow="true"
-                            OutlineColor="Wheat">
+                        <Frame Padding="10" HasShadow="true">
                             <StackLayout Orientation="Horizontal">
                                 <Image
                                     x:Name="btnStartLottoCheck"

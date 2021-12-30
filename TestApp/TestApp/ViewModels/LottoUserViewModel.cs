@@ -23,6 +23,7 @@ namespace App.UI.ViewModels
         #region Fields
         private LottoService _lottoService { get; }
         private int _deleteClickCounter = 0;
+        private SelectSuperNumber _selectSuperNumber;
         #endregion 
 
         #region Propertys
@@ -43,6 +44,8 @@ namespace App.UI.ViewModels
                 return UserLottoNumbers.Count > 0 ? false : true;
             }
         }
+
+        public int SuperNumber => AppUser.SuperNumber;
         #endregion
 
         #region Commands    
@@ -101,6 +104,24 @@ namespace App.UI.ViewModels
 
             }
         }
+
+        public ICommand SelectSuperNumber
+        {
+            get
+            {
+                return new Command(async (object obj) =>
+                {
+                    _selectSuperNumber = new SelectSuperNumber();
+                    _selectSuperNumber.Disappearing += _selectSuperNumber_Disappearing; ;
+                    await PopupNavigation.Instance.PushAsync(_selectSuperNumber);
+                });
+
+            }
+        }
+
+        
+
+
         #endregion
 
         public LottoUserViewModel()
@@ -126,7 +147,7 @@ namespace App.UI.ViewModels
         {
             AddLottoNumbersPopUp = new AddLottoNumbers(_lottoService, AppUser);
             AddLottoNumbersPopUp.Disappearing += AddLottoNumbersPopUp_Disappearing;
-            await PopupNavigation.PushAsync(AddLottoNumbersPopUp);
+            await PopupNavigation.Instance.PushAsync(AddLottoNumbersPopUp);
         }
 
         /// <summary>
@@ -160,6 +181,18 @@ namespace App.UI.ViewModels
                 AddLottoNumbersPopUp.Disappearing -= AddLottoNumbersPopUp_Disappearing;
                 AddLottoNumbersPopUp.SelectedNumbers.Clear();
                 }
+        }
+
+        private void _selectSuperNumber_Disappearing(object sender, EventArgs e)
+        {
+            if (sender is SelectSuperNumber superNumberDialog)
+            {
+                if (superNumberDialog.Save)
+                {
+                    AppUser.SuperNumber = superNumberDialog.SelectedSuperNumber;
+                    OnPropertyChanged(nameof(SuperNumber));
+                }
+            }
         }
 
         private void DeleteSparkleBoxFromUserList(string numbers)
