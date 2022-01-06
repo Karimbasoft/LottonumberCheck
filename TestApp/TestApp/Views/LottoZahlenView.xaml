@@ -27,7 +27,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span ForegroundColor="{StaticResource LightTextColor}" Text="Lottozahlen" />
+                                <Span ForegroundColor="{StaticResource MediumGrayTextColor}" Text="Lottozahlen" />
                             </FormattedString.Spans>
                         </FormattedString>
                     </Label.FormattedText>
@@ -57,7 +57,7 @@
                                 Opacity="1"
                                 Progress="50"
                                 ShapeType="Circle"
-                                Color="Gray">
+                                Color="{StaticResource LightBackgroundColor}">
                                 <Label
                                     x:Name="labNumber"
                                     HorizontalTextAlignment="Center"
@@ -93,7 +93,7 @@
                     Command="{Binding ShowEvaluation}"
                     CornerRadius="10"
                     Text="Auswerten"
-                    TextColor="Wheat" />
+                    TextColor="{StaticResource LightTextColor}" />
             </Grid>
             <Grid
                 x:Name="GridInformations"
@@ -141,6 +141,7 @@
                     x:Name="labTreffertxt"
                     Grid.Row="1"
                     Grid.Column="0"
+                    Margin="10,0,0,0"
                     FontSize="16"
                     HorizontalTextAlignment="End"
                     Text="Höchster Treffer:" />
@@ -164,18 +165,18 @@
                     FontSize="16"
                     HorizontalTextAlignment="Center"
                     Text="{Binding TotalProfit}" />
-                <Button
-                    x:Name="btnMoreInformations"
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="1"
-                    Margin="5,0,5,0"
-                    BackgroundColor="{StaticResource Primary}"
-                    Command="{Binding CmdShowMoreInformations}"
-                    CornerRadius="10"
-                    Text="Mehr Informationen"
-                    TextColor="Wheat" />
+
             </Grid>
+            <Button
+                x:Name="btnMoreInformations"
+                Margin="5,0,5,5"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding CmdShowMoreInformations}"
+                CornerRadius="10"
+                IsVisible="{Binding ShowInfoTable}"
+                Text="Mehr Informationen"
+                TextColor="{StaticResource LightTextColor}"
+                VerticalOptions="EndAndExpand" />
             <!--</ScrollView>-->
         </StackLayout>
     </ContentPage.Content>

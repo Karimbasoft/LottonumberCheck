@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -64,11 +65,11 @@ namespace App.Service.Web
         /// <summary>
         /// Gibt die gezogenen SuperSechs Zahlen zurück
         /// </summary>
-        public ObservableCollection<LottoNumber> SuperSechsNumbers
+        public ObservableCollection<int> SuperSechsNumbers
         {
             get
             {
-                ObservableCollection<LottoNumber> tempNumbers = new ObservableCollection<LottoNumber>();
+                ObservableCollection<int> tempNumbers = new ObservableCollection<int>();
                 try
                 {
                     var addiotionalLottoNumbers = _lottolandResult?.Last?.Super6?.ToCharArray();
@@ -76,7 +77,7 @@ namespace App.Service.Web
                     if (addiotionalLottoNumbers != null)
                     {
                         foreach (var item in addiotionalLottoNumbers)
-                            tempNumbers.Add(new LottoNumber(item));
+                            tempNumbers.Add(CharUnicodeInfo.GetDigitValue(item));
                     }
                 }
                 catch (Exception ex)
@@ -92,11 +93,11 @@ namespace App.Service.Web
         /// <summary>
         /// Gibt die gezogenen SpielSiebenundsiebzig Zahlen zurück
         /// </summary>
-        public ObservableCollection<LottoNumber> SpielSiebenundsiebzigNumbers
+        public ObservableCollection<int> SpielSiebenundsiebzigNumbers
         {
             get
             {
-                ObservableCollection<LottoNumber> tempNumbers = new ObservableCollection<LottoNumber>();
+                ObservableCollection<int> tempNumbers = new ObservableCollection<int>();
                 try
                 {
                     var addiotionalLottoNumbers = _lottolandResult?.Last?.Spiel77?.ToCharArray();
@@ -104,7 +105,7 @@ namespace App.Service.Web
                     if (addiotionalLottoNumbers != null)
                     {
                         foreach (var item in addiotionalLottoNumbers)
-                            tempNumbers.Add(new LottoNumber(item));
+                            tempNumbers.Add(CharUnicodeInfo.GetDigitValue(item));
                     }
                 }
                 catch (Exception ex)
@@ -119,7 +120,7 @@ namespace App.Service.Web
         public LottoWebsideProvider(string url)
         {
             _lottoWebsideURL = url;
-            DownloadAndPrepareLottoInformation();
+            LottoWebside = new Webside(_lottoWebsideURL);
         }
 
         #region Methdos
@@ -180,18 +181,6 @@ namespace App.Service.Web
             return new Quote(keyOddPair.Key, keyOddPair.Value.Winners, MoneyConverter.DoubleToEuros(moneyInEuro));
         }
 
-        /// <summary>
-        /// Entfert unnötige EInträge aus der HTML Datei
-        /// </summary>
-        private void CleanHTML()
-        {
-            if (HTML.Contains("</head>"))
-                HTML = HTML.Substring(HTML.IndexOf("</head>"));
-            if(HTML.Contains("HeaderBasketLink"))
-                HTML = HTML.Substring(HTML.IndexOf("HeaderBasketLink"));
-
-        }
-
         private LottolandApiResult LoadLotteryInformationsFromLottolandApi(string json)
         {
             LottolandApiResult lottolandApiResult = new LottolandApiResult(); 
@@ -209,13 +198,11 @@ namespace App.Service.Web
             return lottolandApiResult;
         }
 
-        private async void DownloadAndPrepareLottoInformation()
+        public async Task InitilizeWebsideProvider()
         {
-            LottoWebside = new Webside(_lottoWebsideURL);
-            
             if (Xamarin.Essentials.Connectivity.NetworkAccess != Xamarin.Essentials.NetworkAccess.None)
             {
-                HTML = LottoWebside.HTMLCode;
+                HTML = await LottoWebside.GetHTMLAsync();
                 _lottolandResult = LoadLotteryInformationsFromLottolandApi(HTML);
             }
             else

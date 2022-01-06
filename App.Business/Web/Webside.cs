@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,8 +16,6 @@ namespace App.Business.Web
     public class Webside
     {
         #region Fields
-        private InternetConnection _connection;
-        private bool _isSynchronMode = true;
         private static NLog.Logger _logger;
         #endregion
 
@@ -25,150 +24,44 @@ namespace App.Business.Web
         /// </summary>
         public string URL { get; set; }
 
-        /// <summary>
-        /// The HTML Source Code of the Webside
-        /// </summary>
-        public string HTMLCode
-        {
-            get
-            {
-                return GetHTMLWebRequest();
-            }
-        }
-
-        /// <summary>
-        /// Webide Online
-        /// </summary>
-        public bool Online
-        {
-            get
-            {
-                return _connection.CheckInternetConnection(URL);
-            }
-        }
-
-        /// <summary>
-        /// Beinhaltet die CSSClassen
-        /// </summary>
-        public Dictionary<string, string> CSSClassDictionary { get; set; }
-
         public Webside(string url)
         {
             URL = url;
-            _connection = new InternetConnection(URL);
-            CSSClassDictionary = CreateStandardCSSClasses();
             _logger = NLog.LogManager.GetLogger("logfile");
         }
 
         #region Method
-        private string GetHTMLWebRequest()
+        private async Task<string> GetHTMLWebRequestAsync()
         {
-            string html = "";
+            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(15) };
+            httpClient.BaseAddress = new Uri(URL);
             try
             {
-                if (_connection.CheckInternetConnection(URL))
+                using (var httpResponse = await httpClient.GetAsync(URL))
                 {
-
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
-                    request.Method = "GET";
-                    request.ContentType = "text/html";
-                    HttpWebResponse myResp = (HttpWebResponse)request.GetResponse();
-
-                    using (var response = request.GetResponse())
+                    if (httpResponse.StatusCode == HttpStatusCode.OK)
                     {
-                        using (var reader = new StreamReader(response.GetResponseStream()))
-                        {
-                            html = reader.ReadToEnd();
-                        }
+                        return await httpResponse.Content.ReadAsStringAsync();
+                    }
+                    else
+                    {
+                        Android.Util.Log.Warn("LottoAuswerter", $"Probleme beim Download. Abgeborchen Status: {httpResponse.StatusCode}");
+                        return string.Empty;
                     }
                 }
-                else
-                {
-                    ShowInformationMassageAsync("No connection", "Es ist nicht möglich eine Verbindung zum Internet herzustellen !");
-                    _logger.Warn("Keine Internetverindung möglich !");
-                }
             }
-
             catch (WebException ex)
             {
                 Console.WriteLine(ex.Message);
-                html = "";
                 _logger.Warn($"Keine Internetverindung möglich: {ex}");
+                Android.Util.Log.Error("LottoAuswerter", $"Probleme beim Download der DAten: {ex}");
+                return string.Empty;
             }
-            return html;
         }
 
-        public async Task<string> StartToDownloadHTMLSourceAsync(int timeInSeconds)
+        public async Task<string> GetHTMLAsync()
         {
-            return await GetHTMLAsync(timeInSeconds);
-        }
-
-        public async Task<string> GetHTMLAsync(int timeInSeconds)//http://www.lotto24.de/webshop/product/lottonormal/result
-        {
-            string html = "";
-            CancellationTokenSource tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(timeInSeconds));
-            CancellationToken token = tokenSource.Token;
-
-            await Task.Run(async () =>
-            {
-
-                if (_connection.CheckInternetConnection(URL))
-                {
-                    html = await Task.FromResult(GetHTMLWebRequest());
-                }
-                else
-                {
-                    html = "";
-                    await ShowInformationMassageAsync("No connection", "Es ist nicht möglich eine Verbindung zum Internet herzustellen !");
-                }
-            }, token);
-
-
-            if (token.IsCancellationRequested)
-            {
-                html = "";
-                Debugger.Break();
-            }
-
-            //Quellcode zurückgeben
-            return html;
-        }
-
-        //private Dictionary<string, string> CreateStandardCSSClasses()
-        //{
-        //    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>
-        //    {
-        //        //{ CSSClassNames.SuperNumber.ToString(), "class=\"winning-numbers__number winning-numbers__number--superzahl\"" },
-        //        //{ CSSClassNames.WinningQuotesSpielSiebenundsiebzigStart.ToString(), "class=\"inner-table-header align-middle hidden-xs" },
-        //        //{ CSSClassNames.WinningQuotesSpielSiebenundsiebzigEnd.ToString(),  "class=\"inner-table-header align-middle hidden-xs" },
-        //        //{ CSSClassNames.WinningQuotesLottoStart.ToString(),  "class=\"inner-table-header align-middle hidden-xs" },
-        //        //{ CSSClassNames.WinningQuotesLottoEnd.ToString(),   "class=\"inner-table-header align-middle visible-xs-block" }
-        //        {CSSClassNames.LottoNumberStart.ToString(), "class=\"product__box__content__result__numbers\"" },
-        //        {CSSClassNames.LottoNumberEnd.ToString(), "class=\"product__box__content__result__numbers--square\"" },
-        //        {CSSClassNames.AdditionalLottoGameStart.ToString(), "class=\"product__box__content__result__numbers--square\"" },
-        //        {CSSClassNames.AdditionalLottoGameEnd.ToString(), "class=\"confirm middle further--arrow quota hidden-xs\"" },
-        //        {CSSClassNames.WinningQuotesLottoStart.ToString(), "class=\"col-xs-5 col-sm-4\" data-test-id=\"winningNumbersCol\"" },
-        //        {CSSClassNames.WinningQuotesLottoEnd.ToString(), "class=\"info-box alert-box jackpot-box\"" }
-        //    };
-
-
-        //    return keyValuePairs;
-        //}
-
-        private Dictionary<string, string> CreateStandardCSSClasses()
-        {
-            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>
-            {
-                {CSSClassNames.LottoNumberStart.ToString(), "class=\"draw-results\"" },
-                {CSSClassNames.LottoNumberEnd.ToString(), "class=\"zusatzlotterien\"" },
-                {CSSClassNames.AdditionalLottoGameStart.ToString(), "class=\"zusatzlotterien\"" },
-                {CSSClassNames.AdditionalLottoGameEnd.ToString(), "class=\"accordion ui-accordion ui-widget ui-helper-reset\"" },
-                {CSSClassNames.WinningQuotesLottoStart.ToString(), "responsive-table\"" },
-                {CSSClassNames.WinningQuotesLottoEnd.ToString(), "class=\"info-box alert-box jackpot-box\"" }
-            };
-
-
-            return keyValuePairs;
+            return await GetHTMLWebRequestAsync();
         }
 
         /// <summary>
@@ -179,7 +72,10 @@ namespace App.Business.Web
         /// <returns></returns>
         private async System.Threading.Tasks.Task ShowInformationMassageAsync(string titel, string text)
         {
-            await App.UI.App.Current.MainPage.DisplayAlert(titel, text, "OK");
+            await Xamarin.Forms.Device.InvokeOnMainThreadAsync(async () =>
+             {
+                 await App.UI.App.Current?.MainPage?.DisplayAlert(titel, text, "OK");
+             });
         }
         #endregion
     }

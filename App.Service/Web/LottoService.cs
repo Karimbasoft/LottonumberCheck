@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace App.Service.Web
 {
@@ -32,12 +33,12 @@ namespace App.Service.Web
         /// <summary>
         /// Super 6 Zahlen
         /// </summary>
-        public ObservableCollection<LottoNumber> Super66Numbers => LottoWebside.SuperSechsNumbers;
+        public ObservableCollection<int> Super66Numbers => LottoWebside.SuperSechsNumbers;
 
         /// <summary>
         /// Spiel77 Zahlen
         /// </summary>
-        public ObservableCollection<LottoNumber> Spiel77Numbers => LottoWebside.SpielSiebenundsiebzigNumbers;
+        public ObservableCollection<int> Spiel77Numbers => LottoWebside.SpielSiebenundsiebzigNumbers;
 
         public List<Quote> LottoQuotes => LottoWebside.WinningQuotesLotto;
         #endregion
@@ -45,10 +46,14 @@ namespace App.Service.Web
         public LottoService(string url, string qoutenUrl = null)
         {
             LottoWebside = new LottoWebsideProvider(url);
+            
         }
 
         #region Methods
-
+        public async Task Initilize()
+        {
+            await LottoWebside.InitilizeWebsideProvider();
+        }
         #endregion
     }
 }

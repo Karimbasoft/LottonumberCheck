@@ -10,9 +10,7 @@ namespace App.UI.ViewModels
 	public class BaseViewModel : ObservableObject, INotifyPropertyChanged
     {
 		bool isBusy = false;
-#pragma warning disable CS0108 // Member hides inherited member; missing new keyword
         public event PropertyChangedEventHandler PropertyChanged;
-#pragma warning restore CS0108 // Member hides inherited member; missing new keyword
 
 
         public bool IsBusy

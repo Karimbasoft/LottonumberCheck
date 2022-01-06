@@ -9,9 +9,18 @@ namespace App.Business
 {
     public class SparkleBoxMocker : SerializeObject
     {
-        #region Propertys
-        public ObservableCollection<SparkleBox> UserNumbers { get; set; }
+        #region Fields
+        private readonly User _user;
         #endregion
+
+        #region Propertys
+        public ObservableCollection<SparkleBox> UserNumbers => _user.UserNumbers;
+        #endregion
+
+        public SparkleBoxMocker(User user)
+        {
+            _user = user;
+        }
 
         public void DeleteEntryFromSparkleBox(string numbers)
         {
@@ -20,7 +29,7 @@ namespace App.Business
             if (UserNumbers.Contains(sparkle))
             {
                 UserNumbers.Remove(sparkle);
-                SerializeSparkleBox(UserNumbers);
+                Save();
             }
         }
 
@@ -29,7 +38,7 @@ namespace App.Business
             if (id <= UserNumbers.Count)
             {
                 UserNumbers.RemoveAt(id);
-                SerializeSparkleBox(UserNumbers);
+                Save();
             }
         }
 
@@ -38,7 +47,7 @@ namespace App.Business
             if (UserNumbers.Any(x => x.SparkleBoxNumbers.Equals(sparkleBox.SparkleBoxNumbers)))
             {
                 UserNumbers.Clear();
-                SerializeSparkleBox(UserNumbers);
+                Save();
             }
         }
 
@@ -47,7 +56,7 @@ namespace App.Business
             if (UserNumbers.Count < 12)
             {
                 UserNumbers.Add(new SparkleBox(numbers.Split(' ').Select(n => Convert.ToInt32(n)).OrderBy(i => i).ToArray()));
-                SerializeSparkleBox(UserNumbers);
+                Save();
             }
         }
 
@@ -56,10 +65,13 @@ namespace App.Business
             if (UserNumbers.Count < 12)
             {
                 UserNumbers.Add(sparkleBox);
-                SerializeSparkleBox(UserNumbers);
+                Save();
             }
         }
 
-        
+        private void Save()
+        {
+            SerializeUser(_user);
+        }
     }
 }

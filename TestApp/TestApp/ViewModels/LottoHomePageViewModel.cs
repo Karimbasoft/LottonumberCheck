@@ -98,7 +98,6 @@ namespace App.UI.ViewModels
             
             AppUser = user;
             logger = NLog.LogManager.GetCurrentClassLogger();
-            MessagingCenter.Send(this, "InternetConnection", _lottoService.LottoWebside.LottoWebside.Online);
         }
 
         public LottoHomePageViewModel(INavigation navigation)

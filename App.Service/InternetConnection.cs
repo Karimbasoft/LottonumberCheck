@@ -39,48 +39,24 @@ namespace App.Services
         }
         #endregion
 
-        /// <summary>
-        /// Prüft ob eine Internetverbindung zustande kommt
-        /// </summary>
-        /// <returns></returns>
-        public bool CheckInternetConnection()
-        {
-            try
-            {
-                using (var client = new WebClient())
-                {
-                    using (var stream = client.OpenRead("http://www.google.com"))
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch
-            {
-                Log.Error("LottoscheinAuswerter","Keine Internetverbindung möglich");
-                return false;
-            }
-        }
 
         /// <summary>
         /// Prüft ob eine Internetverbindung zustande kommt
         /// </summary>
         /// <returns></returns>
-        public bool CheckInternetConnection(string url)
+        public static async Task<bool> CheckInternetConnectionAsync(string url = "http://www.google.com")
         {
             try
             {
-                using (var client = new WebClient())
-                {
-                    using (var stream = client.OpenRead(url))
-                    {
-                        return true;
-                    }
-                }
+                //using (var client = new HttpClient())
+                //{
+                //    return string.IsNullOrEmpty(await client?.GetStringAsync(url)); 
+                //}
+                return true;
             }
-            catch
+            catch (Exception ex)
             {
-                Log.Error("LottoscheinAuswerter", "Keine Internetverbindung möglich");
+                Log.Error("LottoAuswerter", $"Keine Internetverbindung möglich {ex}");
                 return false;
             }
         }

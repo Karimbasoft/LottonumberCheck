@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using App.Service.Notification;
 
 namespace App.UI.ViewModels
 {
@@ -122,7 +123,7 @@ namespace App.UI.ViewModels
             {
                 return new Command(async () =>
                 {
-                    await ShowSuperNumberPopUpAsync();  
+                    await StartToCheckLottoTicketAsync();
                 });
 
             }
@@ -232,12 +233,22 @@ namespace App.UI.ViewModels
             ShowAnalysingInfoPopUp = null;
         }
 
-        private void StartToCheckLottoTicket()
+        private async Task StartToCheckLottoTicketAsync()
         {
-            CompareSuperNumbers();
-            CountHitsFromUser();
-            CalcTheTotalAmount();
-            ShowInfoTable = "True";
+            if (AppUser.SuperNumber != -1)
+            {
+                CompareSuperNumbers();
+                CountHitsFromUser();
+                CalcTheTotalAmount();
+                ShowInfoTable = "True";
+            }
+            else
+            {
+                await NotificationService.ShowMessageBoxAsync("Hinweis", 
+                    "Es ist noch keine Superzahl ausgewählt. Bitte wählen Sie im Benutzerprofil eine aus!");
+            }
+
+            
         }
 
         private void CalcTheTotalAmount()
@@ -274,13 +285,13 @@ namespace App.UI.ViewModels
         /// <param name="e"></param>
         private void SelectSuperNumberPopUp_Disappearing(object sender, EventArgs e)
         {
-            if (SelectSuperNumberPopUp.Save)
-            {
-                AppUser.SuperNumber = SelectSuperNumberPopUp.SelectedSuperNumber;
-                SelectSuperNumberPopUp.Disappearing -= SelectSuperNumberPopUp_Disappearing;
-                SelectSuperNumberPopUp = null;
-                StartToCheckLottoTicket();
-            }
+            //if (SelectSuperNumberPopUp.Save)
+            //{
+            //    AppUser.SuperNumber = SelectSuperNumberPopUp.SelectedSuperNumber;
+            //    SelectSuperNumberPopUp.Disappearing -= SelectSuperNumberPopUp_Disappearing;
+            //    SelectSuperNumberPopUp = null;
+            //    StartToCheckLottoTicket();
+            //}
         }
 
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
